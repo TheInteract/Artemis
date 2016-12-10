@@ -1,5 +1,2 @@
-require('babel-register')({
-    plugins: ['transform-async-to-generator'],
-})
-
+require('babel-register')
 require('./src/app.js')
