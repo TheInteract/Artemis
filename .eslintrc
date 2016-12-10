@@ -10,6 +10,7 @@
         "indent": ["error", 4],
         "semi": ["warn", "never"],
         "linebreak-style": 0,
-        "quotes": ["error", "single", { "allowTemplateLiterals": true }]
+        "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+        "no-param-reassign": "off"
     }
 }
