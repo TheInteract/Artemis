@@ -4,7 +4,7 @@ const send = require('koa-send')
 const path = require('path')
 const Koa = require('koa')
 
-const app = new Koa()
+const app = module.exports = new Koa()
 
 app.use(async (ctx, next) => {
     await next()
@@ -17,5 +17,5 @@ app.use(async (ctx) => {
 
 const port = config.get('server.port')
 
-app.listen(port)
+if (!module.parent) app.listen(port)
 logger.info('TheCollector server listen on port:', port)

@@ -4,13 +4,15 @@
         "browser": true,
         "commonjs": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "mocha": true
     },
     "rules": {
         "indent": ["error", 4],
         "semi": ["warn", "never"],
         "linebreak-style": 0,
         "quotes": ["error", "single", { "allowTemplateLiterals": true }],
-        "no-param-reassign": "off"
+        "no-param-reassign": "off",
+        "no-unused-expressions": "off"
     }
 }
