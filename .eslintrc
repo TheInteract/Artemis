@@ -13,6 +13,7 @@
         "linebreak-style": 0,
         "quotes": ["error", "single", { "allowTemplateLiterals": true }],
         "no-param-reassign": "off",
-        "no-unused-expressions": "off"
+        "no-unused-expressions": "off",
+        "global-require": "off"
     }
 }

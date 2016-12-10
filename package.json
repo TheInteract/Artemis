@@ -7,8 +7,8 @@
     "start": "nodemon",
     "build": "webpack",
     "lint": "eslint src/** --ignore-path node_modules/",
-    "test": "cross-env NODE_ENV=testing mocha --require babel-register test/**/*.js",
-    "test:w": "cross-env NODE_ENV=testing mocha --require babel-register --watch test/**/*.js"
+    "test": "cross-env NODE_ENV=testing mocha",
+    "test:w": "cross-env NODE_ENV=testing mocha --watch"
   },
   "author": "",
   "license": "ISC",
