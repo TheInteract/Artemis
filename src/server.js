@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const send = require('koa-send')
 const path = require('path')
+const logger = require('winston')
 
 const app = new Koa()
 
@@ -14,3 +15,4 @@ app.use(async (ctx) => {
 })
 
 app.listen(3000)
+logger.info('collector listen on port 3000')
