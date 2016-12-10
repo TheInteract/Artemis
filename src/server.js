@@ -1,7 +1,8 @@
-const Koa = require('koa')
+const logger = require('winston')
+const config = require('config')
 const send = require('koa-send')
 const path = require('path')
-const logger = require('winston')
+const Koa = require('koa')
 
 const app = new Koa()
 
@@ -14,5 +15,7 @@ app.use(async (ctx) => {
     await send(ctx, ctx.path, options)
 })
 
-app.listen(3000)
-logger.info('collector listen on port 3000')
+const port = config.get('server.port')
+
+app.listen(port)
+logger.info('TheCollector server listen on port:', port)

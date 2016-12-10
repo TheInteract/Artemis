@@ -7,3 +7,4 @@ const logConfig = {
 
 winston.remove(winston.transports.Console)
 winston.add(winston.transports.Console, logConfig)
+// TODO: streaming log file or store log to database.
