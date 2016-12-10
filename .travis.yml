@@ -4,5 +4,7 @@ node_js:
     - "6.9"
 install: 
     - npm install
+before_script:
+    - npm run webpack
 script:
     - npm run test    
