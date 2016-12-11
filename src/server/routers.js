@@ -1,6 +1,7 @@
 const endpoints = require('../util/endpoints')
 const Router = require('koa-router')
-const { authorized, generateToken } = require('../util/auth')
+const { authorized } = require('../util/auth')
+const { generateToken } = require('../util/token')
 
 const router = new Router({ prefix: '/api' })
 
