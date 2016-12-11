@@ -1,3 +1,5 @@
+secret:
+    key: VSUn0an0eOPd1WFBcaRCvyRmnGjmHE3NxagW3qlVSbFFcltFDTdDjVvWH+N0FPi4X7GdphLx8ACxhVvi9n8H8w==
 server:
     port: 3000
 redis:
