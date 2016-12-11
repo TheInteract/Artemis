@@ -4,8 +4,8 @@ const UnauthorizedError = require('../errors/unauthorized')
 const { split } = require('lodash')
 
 function generateToken(timeStamp) {
-    timeStamp = timeStamp || String(new Date().getTime())
-    const hash = crypto.createHmac('sha512', config.get('secret.key')).update(timeStamp)
+    timeStamp = timeStamp || new Date().getTime()
+    const hash = crypto.createHmac('sha512', config.get('secret.key')).update(timeStamp.toString())
     const token = hash.digest('hex')
     return `${timeStamp}:${token}`
 }
