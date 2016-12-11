@@ -5,9 +5,9 @@ const { authorized, generateToken } = require('../util/auth')
 const router = new Router({ prefix: '/api' })
 
 async function checkPermission(ctx, next) {
-    const { Authorization } = ctx.header
+    const { authorization } = ctx.headers
     try {
-        await authorized(Authorization)
+        await authorized(authorization)
         next()
     } catch (e) {
         ctx.throw(e.message, e.status)
