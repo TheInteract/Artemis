@@ -17,5 +17,5 @@ app.use(async (ctx) => {
 
 const port = config.get('server.port')
 
-if (!module.parent) app.listen(port)
+if (!module.parent.parent) app.listen(port)
 logger.info('TheCollector server listen on port:', port)
