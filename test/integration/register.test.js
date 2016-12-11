@@ -8,7 +8,8 @@ const request = chai.request.agent(server.listen())
 
 describe('Request to /api/... endpoint', () => {
     it('GET /api/reg')
-    it('POST /api/event/:type with token')
+    it('POST /api/event/:type with valid token')
+    it('POST /api/event/:type with invalid token')
     it('POST /api/event/:type without token')
     it('POST /api/event/:type with invalid type')
 })
