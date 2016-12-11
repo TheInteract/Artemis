@@ -1,5 +1,6 @@
 const config = require('config')
 const crypto = require('crypto')
+const UnauthorizedError = require('../errors/unauthorized')
 const { split } = require('lodash')
 
 function generateToken(timeStamp) {
@@ -9,20 +10,18 @@ function generateToken(timeStamp) {
     return `${timeStamp}:${token}`
 }
 
-async function auth(ctx, next) {
-    const { Authorization } = ctx.headers
-    const header = split(Authorization, ' ', 2)[1]
+async function authorized(authorization) {
+    const header = split(authorization, ' ', 2)[1]
     if (header === undefined) {
-        ctx.throw('token is undefined', 401)
+        throw new UnauthorizedError()
     }
 
     const timeStamp = split(header, ':', 2)[0]
     // TODO: check token from database
-    if (generateToken(timeStamp) === header) {
-        await next()
-    } else {
-        ctx.throw('token is invalid', 401)
+    if (generateToken(timeStamp) !== header) {
+        throw new UnauthorizedError()
     }
+    return true
 }
 
-module.exports = { auth, generateToken }
+module.exports = { authorized, generateToken }
