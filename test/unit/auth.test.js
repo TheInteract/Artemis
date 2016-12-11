@@ -8,11 +8,11 @@ const expect = chai.expect
 
 describe('authorized()', () => {
     const fakeToken = '12345:fakeToken'
-    beforeEach(() => {
+    before(() => {
         sinon.stub(token, 'generateToken')
         token.generateToken.returns(fakeToken)
     })
-    afterEach(() => {
+    after(() => {
         token.generateToken.restore()
     })
     it('called with valid argument', async () => {
