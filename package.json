@@ -25,6 +25,7 @@
     "lodash": "^4.17.2",
     "optimal-select": "^3.5.0",
     "redis": "^2.6.3",
+    "sinon": "^1.17.6",
     "winston": "^2.3.0"
   },
   "devDependencies": {
