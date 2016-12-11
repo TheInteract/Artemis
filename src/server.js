@@ -3,12 +3,12 @@ const config = require('config')
 const send = require('koa-send')
 const path = require('path')
 const Koa = require('koa')
+const router = require('./server/routers')
 
 const app = module.exports = new Koa()
 
-app.use(async (ctx, next) => {
-    await next()
-})
+app.use(router.routes())
+app.use(router.allowedMethods())
 
 app.use(async (ctx) => {
     const options = { root: path.join(__dirname, '..', 'static') }
