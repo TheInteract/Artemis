@@ -4,21 +4,27 @@
   "description": "tracking user behavior",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "npm run docker && nodemon",
     "build": "webpack",
     "lint": "eslint src/** --ignore-path node_modules/",
     "test": "cross-env NODE_ENV=testing mocha",
-    "test:w": "cross-env NODE_ENV=testing mocha --watch"
+    "test:w": "cross-env NODE_ENV=testing mocha --watch",
+    "postinstall": "docker-compose -f docker/development.yml pull",
+    "docker": "docker-compose -f docker/development.yml up -d"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "babel-register": "^6.18.0",
+    "bluebird": "^3.4.6",
     "config": "^1.24.0",
     "cross-env": "^3.1.3",
     "koa": "^2.0.0",
     "koa-router": "^7.0.1",
     "koa-send": "^3.2.0",
+    "lodash": "^4.17.2",
+    "optimal-select": "^3.5.0",
+    "redis": "^2.6.3",
     "winston": "^2.3.0"
   },
   "devDependencies": {

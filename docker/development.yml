@@ -1,0 +1,13 @@
+version: '2'
+services:
+    collector-redis:
+        image: redis:alpine
+        command:
+            - --appendonly
+            - "yes"
+        ports:
+            - 6379:6379
+        volumes:
+            - redis-data:/data
+volumes:
+    redis-data: {}
