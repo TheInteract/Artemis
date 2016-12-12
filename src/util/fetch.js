@@ -1,37 +1,43 @@
 const url = require('url')
+const ResponseError = require('../errors/response')
+
+require('whatwg-fetch')
 
 class BrowserFetch {
     constructor(baseUrl, headers) {
-        this.baseUrl = baseUrl
-        this.headers = headers
+        this.baseUrl = baseUrl || 'localhost'
+        this.headers = headers || {}
     }
 
     get(path) {
         const options = this.getOptions(path, 'GET')
-        this.doFetch(options)
+        BrowserFetch.doFetch(options)
     }
 
     post(path, body) {
         const options = this.getOptions(path, 'POST', body)
-        this.doFetch(options)
+        BrowserFetch.doFetch(options)
     }
 
     put(path, body) {
         const options = this.getOptions(path, 'PUT', body)
-        this.doFetch(options)
+        BrowserFetch.doFetch(options)
     }
 
     patch(path, body) {
         const options = this.getOptions(path, 'PATCH', body)
-        this.doFetch(options)
+        BrowserFetch.doFetch(options)
     }
 
     delete(path) {
         const options = this.getOptions(path, 'DELETE')
-        this.doFetch(options)
+        BrowserFetch.doFetch(options)
     }
 
     getOptions(path, method = 'GET', body = {}) {
+        if (arguments.length === 0) {
+            throw new Error('getOptions in BrowserFetch shold has at least 1 argument')
+        }
         const defaultOption = {
             url: url.resolve(this.baseUrl, path),
             headers: this.getHeader(method),
@@ -45,17 +51,7 @@ class BrowserFetch {
         return defaultOption
     }
 
-    checkStatus(response) {
-        if (response.status < 200 && response.status >= 300) {
-            const error = new Error(response.message)
-            error.status = response.status
-            error.response = response
-            throw error
-        }
-        return response
-    }
-
-    getHeader(method) {
+    getHeader(method = 'GET') {
         const headers = Object.assign({}, this.headers)
         if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
             return Object.assign({}, headers, { 'Content-Type': 'application/json' })
@@ -63,13 +59,22 @@ class BrowserFetch {
         return headers
     }
 
-    doFetch(options) {
-        return fetch(options.url, options)
-            .then(this.checkStatus)
+    static checkStatus(response) {
+        if (response.status < 200 || response.status >= 300) {
+            throw new ResponseError(response.message, response.status, response)
+        }
+        return response
+    }
+
+    static doFetch(options) {
+        return BrowserFetch.getFetch(options.url, options)
+            .then(BrowserFetch.checkStatus)
             .then(response => response.json())
-            .catch((error) => {
-                console.error(error)
-            })
+            // TODO: send error log to server
+    }
+
+    static getFetch(_url, options) {
+        return window.fetch(_url, options)
     }
 }
 
