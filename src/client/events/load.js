@@ -1,7 +1,0 @@
-async function handleLoadEvent(e) {
-    console.log(e)
-    const result = await this.fetch.post('/event/load', { test: '1' })
-    console.log(result)
-}
-
-module.exports = handleLoadEvent

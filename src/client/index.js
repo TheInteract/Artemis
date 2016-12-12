@@ -5,7 +5,7 @@
     const handleLoadEvent = require('./events/load')
 
     const setupFetch = once(() => {
-        const baseUrl = 'http://localhost:3000/api'
+        const baseUrl = 'http://localhost:3000/'
         return {
             fetch: new BrowserFetch(baseUrl),
         }
