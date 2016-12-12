@@ -6,11 +6,13 @@
 
     const setupFetch = once(() => {
         const baseUrl = 'http://localhost:3000/api'
-        return BrowserFetch(baseUrl)
+        return {
+            fetch: new BrowserFetch(baseUrl),
+        }
     })
 
     function tracking() {
-        window.addEventListener('load', handleLoadEvent.bind(setupFetch))
+        window.addEventListener('load', handleLoadEvent.bind(setupFetch()))
     }
 
     tracking(window)
