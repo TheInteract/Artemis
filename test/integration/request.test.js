@@ -6,7 +6,7 @@ const expect = chai.expect
 chai.use(chaiHttp)
 const request = chai.request.agent(server.listen())
 
-describe('Request to /api/... endpoint', () => {
+describe('Request to every endpoint', () => {
     it('GET /api/reg', (done) => {
         request.get('/api/reg')
             .end((err, res) => {
