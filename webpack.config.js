@@ -5,11 +5,16 @@ module.exports = {
         'whatwg-fetch',
     ],
 
-    devtool: 'inline-source-map',
+    devtool: 'cheap-module-source-map',
 
     output: {
         filename: 'analytics.js',
         path: './static',
+    },
+
+    watch: true,
+    watchOptions: {
+        ignored: /node_modules/,
     },
 
     module: {
