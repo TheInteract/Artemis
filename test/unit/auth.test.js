@@ -16,14 +16,14 @@ describe('authorized()', () => {
         token.generateToken.restore()
     })
     it('called with valid argument', async () => {
-        const authorization = `hmac ${fakeToken}`
-        const result = await auth.authorized(authorization)
+        const cookie = `${fakeToken}`
+        const result = await auth.authorized(cookie)
         expect(result).to.be.true
     })
     it('called with invalid argument', async () => {
-        const authorization = `hmac ${fakeToken}-invalid`
+        const cookie = `${fakeToken}-invalid`
         try {
-            await auth.authorized(authorization)
+            await auth.authorized(cookie)
         } catch (e) {
             expect(e).be.instanceOf(UnauthorizedError)
         }

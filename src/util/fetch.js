@@ -41,6 +41,7 @@ class BrowserFetch {
         const defaultOption = {
             url: url.resolve(this.baseUrl, path),
             headers: this.getHeader(method),
+            credentials: 'include',
             method,
         }
 

@@ -1,6 +1,7 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const server = require('../../src/server')
+const config = require('config')
 
 const expect = chai.expect
 chai.use(chaiHttp)
@@ -11,8 +12,8 @@ describe('Event load', () => {
         request.post('/api/event/load', {})
             .end((err, res) => {
                 expect(err).to.be.null
+                expect(res).to.have.cookie(config.get('cookie.name'))
                 expect(res).to.have.status(200)
-                expect(res.body).to.have.property('token')
                 done()
             })
     })

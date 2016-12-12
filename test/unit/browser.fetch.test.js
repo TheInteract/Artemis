@@ -22,6 +22,7 @@ describe('Browser Fetch', () => {
                 headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
                 method,
                 body: { test: 'result' },
+                credentials: 'include',
             }
             const result = fetch.getOptions(path, method, expected.body)
             expect(result).to.eql(expected)
@@ -32,6 +33,7 @@ describe('Browser Fetch', () => {
                 url: url.resolve(baseUrl, path),
                 headers: Object.assign({}, headers),
                 method,
+                credentials: 'include',
             }
             const result = fetch.getOptions(path, method)
             expect(result).to.eql(expected)
@@ -42,6 +44,7 @@ describe('Browser Fetch', () => {
                 url: url.resolve(baseUrl, path),
                 headers: Object.assign({}, headers),
                 method,
+                credentials: 'include',
             }
             const result = fetch.getOptions(path)
             expect(result).to.eql(expected)
