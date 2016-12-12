@@ -15,13 +15,13 @@ async function checkPermission(ctx, next) {
     }
 }
 
-router.get(endpoints.REGISTER, async (ctx) => {
+router.post(endpoints.LOAD_EVENT, async (ctx) => {
     const timeStamp = new Date().getTime()
     const token = generateToken(timeStamp)
     ctx.body = { token }
 })
 
-router.get(endpoints.SAVE_EVENT, checkPermission, async (ctx) => {
+router.post(endpoints.SAVE_EVENT, checkPermission, async (ctx) => {
     ctx.body = { test: 'json' }
 })
 

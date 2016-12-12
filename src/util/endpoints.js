@@ -1,4 +1,4 @@
 module.exports = Object.freeze({
-    REGISTER: '/reg',
+    LOAD_EVENT: '/event/load',
     SAVE_EVENT: '/event/:type',
 })
