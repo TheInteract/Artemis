@@ -4,12 +4,13 @@
   "description": "tracking user behavior",
   "main": "index.js",
   "scripts": {
-    "start": "npm run docker && nodemon",
+    "start": "node .",
+    "start:w": "npm run docker && nodemon",
     "build": "webpack",
     "lint": "eslint src/** --ignore-path node_modules/",
     "test": "cross-env NODE_ENV=testing mocha",
     "test:w": "cross-env NODE_ENV=testing mocha --watch",
-    "postinstall": "docker-compose -f docker/development.yml pull",
+    "docker:pull": "docker-compose -f docker/development.yml pull",
     "docker": "docker-compose -f docker/development.yml up -d"
   },
   "author": "",
