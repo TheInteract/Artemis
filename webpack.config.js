@@ -1,7 +1,7 @@
 module.exports = {
 
     entry: [
-        './src/client.js',
+        './src/client/index.js',
         'whatwg-fetch',
     ],
 
