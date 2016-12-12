@@ -10,7 +10,7 @@ describe('Browser Fetch', () => {
     describe('getOptions()', () => {
         const baseUrl = 'localhost'
         const headers = { authorization: 'hmac test:token' }
-        const path = '/api/events/click'
+        const path = '/events/click'
         let fetch
         before(() => {
             fetch = new BrowserFetch(baseUrl, headers)
@@ -18,7 +18,7 @@ describe('Browser Fetch', () => {
         it('called with complete arguments', () => {
             const method = 'POST'
             const expected = {
-                url: url.resolve(baseUrl, path),
+                url: url.resolve(baseUrl, `api${path}`),
                 headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
                 method,
                 body: { test: 'result' },
@@ -30,7 +30,7 @@ describe('Browser Fetch', () => {
         it('called with complete arguments except body', () => {
             const method = 'GET'
             const expected = {
-                url: url.resolve(baseUrl, path),
+                url: url.resolve(baseUrl, `api${path}`),
                 headers: Object.assign({}, headers),
                 method,
                 credentials: 'include',
@@ -41,7 +41,7 @@ describe('Browser Fetch', () => {
         it('called with path only', () => {
             const method = 'GET'
             const expected = {
-                url: url.resolve(baseUrl, path),
+                url: url.resolve(baseUrl, `api${path}`),
                 headers: Object.assign({}, headers),
                 method,
                 credentials: 'include',
@@ -110,7 +110,7 @@ describe('Browser Fetch', () => {
         })
         it('request with success response', async () => {
             const response = { status: 200, message: 'success', body: 'response' }
-            BrowserFetch.checkStatus.returns({ json: () => response })
+            BrowserFetch.checkStatus.returns(response)
             sinon.stub(BrowserFetch, 'getFetch').returns(Promise.resolve(response))
 
             const result = await BrowserFetch.doFetch({ url: 'baseUrl' })
