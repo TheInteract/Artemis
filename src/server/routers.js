@@ -1,8 +1,8 @@
 const endpoints = require('../util/endpoints')
 const Router = require('koa-router')
 const { authorized } = require('../util/auth')
-const { generateToken } = require('../util/token')
 const config = require('config')
+const events = require('./events')
 
 const router = new Router({ prefix: '/api' })
 
@@ -17,12 +17,7 @@ async function checkPermission(ctx, next) {
     }
 }
 
-router.post(endpoints.LOAD_EVENT, async (ctx) => {
-    const timeStamp = new Date().getTime()
-    const token = generateToken(timeStamp)
-    ctx.cookies.set(config.get('cookie.name'), token)
-    ctx.status = 200
-})
+router.post(endpoints.LOAD_EVENT, events.load.setupClient, events.load.handleEvent)
 
 router.post(endpoints.SAVE_EVENT, checkPermission, async (ctx) => {
     ctx.body = { test: 'json' }
