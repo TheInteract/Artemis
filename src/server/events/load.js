@@ -4,7 +4,8 @@ const config = require('config')
 
 const handleEvent = async (ctx) => {
     const cookieName = config.get('cookie.name')
-    console.log('handleEvent', ctx.cookies.get(cookieName))
+    const cookie = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
+    
 }
 
 const setupClient = async (ctx, next) => {
@@ -14,6 +15,7 @@ const setupClient = async (ctx, next) => {
         const timeStamp = new Date().getTime()
         const token = generateToken(timeStamp)
         ctx.cookies.set(cookieName, token)
+        ctx.state.tmpCookie = token
     } else {
         try {
             await authorized(cookie)
