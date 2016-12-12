@@ -7,6 +7,10 @@
         "node": true,
         "mocha": true
     },
+    "globals": {
+        "__base": true,
+        "__baseName": true
+    },
     "rules": {
         "indent": ["error", 4],
         "semi": ["warn", "never"],
