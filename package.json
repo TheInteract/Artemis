@@ -12,7 +12,8 @@
     "test:w": "cross-env NODE_ENV=testing mocha --watch",
     "docker:pull": "docker-compose -f docker/development.yml pull",
     "docker": "docker-compose -f docker/development.yml up -d",
-    "stats": "webpack --config ./webpack.config.js --profile --json > stats.json"
+    "stats": "webpack --config ./webpack.config.js --profile --json > stats.json",
+    "example": "http-server ./example -p 9999"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "bluebird": "^3.4.6",
     "config": "^1.24.0",
     "cross-env": "^3.1.3",
+    "kcors": "^2.2.0",
     "koa": "^2.0.0",
     "koa-router": "^7.0.1",
     "koa-send": "^3.2.0",
@@ -39,6 +41,7 @@
     "eslint": "^3.12.0",
     "eslint-config-airbnb-base": "^10.0.1",
     "eslint-plugin-import": "^2.2.0",
+    "http-server": "^0.9.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "webpack": "^2.1.0-beta.27"
