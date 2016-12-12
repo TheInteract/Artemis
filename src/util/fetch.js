@@ -1,8 +1,6 @@
 const url = require('url-join')
 const ResponseError = require('../errors/response')
 
-require('whatwg-fetch')
-
 class BrowserFetch {
     constructor(baseUrl, headers) {
         this.baseUrl = baseUrl || 'localhost'
@@ -11,27 +9,27 @@ class BrowserFetch {
 
     get(path) {
         const options = this.getOptions(path, 'GET')
-        BrowserFetch.doFetch(options)
+        return BrowserFetch.doFetch(options)
     }
 
     post(path, body) {
         const options = this.getOptions(path, 'POST', body)
-        BrowserFetch.doFetch(options)
+        return BrowserFetch.doFetch(options)
     }
 
     put(path, body) {
         const options = this.getOptions(path, 'PUT', body)
-        BrowserFetch.doFetch(options)
+        return BrowserFetch.doFetch(options)
     }
 
     patch(path, body) {
         const options = this.getOptions(path, 'PATCH', body)
-        BrowserFetch.doFetch(options)
+        return BrowserFetch.doFetch(options)
     }
 
     delete(path) {
         const options = this.getOptions(path, 'DELETE')
-        BrowserFetch.doFetch(options)
+        return BrowserFetch.doFetch(options)
     }
 
     getOptions(path, method = 'GET', body = {}) {
@@ -70,7 +68,6 @@ class BrowserFetch {
     static doFetch(options) {
         return BrowserFetch.getFetch(options.url, options)
             .then(BrowserFetch.checkStatus)
-            // .then(response => response.json()) 
             // TODO: send error log to server
     }
 
