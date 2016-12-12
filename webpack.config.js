@@ -5,10 +5,20 @@ module.exports = {
         'whatwg-fetch',
     ],
 
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'inline-source-map',
 
     output: {
         filename: 'analytics.js',
         path: './static',
+    },
+
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: [/node_modules/],
+            },
+        ],
     },
 }
