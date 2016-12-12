@@ -39,7 +39,7 @@ class BrowserFetch {
             throw new Error('getOptions in BrowserFetch shold has at least 1 argument')
         }
         const defaultOption = {
-            url: url.resolve(this.baseUrl, path),
+            url: url.resolve(this.baseUrl, `api${path}`),
             headers: this.getHeader(method),
             credentials: 'include',
             method,
@@ -70,7 +70,7 @@ class BrowserFetch {
     static doFetch(options) {
         return BrowserFetch.getFetch(options.url, options)
             .then(BrowserFetch.checkStatus)
-            .then(response => response.json())
+            // .then(response => response.json()) 
             // TODO: send error log to server
     }
 
