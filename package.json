@@ -7,12 +7,14 @@
     "start": "node .",
     "start:w": "npm run docker && nodemon",
     "build": "webpack",
+    "build:prod": "webpack --config ./webpack.prod.config.js",
     "lint": "eslint src/** --ignore-path node_modules/",
     "test": "cross-env NODE_ENV=testing mocha",
     "test:w": "cross-env NODE_ENV=testing mocha --watch",
     "docker:pull": "docker-compose -f docker/development.yml pull",
     "docker": "docker-compose -f docker/development.yml up -d",
     "stats": "webpack --config ./webpack.config.js --profile --json > stats.json",
+    "stats:prod": "webpack --config ./webpack.prod.config.js --profile --json > stats.prod.json",
     "example": "http-server ./example -p 9999"
   },
   "author": "",
@@ -30,6 +32,7 @@
     "optimal-select": "^3.5.0",
     "redis": "^2.6.3",
     "sinon": "^1.17.6",
+    "url-join": "^1.1.0",
     "whatwg-fetch": "^2.0.1",
     "winston": "^2.3.0"
   },

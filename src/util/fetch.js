@@ -1,4 +1,4 @@
-const url = require('url')
+const url = require('url-join')
 const ResponseError = require('../errors/response')
 
 require('whatwg-fetch')
@@ -39,7 +39,7 @@ class BrowserFetch {
             throw new Error('getOptions in BrowserFetch shold has at least 1 argument')
         }
         const defaultOption = {
-            url: url.resolve(this.baseUrl, `api${path}`),
+            url: url(this.baseUrl, 'api', path),
             headers: this.getHeader(method),
             credentials: 'include',
             method,

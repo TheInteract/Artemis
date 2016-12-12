@@ -1,5 +1,6 @@
 const PROPERTIES = require('./properties')
-const { get, transform } = require('lodash')
+const get = require('lodash/get')
+const transform = require('lodash/transform')
 
 async function handleLoadEvent(e) {
     console.log(e)

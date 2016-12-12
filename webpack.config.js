@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
 
     entry: [
@@ -5,7 +7,7 @@ module.exports = {
         'whatwg-fetch',
     ],
 
-    devtool: 'cheap-module-source-map',
+    devtool: 'eval-source-map',
 
     output: {
         filename: 'analytics.js',
@@ -26,4 +28,10 @@ module.exports = {
             },
         ],
     },
+
+    plugins: [
+        new webpack.LoaderOptionsPlugin({
+            debug: true,
+        }),
+    ],
 }
