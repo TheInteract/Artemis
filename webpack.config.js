@@ -1,6 +1,9 @@
 module.exports = {
 
-    entry: './src/client.js',
+    entry: [
+        './src/client.js',
+        'whatwg-fetch',
+    ],
 
     devtool: 'cheap-module-eval-source-map',
 
