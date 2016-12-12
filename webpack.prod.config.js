@@ -4,10 +4,7 @@ module.exports = {
 
     entry: [
         './src/client/index.js',
-        'whatwg-fetch',
     ],
-
-    devtool: 'eval',
 
     output: {
         filename: 'analytics.js',
@@ -20,6 +17,12 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: [/node_modules/],
+                query: {
+                    babelrc: false,
+                    presets: [
+                        ['es2015', { modules: false }],
+                    ],
+                },
             },
         ],
     },

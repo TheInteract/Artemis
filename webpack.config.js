@@ -4,10 +4,9 @@ module.exports = {
 
     entry: [
         './src/client/index.js',
-        'whatwg-fetch',
     ],
 
-    devtool: 'eval-source-map',
+    devtool: 'cheap-module-source-map',
 
     output: {
         filename: 'analytics.js',
@@ -25,6 +24,12 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: [/node_modules/],
+                query: {
+                    babelrc: false,
+                    presets: [
+                        ['es2015', { modules: false }],
+                    ],
+                },
             },
         ],
     },
