@@ -3,10 +3,14 @@ const config = require('config')
 const send = require('koa-send')
 const path = require('path')
 const Koa = require('koa')
+const cros = require('kcors')
 const router = require('./routers')
 
 const app = module.exports = new Koa()
 
+app.use(cros({
+    credentials: true,
+}))
 app.use(router.routes())
 app.use(router.allowedMethods())
 
