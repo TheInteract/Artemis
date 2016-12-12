@@ -11,7 +11,7 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 app.use(async (ctx) => {
-    const options = { root: path.join(__dirname, __base, 'static') }
+    const options = { root: path.join(__dirname, '..', '..', 'static') }
     await send(ctx, ctx.path, options)
 })
 
