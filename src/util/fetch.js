@@ -44,7 +44,7 @@ class BrowserFetch {
         }
 
         if (Object.keys(body).length > 0) {
-            defaultOption.body = body
+            defaultOption.body = JSON.stringify(body)
         }
 
         return defaultOption

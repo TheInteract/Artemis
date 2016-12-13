@@ -25,6 +25,8 @@ describe('Browser Fetch', () => {
                 credentials: 'include',
             }
             const result = fetch.getOptions(path, method, expected.body)
+
+            expected.body = JSON.stringify(expected.body)
             expect(result).to.eql(expected)
         })
         it('called with complete arguments except body', () => {
