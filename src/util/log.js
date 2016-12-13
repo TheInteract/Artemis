@@ -1,10 +1,14 @@
 const winston = require('winston')
 const config = require('config')
+const moment = require('moment')
 
 const getLogConfig = () => {
     const options = {
         level: 'debug',
         colorize: true,
+        prettyPrint: true,
+        timestamp: () => moment().format('YYYY-MM-DD hh:mm:ss'),
+        depth: 10,
     }
 
     if (config.util.getEnv('NODE_ENV') === 'testing') {
