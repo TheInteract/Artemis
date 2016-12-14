@@ -9,14 +9,14 @@
     "build": "webpack",
     "build:prod": "webpack --config ./webpack.prod.config.js",
     "lint": "eslint src/** --ignore-path node_modules/",
-    "test": "cross-env NODE_ENV=testing mocha",
+    "test": "cross-env NODE_ENV=testing nyc --reporter=html --reporter=text mocha",
     "test:w": "cross-env NODE_ENV=testing mocha --watch",
     "docker:pull": "docker-compose -f docker/development.yml pull",
     "docker": "docker-compose -f docker/development.yml up -d",
     "stats": "webpack --config ./webpack.config.js --profile --json > stats.json",
     "stats:prod": "webpack --config ./webpack.prod.config.js --profile --json > stats.prod.json",
     "example": "http-server ./example -p 9999",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "author": "",
   "license": "ISC",
@@ -50,10 +50,10 @@
     "eslint-config-airbnb-base": "^10.0.1",
     "eslint-plugin-import": "^2.2.0",
     "http-server": "^0.9.0",
-    "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.2.0",
     "nodemon": "^1.11.0",
+    "nyc": "^10.0.0",
     "webpack": "^2.1.0-beta.27"
   }
 }
