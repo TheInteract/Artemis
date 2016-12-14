@@ -2,12 +2,8 @@ const { generateToken } = require('../../util/token')
 const { authorized } = require('../../util/auth')
 const logger = require('winston')
 const config = require('config')
-
-const handleEvent = async (ctx) => {
-    const cookieName = config.get('cookie.name')
-    const cookie = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
-    console.log(`body`, ctx.request.body)
-}
+const omit = require('lodash/omit')
+const store = require('../../util/store')
 
 const setupClient = async (ctx, next) => {
     const cookieName = config.get('cookie.name')
@@ -30,6 +26,15 @@ const setupClient = async (ctx, next) => {
     }
     await next()
     ctx.status = 200
+}
+
+const handleEvent = async (ctx) => {
+    const cookieName = config.get('cookie.name')
+    const cookie = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
+    const { body } = ctx.request
+    const { uid } = body
+    const rest = omit(body, ['uid'])
+    store.save(uid, cookie, rest, 'load')
 }
 
 module.exports = { handleEvent, setupClient }
