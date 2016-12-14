@@ -11,6 +11,19 @@
         <div class="container">
             <h1>collector example</h1>
         </div>
-        <script src="http://localhost:3000/analytics.js"></script>
+        <script>
+            // (function(window, document, tag, target, element) {
+            //     window['ic'] = function(i) {
+            //         window.i = i
+            //     }
+            //     target = document.createElement(tag)
+            //     element = document.getElementsByTagName(tag)[0]
+            //     target.async = true
+            //     target.src = 'http://localhost:3000/analytics.js'
+            //     element.parentNode.insertBefore(target, element) 
+            // })(window, document, 'script')
+            // ic('IC9-55938-424244-TH')
+            !function(a,b,c,d,e){a.ic=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://localhost:3000/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),ic("IC9-55938-424244-TH");
+        </script>
     </body>
 </html>

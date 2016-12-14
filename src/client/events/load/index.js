@@ -3,12 +3,9 @@ const get = require('lodash/get')
 const transform = require('lodash/transform')
 
 function handleLoadEvent(e) {
-    console.log(e)
     const data = transform(PROPERTIES, (result, value, key) => { result[key] = get(e, value) }, {})
-    console.log(`data`, data)
-    this.fetch
-        .post('/event/load', { test: '1' })
-        .then(r => console.log(r))
+    data.uid = this.uid
+    this.fetch.post('/event/load', data)
 }
 
 module.exports = handleLoadEvent
