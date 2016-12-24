@@ -26,7 +26,7 @@ router.post(endpoints.SAVE_EVENT, checkPermission, async (ctx) => {
     const cookie = ctx.cookies.get(cookieName)
     const { body } = ctx.request
     const action = ctx.params.type
-
+    // An error should not throw to client side.
     try {
         await events[ctx.params.type].handleEvent(cookie, body)
         logger.info(`request to ${action} event success:`, { cookie, ip: ctx.request.ip })

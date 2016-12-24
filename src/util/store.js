@@ -5,9 +5,12 @@ const logger = require('winston')
 
 async function save(uid, token, data, action) {
     const d = new Date().getTime()
-    const hash = transform(data, (result, value, key) => result.push(join([d, key], ':'), value), [])
+    const hash = transform(data, (result, value, key) => result.push(join([d, action, key], ':'), value), [])
     const task = [
-        redis().hmsetAsync(uid, token, join([d, action], ':')),
+        redis().multi()
+            .lrem(uid, 0, token)
+            .rpush(uid, token)
+            .execAsync(),
         redis().hmsetAsync(token, hash),
     ]
     try {
