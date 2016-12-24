@@ -1,9 +1,8 @@
 const PROPERTIES = require('./properties')
-const get = require('lodash/get')
-const transform = require('lodash/transform')
+const pickProperties = require('../../../util/pickProperties')
 
 function handleLoadEvent(e) {
-    const data = transform(PROPERTIES, (result, value, key) => { result[key] = get(e, value) }, {})
+    const data = pickProperties(e, PROPERTIES)
     data.uid = this.uid
     this.fetch.post('/event/load', data)
 }
