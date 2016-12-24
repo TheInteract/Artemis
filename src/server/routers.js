@@ -13,7 +13,7 @@ async function checkPermission(ctx, next) {
     // TODO: if browser is disable a cookie, we should provide localStorage and set token with header
     try {
         await authorized(cookie)
-        next()
+        await next()
     } catch (e) {
         ctx.throw(e.message, e.status)
     }
@@ -26,8 +26,15 @@ router.post(endpoints.SAVE_EVENT, checkPermission, async (ctx) => {
     const cookie = ctx.cookies.get(cookieName)
     const { body } = ctx.request
     const action = ctx.params.type
-    logger.info(`request to ${action} event success:`, { cookie, ip: ctx.request.ip })
-    await events[ctx.params.type].handleEvent(cookie, body)
+
+    try {
+        await events[ctx.params.type].handleEvent(cookie, body)
+        logger.info(`request to ${action} event success:`, { cookie, ip: ctx.request.ip })
+        ctx.status = 200
+    } catch (e) {
+        logger.info(`request to ${action} event error:`, { cookie, ip: ctx.request.ip, error: e })
+        ctx.throw(e.message, e.status)
+    }
 })
 
 module.exports = router

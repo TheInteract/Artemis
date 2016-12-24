@@ -34,7 +34,7 @@ const handleEvent = async (ctx) => {
     const { body } = ctx.request
     const { uid } = body
     const rest = omit(body, ['uid'])
-    store.save(uid, cookie, rest, 'load')
+    await store.save(uid, cookie, rest, 'load')
 }
 
 module.exports = { handleEvent, setupClient }
