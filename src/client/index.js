@@ -4,6 +4,7 @@ const handleClickEvent = require('./events/click')
 const handleKeydownEvent = require('./events/keydown')
 const handleScrollEvent = require('./events/scroll')
 const handleResizeEvent = require('./events/resize')
+const handleMousemoveEvent = require('./events/mousemove')
 
 const baseUrl = 'http://localhost:3000/'
 
@@ -18,5 +19,6 @@ function ic(...rest) {
     window.addEventListener('keydown', handleKeydownEvent.bind(fetchObj))
     window.addEventListener('scroll', handleScrollEvent.bind(fetchObj))
     window.addEventListener('resize', handleResizeEvent.bind(fetchObj))
+    window.addEventListener('mousemove', handleMousemoveEvent.bind(fetchObj))
 }
 ic(window.i)

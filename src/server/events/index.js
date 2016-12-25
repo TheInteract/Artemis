@@ -4,4 +4,5 @@ module.exports = {
     keydown: require('./keydown'),
     scroll: require('./scroll'),
     resize: require('./resize'),
+    mousemove: require('./mousemove'),
 }
