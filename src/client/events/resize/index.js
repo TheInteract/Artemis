@@ -1,10 +1,10 @@
 const PROPERTIES = require('./properties')
 const pickProperties = require('../../../util/pickProperties')
 
-function handleKeydownEvent(e) {
+function handleLoadEvent(e) {
     const data = pickProperties(e, PROPERTIES)
     data.uid = this.uid
-    this.fetch.post('/event/keydown', data)
+    this.fetch.post('/event/resize', data)
 }
 
-module.exports = handleKeydownEvent
+module.exports = handleLoadEvent

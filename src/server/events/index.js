@@ -3,4 +3,5 @@ module.exports = {
     click: require('./click'),
     keydown: require('./keydown'),
     scroll: require('./scroll'),
+    resize: require('./resize'),
 }
