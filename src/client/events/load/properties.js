@@ -9,8 +9,8 @@ const properties = {
     scrollX: 'currentTarget.scrollX',
     scrollY: 'currentTarget.scrollY',
     language: 'currentTarget.navigator.language',
-    timeStamp: 'timeStamp',
     vendor: 'currentTarget.navigator.vendor',
+    timeStamp: 'timeStamp',
 }
 
 module.exports = properties
