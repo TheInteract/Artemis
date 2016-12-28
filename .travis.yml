@@ -1,4 +1,7 @@
+sudo: required
 language: node_js
+services:
+    - docker
 node_js:
     - "6.9"
 install: 
@@ -9,3 +12,9 @@ script:
     - npm run test
 after_success:
     - npm run coverage
+before_deploy:
+    - docker build -f docker/Dockerfile -t "$DOCKER_USERNAME"/"$IMAGE_NAME":"$TRAVIS_BUILD_NUMBER" .
+    - docker tag "$DOCKER_USERNAME"/"$IMAGE_NAME":"$TRAVIS_BUILD_NUMBER" "$DOCKER_USERNAME"/"$IMAGE_NAME":latest
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    - docker push "$DOCKER_USERNAME"/"$IMAGE_NAME":"$TRAVIS_BUILD_NUMBER"
+    - docker push "$DOCKER_USERNAME"/"$IMAGE_NAME":latest
