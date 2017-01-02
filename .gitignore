@@ -2,6 +2,5 @@ node_modules/
 static/
 .nyc_output/
 coverage/
-deploy/.kube/
-
+**/.kube/
 .coveralls.yml
