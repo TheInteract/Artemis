@@ -1,7 +1,49 @@
 apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redis-master
+  labels: 
+    app: redis
+    role: master
+    tier: backend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: master
+        tier: backend
+    spec:
+      containers:
+      - name: redis-master
+        image: redis:alpine
+        resources:
+            requests:
+                cpu: "10m"
+                memory: "100Mi"
+        ports:
+        - name: "redis-server"
+          containerPort: 6379
+        env:
+          - name: GET_HOSTS_FROM
+            value: env
+        args:
+        - --appendonly
+        - "yes"
+        volumeMounts:
+        - name: redis-master-data
+          mountPath: /data
+      volumes:
+        - name: redis-master-data
+          gcePersistentDisk:
+            pdName: disk-interact-master
+            fsType: ext4
+---
+apiVersion: v1
 kind: Service
 metadata:
-  name: collector-redis-master
+  name: redis-master
   labels:
     app: redis
     role: master
@@ -14,29 +56,3 @@ spec:
         app: redis
         role: master
         tier: backend
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: collector-redis-master
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: redis
-        role: master
-        tier: backend
-    spec:
-      containers:
-      - name: collector-redis-master
-        image: redis:alpine
-        resources:
-            requests:
-                cpu: "10m"
-                memory: "100Mi"
-            limits:
-                cpu: "10m"
-                memory: "100Mi"
-        ports:
-        - containerPort: 6379
