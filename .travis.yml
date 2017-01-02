@@ -19,6 +19,7 @@ after_success:
 - docker push "$DOCKER_USERNAME"/"$IMAGE_NAME":latest
 deploy:
   provider: script
+  skip_cleanup: true
   script: deploy/apply-pod.sh
   on:
     all_branches: true
