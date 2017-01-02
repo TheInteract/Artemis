@@ -15,12 +15,14 @@ spec:
       - name: collector-server
         image: chinclubi/collector:latest
         imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            port: 3000
+            path: /api/healthz
+          successThreshold: 2
         resources:
             requests:
-                cpu: "10m"
-                memory: "100Mi"
-            limits:
-                cpu: "10m"
+                cpu: "100m"
                 memory: "100Mi"
         ports:
         - containerPort: 3000
@@ -40,3 +42,21 @@ spec:
     -   protocol: TCP
         port: 80
         targetPort: 3000
+        nodePort: 30000
+    type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: collector-server
+  labels:
+    app: collector
+    tier: backend
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: collector-server
+          servicePort: 80
