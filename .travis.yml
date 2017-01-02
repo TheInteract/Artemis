@@ -20,7 +20,7 @@ after_success:
 deploy:
   provider: script
   skip_cleanup: true
-  script: deploy/apply-pod.sh
+  script: chmod u+x deploy/apply-pod.sh
   on:
     all_branches: true
 before_install:
