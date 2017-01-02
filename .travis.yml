@@ -18,12 +18,15 @@ after_success:
 - docker push "$DOCKER_USERNAME"/"$IMAGE_NAME":"$TRAVIS_BUILD_NUMBER"
 - docker push "$DOCKER_USERNAME"/"$IMAGE_NAME":latest
 deploy:
-  provider: gae
-  keyfile: deploy-secret.json
-  skip_cleanup: true
-  project: theinteract-153915
+  provider: script
+  script: deploy/apply-pod.sh
   on:
     all_branches: true
 before_install:
 - openssl aes-256-cbc -K $encrypted_31c96b1e8904_key -iv $encrypted_31c96b1e8904_iv
   -in deploy-secret.json.enc -out deploy-secret.json -d
+- if [ ! -d ${HOME}/google-cloud-sdk ]; then
+    curl https://sdk.cloud.google.com | bash;
+  fi
+- mkdir -p lib
+- gcloud auth activate-service-account --key-file deploy-secret.json
