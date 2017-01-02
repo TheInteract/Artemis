@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: collector-server
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: collector
+        role: master
+        tier: backend
+    spec:
+      containers:
+      - name: collector-server
+        image: chinclubi/collector:latest
+        imagePullPolicy: Always
+        resources:
+            requests:
+                cpu: "10m"
+                memory: "100Mi"
+            limits:
+                cpu: "10m"
+                memory: "100Mi"
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: collector-server
+  labels:
+    app: collector
+    tier: backend
+spec:
+    selector:
+        app: collector
+        tier: backend
+    ports:
+    -   protocol: TCP
+        port: 80
+        targetPort: 3000
