@@ -19,6 +19,10 @@ async function checkPermission(ctx, next) {
     }
 }
 
+router.get('/healthz', (ctx) => {
+    ctx.status = 200
+})
+
 router.post(endpoints.LOAD_EVENT, events.load.setupClient, events.load.handleEvent)
 
 router.post(endpoints.SAVE_EVENT, checkPermission, async (ctx) => {
