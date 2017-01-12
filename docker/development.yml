@@ -1,6 +1,6 @@
 version: '2'
 services:
-    collector-redis:
+    interact-redis:
         image: redis:alpine
         command:
             - --appendonly
@@ -9,5 +9,12 @@ services:
             - 6379:6379
         volumes:
             - redis-data:/data
+    interact-mongo:
+        image: mongo:latest
+        ports:
+            - 27017:27017
+        volumes:
+            - mongo-data:/data
 volumes:
     redis-data: {}
+    mongo-data: {}
