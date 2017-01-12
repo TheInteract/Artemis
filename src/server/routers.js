@@ -10,14 +10,15 @@ const router = new Router({ prefix: '/api' })
 
 async function identifyClient(ctx, next) {
     const hostname = url.parse(ctx.request.origin).hostname
-    const { uuid } = ctx.request.body
-    logger.info('indentify client request', { uuid, hostname })
+    const { uid } = ctx.request.body
+    logger.info('indentify client request', { uid, hostname })
 
     try {
-        await indentify(uuid, hostname)
+        await indentify(uid, hostname)
+        logger.info('indentify client success', { uid, hostname })
         await next()
     } catch (e) {
-        logger.error(`indentify client(${uuid}) fail`, e)
+        logger.error(`indentify client(${uid}) fail`, { message: e.message })
         ctx.throw(e.message, e.status)
     }
 }
