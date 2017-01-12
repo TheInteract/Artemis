@@ -4,6 +4,7 @@ const server = require('../../src/server')
 const config = require('config')
 const sinon = require('sinon')
 const store = require('../../src/util/store')
+const mongodb = require('../../src/util/mongodb')
 
 const expect = chai.expect
 chai.use(chaiHttp)
@@ -13,9 +14,11 @@ describe('Event load', () => {
     describe('server', () => {
         beforeEach(() => {
             sinon.stub(store, 'save').returns({})
+            sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ findOne: () => true }), close: () => {} })
         })
         it('POST /api/event/load with authorization', (done) => {
-            request.post('/api/event/load', {})
+            request.post('/api/event/load')
+                .send({ uuid: 'TEST-1CA' })
                 .end((err, res) => {
                     expect(err).to.be.null
                     expect(res).to.have.cookie(config.get('cookie.name'))
