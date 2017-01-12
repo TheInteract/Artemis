@@ -1,6 +1,8 @@
 const UnauthorizedError = require('../errors/unauthorized')
 const { split } = require('lodash')
 const token = require('./token')
+const { wrapper } = require('./wrapper')
+const config = require('config')
 
 async function authorized(cookie) {
     if (cookie === undefined) {
@@ -15,4 +17,17 @@ async function authorized(cookie) {
     return true
 }
 
-module.exports = { authorized }
+async function indentify(uid, hostname) {
+    if (!uid) {
+        throw new UnauthorizedError()
+    }
+
+    const clientCollectionName = config.mongo.collectionName.user
+    const client = await this.collection(clientCollectionName).findOne({ uid, hostname })
+    if (!client) {
+        throw new UnauthorizedError()
+    }
+    return true
+}
+
+module.exports = { authorized, indentify: wrapper(indentify) }

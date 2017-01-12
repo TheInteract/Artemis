@@ -36,3 +36,9 @@ describe('authorized()', () => {
         }
     })
 })
+
+describe('indentify()', () => {
+    it('called without uuid')
+    it('called with invalid uuid and hostname')
+    it('called with valid uuid and hostname')
+})
