@@ -24,6 +24,7 @@ async function indentify(uid, hostname) {
 
     const clientCollectionName = config.mongo.collectionName.user
     const client = await this.collection(clientCollectionName).findOne({ uid, hostname })
+
     if (!client) {
         throw new UnauthorizedError()
     }
