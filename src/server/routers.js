@@ -3,9 +3,24 @@ const Router = require('koa-router')
 const logger = require('winston')
 const config = require('config')
 const events = require('./events')
-const { authorized } = require('../util/auth')
+const { authorized, indentify } = require('../util/auth')
+const url = require('url')
 
 const router = new Router({ prefix: '/api' })
+
+async function identifyClient(ctx, next) {
+    const hostname = url.parse(ctx.request.origin).hostname
+    const { uuid } = ctx.request.body
+    logger.info('indentify client request', { uuid, hostname })
+
+    try {
+        await indentify(uuid, hostname)
+        await next()
+    } catch (e) {
+        logger.error(`indentify client(${uuid}) fail`, e)
+        ctx.throw(e.message, e.status)
+    }
+}
 
 async function checkPermission(ctx, next) {
     const cookieName = config.get('cookie.name')
@@ -23,9 +38,9 @@ router.get('/healthz', (ctx) => {
     ctx.status = 200
 })
 
-router.post(endpoints.LOAD_EVENT, events.load.setupClient, events.load.handleEvent)
+router.post(endpoints.LOAD_EVENT, identifyClient, events.load.setupClient, events.load.handleEvent)
 
-router.post(endpoints.SAVE_EVENT, checkPermission, async (ctx) => {
+router.post(endpoints.SAVE_EVENT, identifyClient, checkPermission, async (ctx) => {
     const cookieName = config.get('cookie.name')
     const cookie = ctx.cookies.get(cookieName)
     const { body } = ctx.request

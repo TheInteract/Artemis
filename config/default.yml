@@ -11,7 +11,9 @@ mongo:
     protocal: mongodb
     host: localhost
     port: 27017
-    db: intercat
+    db: interact
+    collectionName:
+        user: user
 cookie:
     name: collector_uuid
 base: 'src/'
