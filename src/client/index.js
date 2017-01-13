@@ -6,7 +6,7 @@ const handleScrollEvent = require('./events/scroll')
 const handleResizeEvent = require('./events/resize')
 const handleMousemoveEvent = require('./events/mousemove')
 
-const baseUrl = 'http://localhost:3000/'
+const baseUrl = process.env.COLLECTOR_BASE || 'http://localhost:3000/'
 
 function ic(...rest) {
     const fetchObj = {
