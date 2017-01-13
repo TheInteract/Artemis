@@ -20,7 +20,7 @@ after_success:
 deploy:
   provider: script
   skip_cleanup: true
-  script: kubectl --namespace $ENV patch deployment collector-server -p'{"spec":{"template":{"spec":{"containers":[{"name":"collector-server","image":"chinclubi/collector:latest"}]}}}}'
+  script: kubectl --namespace "$ENV" patch deployment collector-server -p'{"spec":{"template":{"spec":{"containers":[{"name":"collector-server","image":"chinclubi/collector:latest"}]}}}}'
   on:
     all_branches: true
 before_install:
@@ -32,3 +32,4 @@ before_install:
   fi
 - source /home/travis/google-cloud-sdk/path.bash.inc
 - gcloud auth activate-service-account --key-file deploy-secret.json
+- gcloud components update kubectl
