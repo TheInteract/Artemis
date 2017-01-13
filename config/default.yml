@@ -1,14 +1,14 @@
 secret:
     key: VSUn0an0eOPd1WFBcaRCvyRmnGjmHE3NxagW3qlVSbFFcltFDTdDjVvWH+N0FPi4X7GdphLx8ACxhVvi9n8H8w==
 server:
-    protocal: http
+    protocol: http
     host: localhost
     port: 3000
 redis:
     host: localhost
     port: 6379
 mongo:
-    protocal: mongodb
+    protocol: mongodb
     host: localhost
     port: 27017
     db: interact
