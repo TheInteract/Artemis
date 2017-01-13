@@ -34,5 +34,5 @@ before_install:
 - gcloud components install kubectl
 - gcloud auth activate-service-account --key-file=deploy-secret.json
 - gcloud config set project theinteract-153915
-- gcloud config set container/use_client-certificate True
+- gcloud config set container/use_client_certificate True
 - gcloud container clusters get-credentials cluster-interact -z asia-east1-a
