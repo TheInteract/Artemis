@@ -20,7 +20,7 @@ after_success:
 deploy:
   provider: script
   skip_cleanup: true
-  script: chmod u+x deploy.sh && ./deploy.sh
+  script: chmod u+x deploy.sh && ls && ./deploy.sh
   on:
     all_branches: true
 before_install:
