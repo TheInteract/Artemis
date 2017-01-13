@@ -31,6 +31,6 @@ before_install:
     curl https://sdk.cloud.google.com | bash;
   fi
 - source /home/travis/google-cloud-sdk/path.bash.inc
-- gcloud auth activate-service-account --key-file deploy-secret.json
-- gcloud container clusters get-credentials cluster-interact --zone asia-east1-a
-- gcloud components update kubectl
+- gcloud auth login --key-file deploy-secret.json
+- gcloud components install kubectl
+- gcloud container clusters get-credentials cluster-interact -z asia-east1-a
