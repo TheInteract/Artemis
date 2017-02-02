@@ -10,6 +10,7 @@ services:
         volumes:
             - redis-data:/data
     interact-mongo:
+        container_name: interact-mongo
         image: mongo:latest
         ports:
             - 27017:27017
