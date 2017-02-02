@@ -7,5 +7,24 @@
 Collector is a part of TheInteract project which is tracking user behavior based on javascript es6.
 
 ## Prerequisite
-1. Nodejs - ~6.9.x
-2. Docker - ^1.6.x
+1. Nodejs __~6.9.x__
+2. Docker __^1.6.x__
+
+## Getting Started 
+> for demo and dev environment
+1. `npm install` - installation required dependency
+2. `npm build` - build js bundle for client side
+3. `npm run start:w` - start server side and docker for development __(!do not close this window)__
+4. execute scripts for initiate demo data on mongodb (__or__ execute `init.sh`)
+    - `docker exec -it interact-mongo mongo` - run mongo command on mongo container
+    - `user interact` - switch to interact db
+    - `db.user.insert({ name: 'localhost', uid: 'IC9-55938-5' })` - insert initiate data to `user` collection
+    - `exit`- exit from mongo command
+5. `npm run example` - start demo page 
+    - access to demo page with `localhost:9999`
+    - __do not close this window__
+
+## Additional Command
+- `npm run test:w` - run test environment and watch a file in directory
+- `npm run build:w` - build js bundle for client side and watch file in client directory
+- `npm run stats:prod` - create webpack analysis file with production environment
