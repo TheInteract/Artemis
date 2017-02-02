@@ -12,6 +12,7 @@ Collector is a part of TheInteract project which is tracking user behavior based
 
 ## Getting Started 
 > for demo and dev environment
+
 1. `npm install` - installation required dependency
 2. `npm build` - build js bundle for client side
 3. `npm run start:w` - start server side and docker for development __(!do not close this window)__
