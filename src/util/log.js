@@ -3,19 +3,19 @@ const config = require('config')
 const moment = require('moment')
 
 const getLogConfig = () => {
-    const options = {
-        level: 'debug',
-        colorize: true,
-        prettyPrint: true,
-        timestamp: () => moment().format('YYYY-MM-DD hh:mm:ss'),
-        depth: 10,
-    }
+  const options = {
+    level: 'debug',
+    colorize: true,
+    prettyPrint: true,
+    timestamp: () => moment().format('YYYY-MM-DD hh:mm:ss'),
+    depth: 10,
+  }
 
-    if (config.util.getEnv('NODE_ENV') === 'testing') {
-        options.level = 'error'
-    }
+  if (config.util.getEnv('NODE_ENV') === 'testing') {
+    options.level = 'error'
+  }
 
-    return options
+  return options
 }
 
 winston.remove(winston.transports.Console)

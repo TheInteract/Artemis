@@ -10,17 +10,17 @@ const bodyParser = require('koa-bodyparser')
 const app = module.exports = new Koa()
 
 app.use(cros({
-    credentials: true,
+  credentials: true,
 }))
 app.use(bodyParser({
-    enableTypes: ['json'],
+  enableTypes: [ 'json' ],
 }))
 app.use(router.routes())
 app.use(router.allowedMethods())
 
 app.use(async (ctx) => {
-    const options = { root: path.join(__dirname, '..', '..', 'static') }
-    await send(ctx, ctx.path, options)
+  const options = { root: path.join(__dirname, '..', '..', 'static') }
+  await send(ctx, ctx.path, options)
 })
 
 const port = config.get('server.port')
