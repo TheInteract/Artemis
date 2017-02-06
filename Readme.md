@@ -19,7 +19,7 @@ Collector is a part of TheInteract project which is tracking user behavior based
 4. execute scripts for initiate demo data on mongodb (__or__ execute `init.sh`)
     - `docker exec -it interact-mongo mongo` - run mongo command on mongo container
     - `use interact` - switch to interact db
-    - `db.user.insert({ name: 'localhost', uid: 'IC9-55938-5' })` - insert initiate data to `user` collection
+    - `db.user.insert({ hostname: 'localhost', uid: 'IC9-55938-5' })` - insert initiate data to `user` collection
     - `exit`- exit from mongo command
 5. `npm run example` - start demo page 
     - access to demo page with `localhost:9999`
