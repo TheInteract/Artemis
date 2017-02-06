@@ -7,38 +7,38 @@ const UnauthorizedError = require('../../src/errors/unauthorized')
 const expect = chai.expect
 
 describe('authorized()', () => {
-    const fakeToken = '12345:fakeToken'
-    before(() => {
-        sinon.stub(token, 'generateToken')
-        token.generateToken.returns(fakeToken)
-    })
-    after(() => {
-        token.generateToken.restore()
-    })
-    it('called with valid argument', async () => {
-        const cookie = `${fakeToken}`
-        const result = await auth.authorized(cookie)
-        expect(result).to.be.true
-    })
-    it('called with invalid argument', async () => {
-        const cookie = `${fakeToken}-invalid`
-        try {
-            await auth.authorized(cookie)
-        } catch (e) {
-            expect(e).be.instanceOf(UnauthorizedError)
-        }
-    })
-    it('called with undefined argument', async () => {
-        try {
-            await auth.authorized()
-        } catch (e) {
-            expect(e).be.instanceOf(UnauthorizedError)
-        }
-    })
+  const fakeToken = '12345:fakeToken'
+  before(() => {
+    sinon.stub(token, 'generateToken')
+    token.generateToken.returns(fakeToken)
+  })
+  after(() => {
+    token.generateToken.restore()
+  })
+  it('called with valid argument', async () => {
+    const cookie = `${fakeToken}`
+    const result = await auth.authorized(cookie)
+    expect(result).to.be.true
+  })
+  it('called with invalid argument', async () => {
+    const cookie = `${fakeToken}-invalid`
+    try {
+      await auth.authorized(cookie)
+    } catch (e) {
+      expect(e).be.instanceOf(UnauthorizedError)
+    }
+  })
+  it('called with undefined argument', async () => {
+    try {
+      await auth.authorized()
+    } catch (e) {
+      expect(e).be.instanceOf(UnauthorizedError)
+    }
+  })
 })
 
 describe('indentify()', () => {
-    it('called without uuid')
-    it('called with invalid uuid and hostname')
-    it('called with valid uuid and hostname')
+  it('called without uuid')
+  it('called with invalid uuid and hostname')
+  it('called with valid uuid and hostname')
 })

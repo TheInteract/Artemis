@@ -1,3 +1,3 @@
 before(() => {
-    require('../src/util/log')
+  require('../src/util/log')
 })

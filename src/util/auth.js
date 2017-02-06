@@ -4,31 +4,31 @@ const token = require('./token')
 const { wrapper } = require('./wrapper')
 const config = require('config')
 
-async function authorized(cookie) {
-    if (cookie === undefined) {
-        throw new UnauthorizedError()
-    }
+async function authorized (cookie) {
+  if (cookie === undefined) {
+    throw new UnauthorizedError()
+  }
 
-    const timeStamp = split(cookie, ':', 2)[0]
-    // TODO: check token from database
-    if (token.generateToken(timeStamp) !== cookie) {
-        throw new UnauthorizedError()
-    }
-    return true
+  const timeStamp = split(cookie, ':', 2)[0]
+  // TODO: check token from database
+  if (token.generateToken(timeStamp) !== cookie) {
+    throw new UnauthorizedError()
+  }
+  return true
 }
 
-async function indentify(uid, hostname) {
-    if (!uid) {
-        throw new UnauthorizedError()
-    }
+async function indentify (uid, hostname) {
+  if (!uid) {
+    throw new UnauthorizedError()
+  }
 
-    const clientCollectionName = config.mongo.collectionName.user
-    const client = await this.collection(clientCollectionName).findOne({ uid, hostname })
+  const clientCollectionName = config.mongo.collectionName.user
+  const client = await this.collection(clientCollectionName).findOne({ uid, hostname })
 
-    if (!client) {
-        throw new UnauthorizedError()
-    }
-    return true
+  if (!client) {
+    throw new UnauthorizedError()
+  }
+  return true
 }
 
 module.exports = { authorized, indentify: wrapper(indentify) }
