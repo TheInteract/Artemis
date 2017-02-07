@@ -9,7 +9,7 @@
     "test:w": "cross-env NODE_ENV=testing NODE_CONFIG_DIR=./server/config mocha --watch",
     "example": "http-server ./example -p 9999",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "postinstall": "cd server && npm install && cd ../client && npm install"
+    "postinstall": "cd server && npm install && cd ../client && npm install && cd .."
   },
   "author": "",
   "license": "ISC",
