@@ -1,4 +1,6 @@
-# Collector
+# Project "Artemis"
+
+<img src="http://img12.deviantart.net/fb21/i/2010/336/a/d/artemis_bas_relief_lineart_by_nightowl70-d342q0q.jpg" width="200">
 
 [![Build Status](https://travis-ci.org/TheInteract/collector.svg?branch=master)](https://travis-ci.org/TheInteract/collector)
 [![Dependency Status](https://gemnasium.com/badges/github.com/TheInteract/collector.svg)](https://gemnasium.com/github.com/TheInteract/collector)
@@ -37,11 +39,13 @@ Collector is a part of TheInteract project which is tracking user behavior based
 - `test:w`
 - `example`
 - `coverage`
+
 #### Client Directory
 - `build`
 - `build:prod`
 - `stats`
 - `stats:prod`
+
 #### Server Directory
 - `start`
 - `start:w`
