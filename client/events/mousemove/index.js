@@ -1,5 +1,5 @@
 const PROPERTIES = require('./properties')
-const pickProperties = require('../../../util/pickProperties')
+const pickProperties = require('../../util/pickProperties')
 
 let prevTime = new Date(0)
 

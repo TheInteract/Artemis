@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   output: {
     filename: 'analytics.js',
-    path: './static',
+    path: './build',
   },
   watch: true,
   watchOptions: {

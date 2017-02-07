@@ -8,7 +8,7 @@ module.exports = {
 
     output: {
         filename: 'analytics.js',
-        path: './static',
+        path: './build',
     },
 
     module: {

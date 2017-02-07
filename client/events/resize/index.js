@@ -1,5 +1,5 @@
 const PROPERTIES = require('./properties')
-const pickProperties = require('../../../util/pickProperties')
+const pickProperties = require('../../util/pickProperties')
 
 function handleResizeEvent (e) {
   const data = pickProperties(e, PROPERTIES)
