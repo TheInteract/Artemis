@@ -7,7 +7,9 @@ node_js:
 install:
 - npm install
 before_script:
+- cd client
 - npm run build:prod
+- cd ..
 script:
 - npm run test
 after_success:
