@@ -24,8 +24,26 @@ Collector is a part of TheInteract project which is tracking user behavior based
 5. `npm run example` - start demo page 
     - access to demo page with `localhost:9999`
     - __do not close this window__
-
+    
 ## Additional Command
 - `npm run test:w` - run test environment and watch a file in directory
 - `npm run build:w` - build js bundle for client side and watch file in client directory
 - `npm run stats:prod` - create webpack analysis file with production environment
+
+### Command Directory
+#### Root Directory
+- `lint`
+- `test`
+- `test:w`
+- `example`
+- `coverage`
+#### Client Directory
+- `build`
+- `build:prod`
+- `stats`
+- `stats:prod`
+#### Server Directory
+- `start`
+- `start:w`
+- `docker:pull`
+- `docker`
