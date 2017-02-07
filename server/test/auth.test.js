@@ -1,8 +1,8 @@
 const chai = require('chai')
 const sinon = require('sinon')
-const auth = require('../../src/util/auth')
-const token = require('../../src/util/token')
-const UnauthorizedError = require('../../src/errors/unauthorized')
+const auth = require('../util/auth')
+const token = require('../util/token')
+const UnauthorizedError = require('../errors/unauthorized')
 
 const expect = chai.expect
 

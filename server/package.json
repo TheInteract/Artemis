@@ -1,0 +1,32 @@
+{
+  "name": "artemis-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "start:w": "npm run docker && nodemon",
+    "docker:pull": "docker-compose -f ../docker/development.yml pull",
+    "docker": "docker-compose -f ../docker/development.yml up -d"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "config": "^1.25.1",
+    "kcors": "^2.2.0",
+    "koa": "^2.0.0-alpha.7",
+    "koa-bodyparser": "^3.2.0",
+    "koa-router": "^7.0.1",
+    "koa-send": "^3.3.0",
+    "moment": "^2.17.1",
+    "mongodb": "^2.2.22",
+    "redis": "^2.6.5",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.22.0",
+    "babel-register": "^6.22.0",
+    "nodemon": "^1.11.0"
+  }
+}

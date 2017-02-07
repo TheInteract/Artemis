@@ -1,8 +1,8 @@
 const chai = require('chai')
 const sinon = require('sinon')
 const url = require('url-join')
-const BrowserFetch = require('../../src/util/fetch')
-const ResponseError = require('../../src/errors/response')
+const BrowserFetch = require('../util/fetch')
+const ResponseError = require('../errors/response')
 
 const expect = chai.expect
 

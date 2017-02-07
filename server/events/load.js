@@ -1,9 +1,9 @@
-const { generateToken } = require('../../util/token')
-const { authorized } = require('../../util/auth')
+const { generateToken } = require('../util/token')
+const { authorized } = require('../util/auth')
 const logger = require('winston')
 const config = require('config')
 const omit = require('lodash/omit')
-const store = require('../../util/store')
+const store = require('../util/store')
 
 const setupClient = async (ctx, next) => {
   const cookieName = config.get('cookie.name')

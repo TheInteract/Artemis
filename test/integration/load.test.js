@@ -1,10 +1,10 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const server = require('../../src/server')
+const server = require('../server')
 const config = require('config')
 const sinon = require('sinon')
-const store = require('../../src/util/store')
-const mongodb = require('../../src/util/mongodb')
+const store = require('../server/util/store')
+const mongodb = require('../server/util/mongodb')
 
 const expect = chai.expect
 chai.use(chaiHttp)

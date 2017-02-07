@@ -1,4 +1,4 @@
-const BrowserFetch = require('../util/fetch')
+const BrowserFetch = require('./util/fetch')
 const handleLoadEvent = require('./events/load')
 const handleClickEvent = require('./events/click')
 const handleKeydownEvent = require('./events/keydown')

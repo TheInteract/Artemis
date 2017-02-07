@@ -2,7 +2,7 @@ const chai = require('chai')
 const sinon = require('sinon')
 const crypto = require('crypto')
 const config = require('config')
-const token = require('../../src/util/token')
+const token = require('../util/token')
 
 const expect = chai.expect
 

@@ -1,11 +1,11 @@
 const webpack = require('webpack')
 
 module.exports = {
-  entry: './src/client/index.js',
+  entry: './index.js',
   devtool: 'cheap-module-source-map',
   output: {
     filename: 'analytics.js',
-    path: './build',
+    path: '../server/static',
   },
   watch: true,
   watchOptions: {

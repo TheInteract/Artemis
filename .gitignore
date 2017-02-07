@@ -1,5 +1,4 @@
 node_modules/
-static/
 .nyc_output/
 coverage/
 **/.kube/

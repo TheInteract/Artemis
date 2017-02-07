@@ -1,9 +1,9 @@
-const endpoints = require('../util/endpoints')
+const endpoints = require('./util/endpoints')
 const Router = require('koa-router')
 const logger = require('winston')
 const config = require('config')
 const events = require('./events')
-const { authorized, indentify } = require('../util/auth')
+const { authorized, indentify } = require('./util/auth')
 const url = require('url')
 
 const router = new Router({ prefix: '/api' })

@@ -11,3 +11,4 @@ mongo:
     protocol: MONGO_PROTOCOL
     host: MONGO_HOST
     port: MONGO_PORT
+    auth: MONGO_AUTH

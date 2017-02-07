@@ -10,5 +10,5 @@ global.rootRequire = (name) => {
   return require(dir)
 }
 
-require('./src/util/log.js')
-require('./src/server/index.js')
+require('./util/log.js')
+require('./server.js')
