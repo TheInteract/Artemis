@@ -17,7 +17,7 @@ async function authorized (cookie) {
   return true
 }
 
-async function indentify (uid, hostname) {
+async function identify (uid, hostname) {
   if (!uid) {
     throw new UnauthorizedError()
   }
@@ -31,4 +31,4 @@ async function indentify (uid, hostname) {
   return true
 }
 
-module.exports = { authorized, indentify: wrapper(indentify) }
+module.exports = { authorized, identify: wrapper(identify) }
