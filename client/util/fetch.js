@@ -68,6 +68,7 @@ class BrowserFetch {
   static doFetch (options) {
     return BrowserFetch.getFetch(options.url, options)
       .then(BrowserFetch.checkStatus)
+      .then(response => response.json())
       // TODO: send error log to server
   }
 
