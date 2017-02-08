@@ -3,3 +3,4 @@ node_modules/
 coverage/
 **/.kube/
 .coveralls.yml
+.DS_Store

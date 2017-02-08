@@ -51,6 +51,9 @@ router.post(endpoints.SAVE_EVENT, identifyClient, checkPermission, async (ctx) =
     await events[ctx.params.type].handleEvent(cookie, body)
     logger.info(`request to ${action} event success:`, { cookie, ip: ctx.request.ip })
     ctx.status = 200
+    if (!ctx.body) {
+      ctx.body = {}
+    }
   } catch (e) {
     logger.info(`request to ${action} event error:`, { cookie, ip: ctx.request.ip, error: e })
     ctx.throw(e.message, e.status)
