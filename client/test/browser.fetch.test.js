@@ -111,13 +111,17 @@ describe('Browser Fetch', () => {
       BrowserFetch.getFetch.restore()
     })
     it('request with success response', async () => {
-      const response = { status: 200, message: 'success', body: 'response' }
+      const response = { json: () => ({
+        status: 200,
+        message: 'success',
+        body: 'response'
+      })}
       BrowserFetch.checkStatus.returns(response)
       sinon.stub(BrowserFetch, 'getFetch').returns(Promise.resolve(response))
 
       const result = await BrowserFetch.doFetch({ url: 'baseUrl' })
       sinon.assert.calledOnce(BrowserFetch.checkStatus)
-      expect(result).to.be.eql(response)
+      expect(result).to.be.eql(response.json())
     })
   })
   describe('class BrowserFetch', () => {

@@ -68,13 +68,17 @@ class BrowserFetch {
   static doFetch (options) {
     return BrowserFetch.getFetch(options.url, options)
       .then(BrowserFetch.checkStatus)
-      .then(response => response.json())
+      .then(getJson)
       // TODO: send error log to server
   }
 
   static getFetch (_url, options) {
     return window.fetch(_url, options)
   }
+}
+
+function getJson (response) {
+  return response.json()
 }
 
 module.exports = BrowserFetch
