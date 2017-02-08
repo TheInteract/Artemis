@@ -6,10 +6,9 @@ function handleLoadEvent (e) {
   data.uid = this.uid
   this.fetch.post('/event/load', data)
     .then(response => {
-      const enabledFeatures = [
-        '[interact-feature="card-1"]:not([interact-feature-type="b"])',
-        '[interact-feature="card-2"]:not([interact-feature-type="a"])'
-      ]
+      const enabledFeatures = response.enabledFeatures.map(feature => {
+        return `[interact-feature="${feature.name}"]:not([interact-feature-type="${feature.type}"])`
+      })
 
       const selectors = enabledFeatures.join(', ')
       const elements = document.querySelectorAll(selectors)
