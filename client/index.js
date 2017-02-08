@@ -13,6 +13,16 @@ function ic (...rest) {
     fetch: new BrowserFetch(baseUrl),
     uid: rest[0],
   }
+
+  const disabledFeatureList = [
+    '[interact-feature="1"][interact-feature-type="b"]',
+    '[interact-feature="2"][interact-feature-type="a"]'
+  ]
+
+  const selectors = disabledFeatureList.join(', ')
+  const elements = document.querySelectorAll(selectors)
+  elements.forEach(element => element.remove())
+
   // TODO: map uid with web url.
   window.addEventListener('load', handleLoadEvent.bind(fetchObj))
   window.addEventListener('click', handleClickEvent.bind(fetchObj))
