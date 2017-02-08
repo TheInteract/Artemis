@@ -3,7 +3,7 @@ const pickProperties = require('../../util/pickProperties')
 
 function handleScrollEvent (e) {
   const data = pickProperties(e, PROPERTIES)
-  data.uid = this.uid
+  data.ic = this.ic
   this.fetch.post('/event/scroll', data)
 }
 

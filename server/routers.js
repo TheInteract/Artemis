@@ -11,7 +11,7 @@ router.get('/healthz', (ctx) => {
   ctx.status = 200
 })
 
-router.post(endpoints.LOAD_EVENT, events.load.handleEvent)
+router.post(endpoints.LOAD_EVENT, identifyClient, events.load.setupClient, events.load.handleEvent)
 
 router.post(endpoints.SAVE_EVENT, identifyClient, checkPermission, async (ctx) => {
   const cookieName = config.get('cookie.name')

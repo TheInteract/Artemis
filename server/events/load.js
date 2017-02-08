@@ -1,9 +1,11 @@
 const { generateToken } = require('../util/token')
-const { authorized } = require('../util/auth')
+const { authorized, getUID, getCustomer, getFeatureUniqueCount, insertNewUser } = require('../util/auth')
 const logger = require('winston')
 const config = require('config')
 const omit = require('lodash/omit')
 const store = require('../util/store')
+const url = require('url')
+const { wrapper } = require('../util/wrapper')
 
 const setupClient = async (ctx, next) => {
   const cookieName = config.get('cookie.name')
@@ -29,36 +31,40 @@ const setupClient = async (ctx, next) => {
 }
 
 const handleEvent = async (ctx) => {
-  // const cookieName = config.get('cookie.name')
-  // const cookie = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
-  // const { body } = ctx.request
-  // const { uid } = body
-  // const rest = omit(body, [ 'uid' ])
-  // await store.save(uid, cookie, rest, 'load')
-  if (!ctx) {
-    logger.info('When the user is known')
+  const cookieName = config.get('cookie.name')
+  const cookie = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
+  const { body } = ctx.request
+  const { ic } = body
+  const uid = cookie
+  const rest = omit(body, [ 'ic' ])
+  const hostname = url.parse(ctx.request.origin).hostname
+  await store.save(ic, uid, rest, 'load')
+  var user = await wrapper(getUID)(uid, ic, hostname)
+  var customer = await wrapper(getCustomer)(ic, hostname)
+  if (!user) {
     //  Get the user result from mongo and return the feature set
-  } else {
-    logger.info('When the user is unknown')
-    /*
-      Get the current ratio of product unique user and assign the new user to the appopriate side, save to mongo.
-      Then return the feature set.
-    */
+    await wrapper(getFeatureUniqueCount)(ic, hostname, customer.features)
+    const sorter = function (a, b) {
+      if (a.count < b.count) {
+        return -1
+      }
+      if (a.count > b.count) {
+        return 1
+      }
+      return 0
+    }
+    for (let feature of customer.features) {
+      feature.types.sort(sorter)
+    }
+    user = await wrapper(insertNewUser)(uid, ic, hostname, customer.features)
+    user = user.ops[0]
   }
   const responseObj = {
-    'uid': 'testUID',
-    'enabledFeatures': [
-      {
-        'name': 'card-1',
-        'type': 'A'
-      },
-      {
-        'name': 'card-2',
-        'type': 'B'
-      }
-    ]
+    uid: user.uid,
+    enabledFeatures: user.features
   }
   ctx.body = responseObj
+  logger.info(responseObj)
 }
 
 module.exports = { handleEvent, setupClient }
