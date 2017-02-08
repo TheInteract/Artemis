@@ -3,37 +3,9 @@ const Router = require('koa-router')
 const logger = require('winston')
 const config = require('config')
 const events = require('./events')
-const { authorized, identify } = require('./util/auth')
-const url = require('url')
+const { identifyClient, checkPermission } = require('./util/auth')
 
 const router = new Router({ prefix: '/api' })
-
-async function identifyClient (ctx, next) {
-  const hostname = url.parse(ctx.request.origin).hostname
-  const { uid } = ctx.request.body
-  logger.info('identify client request', { uid, hostname })
-
-  try {
-    await identify(uid, hostname)
-    logger.info('identify client success', { uid, hostname })
-    await next()
-  } catch (e) {
-    logger.error(`identify client(${uid}) fail`, { message: e.message })
-    ctx.throw(e.message, e.status)
-  }
-}
-
-async function checkPermission (ctx, next) {
-  const cookieName = config.get('cookie.name')
-  const cookie = ctx.cookies.get(cookieName)
-  // TODO: if browser is disable a cookie, we should provide localStorage and set token with header
-  try {
-    await authorized(cookie)
-    await next()
-  } catch (e) {
-    ctx.throw(e.message, e.status)
-  }
-}
 
 router.get('/healthz', (ctx) => {
   ctx.status = 200

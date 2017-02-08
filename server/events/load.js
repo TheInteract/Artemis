@@ -29,22 +29,32 @@ const setupClient = async (ctx, next) => {
 }
 
 const handleEvent = async (ctx) => {
-  const cookieName = config.get('cookie.name')
-  const cookie = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
-  const { body } = ctx.request
-  const { uid } = body
-  const rest = omit(body, [ 'uid' ])
-  //await store.save(uid, cookie, rest, 'load')
+  // const cookieName = config.get('cookie.name')
+  // const cookie = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
+  // const { body } = ctx.request
+  // const { uid } = body
+  // const rest = omit(body, [ 'uid' ])
+  // await store.save(uid, cookie, rest, 'load')
+  if (!ctx) {
+    logger.info('When the user is known')
+    //  Get the user result from mongo and return the feature set
+  } else {
+    logger.info('When the user is unknown')
+    /*
+      Get the current ratio of product unique user and assign the new user to the appopriate side, save to mongo.
+      Then return the feature set.
+    */
+  }
   const responseObj = {
-    "uid": 'testUID',
-    "enabledFeatures": [
+    'uid': 'testUID',
+    'enabledFeatures': [
       {
-        "name": "card-1",
-        "type": "A"
+        'name': 'card-1',
+        'type': 'A'
       },
       {
-        "name": "card-2",
-        "type": "B"
+        'name': 'card-2',
+        'type': 'B'
       }
     ]
   }
