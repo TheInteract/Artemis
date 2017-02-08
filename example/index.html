@@ -1,132 +1,33 @@
 <html>
   <head>
     <title>example - collector</title>
-    <style>
-      html, body {
-        margin: 0;
-        font-family: "Verdana", Monospace, sans-serif;
-        color: #413C58;
-      }
-
-      .container {
-        min-height: 100vh;
-        background-color: #f1f1f1;
-      }
-
-      .nav {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 40px;
-        background-color: #363537;
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .nav-logo {
-        width: 100px;
-        height: 100%;
-        cursor: pointer;
-        line-height: 35px;
-        text-align: center;
-        color: #FFC73F;
-      }
-
-      .nav-center {
-        display: flex;
-      }
-
-      .feature-button {
-        height: 100%;
-        width: 50px;
-        cursor: pointer;
-        line-height: 35px;
-        text-align: center;
-        background-color: #FFC73F;
-      }
-
-      .content {
-        position: absolute;
-        top: 40px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        overflow-y: auto
-      }
-
-      .content-body {
-        max-width: 600px;
-        margin: 20px auto;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .content-body > * {
-        margin: 5px 10px
-      }
-
-      .feature {
-        width: 180px;
-        height: 140px;
-        cursor: pointer;
-        font-size: 14px;
-        line-height: 125px;
-        text-align: center;
-        color: #aaa;
-        background-color: white;
-        border-radius: 3px;
-        border: solid white 5px;
-        box-sizing: border-box;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
-        transition: 0.2s
-      }
-
-      .feature:hover {
-        color: white;
-        background-color: #FFC73F;
-        box-shadow: 0 4px 11px 0 rgba(0, 0, 0, 0.15);
-        transform: translateY(-2px);
-      }
-
-      .feature-a, .feature-b {
-        font-size: 24px;
-        color: white;
-      }
-
-      .feature-a {
-        background-color: #FF715B;
-      }
-
-      .feature-b {
-        background-color: #1EA896;
-      }
-    </style>
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
     <div class="container">
       <div class="nav">
         <div class="nav-logo">Example</div>
         <div class="nav-center">
-          <div interact-feature="1" interact-feature-type="a" class="feature-button">1A</div>
-          <div interact-feature="1" interact-feature-type="b" class="feature-button">1B</div>
-          <div interact-feature="2" interact-feature-type="a" class="feature-button">2A</div>
-          <div interact-feature="2" interact-feature-type="b" class="feature-button">2B</div>        </div>
+          <div interact-feature="card-1" interact-feature-type="A" class="feature-button">1A</div>
+          <div interact-feature="card-1" interact-feature-type="B" class="feature-button">1B</div>
+          <div interact-feature="card-2" interact-feature-type="A" class="feature-button">2A</div>
+          <div interact-feature="card-2" interact-feature-type="B" class="feature-button">2B</div>
+        </div>
       </div>
       <div class="content">
         <div class="content-body">
-          <div interact-feature="1" interact-feature-type="a" class="feature feature-a">Feature 1A</div>
-          <div interact-feature="2" interact-feature-type="a" class="feature feature-a">Feature 2A</div>
-          <div interact-feature="1" interact-feature-type="b" class="feature feature-b">Feature 1B</div>
-          <div interact-feature="2" interact-feature-type="b" class="feature feature-b">Feature 2B</div>          <div class="feature">Other Feature</div>
+          <div interact-feature="card-1" interact-feature-type="A" class="feature feature-a">Feature 1A</div>
+          <div interact-feature="card-1" interact-feature-type="B" class="feature feature-b">Feature 1B</div>
+          <div interact-feature="card-2" interact-feature-type="A" class="feature feature-a">Feature 2A</div>
+          <div interact-feature="card-2" interact-feature-type="B" class="feature feature-b">Feature 2B</div>
+          <div class="feature">Other Feature</div>
         </div>
       </div>
     </div>
     <script>
-      (function(window, document, tag, target, element) {
-        window['ic'] = function(i) {
-            window.i = i
+      (function (window, document, tag, target, element) {
+        window['ic'] = function (i) {
+          window.i = i
         }
         target = document.createElement(tag)
         element = document.getElementsByTagName(tag)[0]
@@ -134,6 +35,7 @@
         target.src = 'http://localhost:3000/analytics.js'
         element.parentNode.insertBefore(target, element)
       })(window, document, 'script')
+
       ic('IC9-55938-5')
       // !function(a,b,c,d,e){a.ic=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://35.186.212.151/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),ic("IC9-55938-5");
     </script>
