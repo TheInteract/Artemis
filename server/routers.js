@@ -3,7 +3,7 @@ const Router = require('koa-router')
 const logger = require('winston')
 const config = require('config')
 const events = require('./events')
-const { authorized, indentify } = require('./util/auth')
+const { authorized, identify } = require('./util/auth')
 const url = require('url')
 
 const router = new Router({ prefix: '/api' })
@@ -11,14 +11,14 @@ const router = new Router({ prefix: '/api' })
 async function identifyClient (ctx, next) {
   const hostname = url.parse(ctx.request.origin).hostname
   const { uid } = ctx.request.body
-  logger.info('indentify client request', { uid, hostname })
+  logger.info('identify client request', { uid, hostname })
 
   try {
-    await indentify(uid, hostname)
-    logger.info('indentify client success', { uid, hostname })
+    await identify(uid, hostname)
+    logger.info('identify client success', { uid, hostname })
     await next()
   } catch (e) {
-    logger.error(`indentify client(${uid}) fail`, { message: e.message })
+    logger.error(`identify client(${uid}) fail`, { message: e.message })
     ctx.throw(e.message, e.status)
   }
 }
@@ -39,7 +39,7 @@ router.get('/healthz', (ctx) => {
   ctx.status = 200
 })
 
-router.post(endpoints.LOAD_EVENT, identifyClient, events.load.setupClient, events.load.handleEvent)
+router.post(endpoints.LOAD_EVENT, events.load.handleEvent)
 
 router.post(endpoints.SAVE_EVENT, identifyClient, checkPermission, async (ctx) => {
   const cookieName = config.get('cookie.name')

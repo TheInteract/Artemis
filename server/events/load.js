@@ -34,7 +34,21 @@ const handleEvent = async (ctx) => {
   const { body } = ctx.request
   const { uid } = body
   const rest = omit(body, [ 'uid' ])
-  await store.save(uid, cookie, rest, 'load')
+  //await store.save(uid, cookie, rest, 'load')
+  const responseObj = {
+    "uid": 'testUID',
+    "enabledFeatures": [
+      {
+        "name": "card-1",
+        "type": "A"
+      },
+      {
+        "name": "card-2",
+        "type": "B"
+      }
+    ]
+  }
+  ctx.body = responseObj
 }
 
 module.exports = { handleEvent, setupClient }
