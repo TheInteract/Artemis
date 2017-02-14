@@ -5,4 +5,5 @@ module.exports = {
   scroll: require('./scroll'),
   resize: require('./resize'),
   mousemove: require('./mousemove'),
+  init: require('./init')
 }
