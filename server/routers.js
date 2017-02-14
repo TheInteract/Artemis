@@ -39,6 +39,8 @@ router.get('/healthz', (ctx) => {
   ctx.status = 200
 })
 
+router.post(endpoints.INIT_EVENT, events.init.initEvent)
+
 router.post(endpoints.LOAD_EVENT, events.load.handleEvent)
 
 router.post(endpoints.SAVE_EVENT, identifyClient, checkPermission, async (ctx) => {
