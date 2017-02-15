@@ -18,7 +18,7 @@ describe('Event load', () => {
     })
     it('POST /api/event/load with authorization', (done) => {
       request.post('/api/event/load')
-        .send({ uid: 'TEST-1CA' })
+        .send({ customerCode: 'TEST-1CA' })
         .end((err, res) => {
           expect(err).to.be.null
           expect(res).to.have.cookie(config.get('cookie.name'))

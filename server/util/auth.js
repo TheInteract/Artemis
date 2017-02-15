@@ -3,6 +3,8 @@ const { split } = require('lodash')
 const token = require('./token')
 const { wrapper } = require('./wrapper')
 const config = require('config')
+const url = require('url')
+const logger = require('winston')
 
 async function authorized (cookie) {
   if (cookie === undefined) {
@@ -17,13 +19,13 @@ async function authorized (cookie) {
   return true
 }
 
-async function identify (uid, hostname) {
-  if (!uid) {
+async function identify (customerCode, hostname) {
+  if (!customerCode) {
     throw new UnauthorizedError()
   }
 
-  const clientCollectionName = config.mongo.collectionName.user
-  const client = await this.collection(clientCollectionName).findOne({ uid, hostname })
+  const clientCollectionName = config.mongo.collectionName.customer
+  const client = await this.collection(clientCollectionName).findOne({ customerCode, hostname })
 
   if (!client) {
     throw new UnauthorizedError()
@@ -31,4 +33,29 @@ async function identify (uid, hostname) {
   return true
 }
 
-module.exports = { authorized, identify: wrapper(identify) }
+async function identifyCustomer (ctx, next) {
+  const hostname = url.parse(ctx.request.origin).hostname
+  const { customerCode } = ctx.request.body
+  try {
+    await wrapper(identify)(customerCode, hostname)
+    logger.info('identify client success', { customerCode, hostname })
+    await next()
+  } catch (e) {
+    logger.error(`identify client(${customerCode}) fail`, { message: e.message })
+    ctx.throw(e.message, e.status)
+  }
+}
+
+async function checkCookie (ctx, next) {
+  const cookieName = config.get('cookie.name')
+  const cookie = ctx.cookies.get(cookieName)
+  // TODO: if browser is disable a cookie, we should provide localStorage and set token with header
+  try {
+    await authorized(cookie)
+    await next()
+  } catch (e) {
+    ctx.throw(e.message, e.status)
+  }
+}
+
+module.exports = { authorized, identifyCustomer, checkCookie }

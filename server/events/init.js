@@ -1,11 +1,60 @@
+const url = require('url')
 const logger = require('winston')
+const { authorized } = require('../util/auth')
+const { wrapper } = require('../util/wrapper')
+const { generateToken } = require('../util/token')
+const { getUID, getCustomer, getFeatureUniqueCount, insertNewUser } = require('../util/mongo-utility')
+
+const setupCookie = async (cookie) => {
+  if (!cookie) {
+    const timeStamp = new Date().getTime()
+    const token = generateToken(timeStamp)
+    logger.info('request to load event without cookie:', { cookie: token })
+    return token
+  } else {
+    try {
+      await authorized(cookie)
+      logger.info('request to load event with cookie success:', { cookie })
+      return cookie
+    } catch (e) {
+      logger.warn('request to load event with cookie fail:', { cookie })
+    }
+  }
+}
+
+const handleCustomerOnload = async (uid, customerCode, hostname) => {
+  var user = await wrapper(getUID)(uid, customerCode, hostname)
+  var customer = await wrapper(getCustomer)(customerCode, hostname)
+  if (!user) {
+    //  Get the user result from mongo and return the feature set
+    await wrapper(getFeatureUniqueCount)(customerCode, hostname, customer.features)
+    const sorter = function (a, b) {
+      if (a.count < b.count) {
+        return -1
+      }
+      if (a.count > b.count) {
+        return 1
+      }
+      return 0
+    }
+    for (let feature of customer.features) {
+      feature.types.sort(sorter)
+    }
+    user = await wrapper(insertNewUser)(uid, customerCode, hostname, customer.features)
+    user = user.ops[0]
+  }
+  return user
+}
 
 const initEvent = async (ctx) => {
+  const isMock = true
+  const hostname = url.parse(ctx.request.origin).hostname
   const { body } = ctx.request
   const { hashedUserId } = body
-  const { customerCode } = body
-  const responseString = 'function(a,b,c,d,e){a.ic=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://localhost:3000/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),ic("IC9-55938-5"' + ', "' + customerCode + '");'
-  const responseObj = {
+  const customerCode = body.customerCode
+  const cookie = setupCookie(body.useridentity.deviceCode)
+  const responseString = 'function(a,b,c,d,e){a.customerCode=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://localhost:3000/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),customerCode("' + customerCode + '", "' + hashedUserId + '");'
+  const responseObjMock = {
     'featureList': [
       {
         'name': 'Card-1',
@@ -18,7 +67,25 @@ const initEvent = async (ctx) => {
     ],
     'code': responseString
   }
-  ctx.body = responseObj
+  var user
+  try {
+    user = handleCustomerOnload(hashedUserId, customerCode, hostname)
+    logger.info('request to handle user feature success:', { hashedUserId, ip: ctx.request.ip })
+  } catch (e) {
+    ctx.throw(e.message, e.status)
+    logger.warn('request to handle user feature fail:', { hashedUserId, ip: ctx.request.ip })
+  }
+  const responseObj = {
+    enabledFeatures: user.features,
+    code: responseString,
+    cookie: cookie
+  }
+  if (isMock) {
+    ctx.body = responseObjMock
+  } else {
+    ctx.body = responseObj
+  }
+  ctx.status = 200
   logger.info('Responsed mock init event uid = ' + hashedUserId)
 }
 

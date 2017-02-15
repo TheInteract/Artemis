@@ -8,13 +8,13 @@ const handleMousemoveEvent = require('./events/mousemove')
 
 const baseUrl = process.env.COLLECTOR_BASE || 'http://localhost:3000/'
 
-function ic (...rest) {
+function customerCode (...rest) {
   const fetchObj = {
     fetch: new BrowserFetch(baseUrl),
-    uid: rest[0],
+    customerCode: rest[0],
   }
 
-  // TODO: map uid with web url.
+  // TODO: map ic with web url.
   window.addEventListener('load', handleLoadEvent.bind(fetchObj))
   window.addEventListener('click', handleClickEvent.bind(fetchObj))
   window.addEventListener('keydown', handleKeydownEvent.bind(fetchObj))
@@ -23,4 +23,4 @@ function ic (...rest) {
   window.addEventListener('mousemove', handleMousemoveEvent.bind(fetchObj))
 }
 
-ic(window.i)
+customerCode(window.i)
