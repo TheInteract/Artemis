@@ -3,8 +3,8 @@
 # Project Artemis
 
 [![Build Status](https://travis-ci.org/TheInteract/Artemis.svg?branch=master)](https://travis-ci.org/TheInteract/Artemis)
-[![Dependency Status](https://gemnasium.com/badges/github.com/TheInteract/collector.svg)](https://gemnasium.com/github.com/TheInteract/collector)
-[![Coverage Status](https://coveralls.io/repos/github/TheInteract/collector/badge.svg)](https://coveralls.io/github/TheInteract/collector)
+[![Dependency Status](https://gemnasium.com/badges/github.com/TheInteract/Artemis.svg)](https://gemnasium.com/github.com/TheInteract/Artemis)
+[![Coverage Status](https://coveralls.io/repos/github/TheInteract/Artemis/badge.svg?branch=master)](https://coveralls.io/github/TheInteract/Artemis?branch=master)
 
 Collector is a part of TheInteract project which is tracking user behavior based on javascript es6.
 
