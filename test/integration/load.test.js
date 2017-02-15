@@ -18,8 +18,7 @@ describe('Event load', () => {
     })
     it('POST /api/event/onload with authorization', (done) => {
       const req = request.post('/api/event/onload')
-      // req.header['Set-Cookie'] = 'collector_uuid=' + generateToken()
-      req.attachCookies('collector_uuid=' + generateToken())
+      req.cookies = 'collector_uuid=' + generateToken()
       req.send({ customerCode: 'TEST-1CA' })
         .end((err, res) => {
           expect(err).to.be.null
