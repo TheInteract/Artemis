@@ -26,7 +26,6 @@ async function identify (customerCode, hostname) {
 
   const clientCollectionName = config.mongo.collectionName.customer
   const client = await this.collection(clientCollectionName).findOne({ customerCode, hostname })
-
   if (!client) {
     throw new UnauthorizedError()
   }
@@ -39,23 +38,24 @@ async function identifyCustomer (ctx, next) {
   try {
     await wrapper(identify)(customerCode, hostname)
     logger.info('identify client success', { customerCode, hostname })
-    await next()
   } catch (e) {
     logger.error(`identify client(${customerCode}) fail`, { message: e.message })
     ctx.throw(e.message, e.status)
   }
+  next()
 }
 
 async function checkCookie (ctx, next) {
   const cookieName = config.get('cookie.name')
   const cookie = ctx.cookies.get(cookieName)
+  console.log(cookie)
   // TODO: if browser is disable a cookie, we should provide localStorage and set token with header
   try {
     await authorized(cookie)
-    await next()
   } catch (e) {
     ctx.throw(e.message, e.status)
   }
+  next()
 }
 
 module.exports = { authorized, identifyCustomer, checkCookie }

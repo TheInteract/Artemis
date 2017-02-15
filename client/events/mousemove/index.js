@@ -9,7 +9,7 @@ function handleMousemoveEvent (e) {
     prevTime = new Date()
     const data = pickProperties(e, PROPERTIES)
     data.customerCode = this.customerCode
-    this.fetch.post('/event/mousemove', data)
+    this.fetch.post('/event/onmousemove', data)
   }
 }
 

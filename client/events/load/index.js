@@ -4,7 +4,7 @@ const pickProperties = require('../../util/pickProperties')
 function handleLoadEvent (e) {
   const data = pickProperties(e, PROPERTIES)
   data.customerCode = this.customerCode
-  this.fetch.post('/event/load', data)
+  this.fetch.post('/event/onload', data)
     .then(response => {
       const enabledFeatures = response.enabledFeatures.map(feature => {
         return `[interact-feature="${feature.name}"]:not([interact-feature-type="${feature.type}"])`

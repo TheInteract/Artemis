@@ -4,7 +4,7 @@ const pickProperties = require('../../util/pickProperties')
 function handleKeydownEvent (e) {
   const data = pickProperties(e, PROPERTIES)
   data.customerCode = this.customerCode
-  this.fetch.post('/event/keydown', data)
+  this.fetch.post('/event/onkeydown', data)
 }
 
 module.exports = handleKeydownEvent
