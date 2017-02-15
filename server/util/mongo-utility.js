@@ -1,13 +1,13 @@
 const UnauthorizedError = require('../errors/unauthorized')
 const config = require('config')
 
-async function getUID (uid, customerCode, hostname) {
-  if (!uid || !customerCode || !hostname) {
+async function getUID (uid, cookie, customerCode, hostname) {
+  if (!uid || !cookie || !customerCode || !hostname) {
     throw new UnauthorizedError()
   }
 
   const userCollectionName = config.mongo.collectionName.user
-  const user = await this.collection(userCollectionName).findOne({ uid, customerCode, hostname })
+  const user = await this.collection(userCollectionName).findOne({ uid, cookie, customerCode, hostname })
 
   if (!user) {
     return false
@@ -29,30 +29,30 @@ async function getCustomer (customerCode, hostname) {
   return customer
 }
 
-async function getFeatureUniqueCount (customerCode, hostname, featureList) {
-  if (!customerCode || !hostname || !featureList) {
+async function getFeatureUniqueCount (customerCode, hostname, features) {
+  if (!customerCode || !hostname || !features) {
     throw new UnauthorizedError()
   }
 
   const userCollectionName = config.mongo.collectionName.user
-  for (let feature of featureList) {
-    for (let type of feature.types) {
-      type.count = await this.collection(userCollectionName).count({customerCode: customerCode, hostname: hostname, features: {$elemMatch: {name: feature.name, type: type.typeName}}})
+  for (let feature of features) {
+    for (let version of feature.versions) {
+      version.count = await this.collection(userCollectionName).count({customerCode: customerCode, hostname: hostname, features: {$elemMatch: {name: feature.name, version: version.version}}})
     }
   }
 }
 
-async function insertNewUser (uid, customerCode, hostname, featureList) {
-  if (!uid || !customerCode || !hostname || !featureList) {
+async function insertNewUser (uid, cookie, customerCode, hostname, featureList) {
+  if (!uid || !cookie || !customerCode || !hostname || !featureList) {
     throw new UnauthorizedError()
   }
 
   var calculatedFeature = []
   for (let feature of featureList) {
-    calculatedFeature.push({name: feature.name, type: feature.types[0].typeName})
+    calculatedFeature.push({name: feature.name, version: feature.versions[0].version})
   }
   const userCollectionName = config.mongo.collectionName.user
-  return await this.collection(userCollectionName).insert({uid: uid, customerCode: customerCode, hostname: hostname, features: calculatedFeature})
+  return await this.collection(userCollectionName).insert({uid: uid, cookie: cookie, customerCode: customerCode, hostname: hostname, features: calculatedFeature})
 }
 
 module.exports = { getUID, getCustomer, getFeatureUniqueCount, insertNewUser }

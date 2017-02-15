@@ -23,7 +23,7 @@ Collector is a part of TheInteract project which is tracking user behavior based
     - `use interact` - switch to interact db
     - `db.createCollection("customer")` - create customer collection
     - `db.createCollection("user")` - create user collection
-    - `db.customer.insert({"customerCode":"IC9-55938-5","hostname":"localhost","features":[{"name":"card-1","types":[{"typeName":"A","percent":0},{"typename":"B","percent":0}]},{"name":"card-2","types":[{"typeName":"A","percent":0},{"typename":"B","percent":0}]}]})` - insert initiate data to `user` collection
+    - `db.customer.insert({"customerCode":"IC9-55938-5","hostname":"localhost","features":[{"name":"card-1","versions":[{"version":"A","percent":0},{"version":"B","percent":0}]},{"name":"card-2","versions":[{"version":"A","percent":0},{"version":"B","percent":0}]}]})` - insert initiate data to `user` collection
     - `exit`- exit from mongo command
 5. `npm run example` - start demo page 
     - access to demo page with `localhost:9999`
