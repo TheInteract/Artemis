@@ -1,4 +1,4 @@
-class InvaidArgumentError extends Error {
+class InvalidArgumentError extends Error {
   constructor () {
     super()
     this.message = 'Invalid argument'
@@ -6,4 +6,4 @@ class InvaidArgumentError extends Error {
   }
 }
 
-module.exports = InvaidArgumentError
+module.exports = InvalidArgumentError
