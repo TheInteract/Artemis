@@ -45,6 +45,7 @@ describe('identify()', () => {
     try {
       await wrapper(auth.identify)()
     } catch (e) {
+      console.log(e)
       expect(e).to.be.instanceOf(InvalidArgumentError)
     }
   })
@@ -52,6 +53,7 @@ describe('identify()', () => {
     try {
       await wrapper(auth.identify)('test', 'test')
     } catch (e) {
+      console.log(e)
       expect(e).to.be.instanceOf(UnauthorizedError)
     }
   })
