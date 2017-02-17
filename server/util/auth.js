@@ -1,4 +1,5 @@
 const UnauthorizedError = require('../errors/unauthorized')
+const InvalidArgumentError = require('../errors/invalid-argument')
 const { split } = require('lodash')
 const token = require('./token')
 const { wrapper } = require('./wrapper')
@@ -8,7 +9,7 @@ const logger = require('winston')
 
 async function authorized (cookie) {
   if (cookie === undefined) {
-    throw new UnauthorizedError()
+    throw new InvalidArgumentError()
   }
 
   const timeStamp = split(cookie, ':', 2)[0]
@@ -21,7 +22,7 @@ async function authorized (cookie) {
 
 async function identify (customerCode, hostname) {
   if (!customerCode) {
-    throw new UnauthorizedError()
+    throw new InvalidArgumentError()
   }
 
   const clientCollectionName = config.mongo.collectionName.customer
@@ -48,7 +49,6 @@ async function identifyCustomer (ctx, next) {
 async function checkCookie (ctx, next) {
   const cookieName = config.get('cookie.name')
   const cookie = ctx.cookies.get(cookieName)
-  console.log(cookie)
   // TODO: if browser is disable a cookie, we should provide localStorage and set token with header
   try {
     await authorized(cookie)
@@ -58,4 +58,4 @@ async function checkCookie (ctx, next) {
   next()
 }
 
-module.exports = { authorized, identifyCustomer, checkCookie }
+module.exports = { authorized, identify, identifyCustomer, checkCookie }

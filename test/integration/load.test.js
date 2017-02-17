@@ -26,7 +26,7 @@ describe('Event load', () => {
           done()
         })
     })
-    it('POST /api/event/load with unauthorization')
+    it('POST /api/event/onload with unauthorization')
     it('called load event and store to redis')
   })
   describe('client', () => {

@@ -2,7 +2,10 @@ const chai = require('chai')
 const sinon = require('sinon')
 const auth = require('../util/auth')
 const token = require('../util/token')
+const mongodb = require('../util/mongodb')
+const { wrapper } = require('../util/wrapper')
 const UnauthorizedError = require('../errors/unauthorized')
+const InvalidArgumentError = require('../errors/invalid-argument')
 
 const expect = chai.expect
 
@@ -32,13 +35,30 @@ describe('authorized()', () => {
     try {
       await auth.authorized()
     } catch (e) {
-      expect(e).be.instanceOf(UnauthorizedError)
+      expect(e).be.instanceOf(InvalidArgumentError)
     }
   })
 })
 
 describe('identify()', () => {
-  it('called without uuid')
-  it('called with invalid uuid and hostname')
-  it('called with valid uuid and hostname')
+  it('called without argument', async () => {
+    try {
+      await wrapper(auth.identify)()
+    } catch (e) {
+      expect(e).to.be.instanceOf(InvalidArgumentError)
+    }
+  })
+  it('called with invalid uuid and hostname', async () => {
+    try {
+      await wrapper(auth.identify)('test', 'test')
+    } catch (e) {
+      expect(e).to.be.instanceOf(UnauthorizedError)
+    }
+  })
+  it('called with valid uuid and hostname', async () => {
+    sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ findOne: () => true }), close: () => {} })
+    const result = await wrapper(auth.identify)('test', 'test')
+    mongodb.connectDB.restore()
+    expect(result).to.be.true
+  })
 })
