@@ -21,7 +21,7 @@ async function authorized (cookie) {
 }
 
 async function identify (customerCode, hostname) {
-  if (!customerCode) {
+  if (!customerCode || !hostname) {
     throw new InvalidArgumentError()
   }
 
