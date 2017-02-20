@@ -19,7 +19,7 @@ const setupCookie = async (cookie) => {
       return cookie
     } catch (e) {
       logger.warn('request to load event with cookie fail:', { cookie })
-      return setupCookie()
+      return await setupCookie()
     }
   }
 }
@@ -40,17 +40,20 @@ const sortFeatureByCount = async (features) => {
 }
 
 const handleCustomerOnload = async (uid, cookie, customerCode, hostname) => {
-  var user = await wrapper(getUID)(uid, cookie, customerCode, hostname)
-  var customer = await wrapper(getCustomer)(customerCode, hostname)
+  let user = await wrapper(getUID)(uid, cookie, customerCode, hostname)
+  let customer = await wrapper(getCustomer)(customerCode, hostname)
   if (!customer) {
     throw new UnauthorizedError()
   }
   if (!user) {
+    logger.info('handle customer: user not found')
     //  Get the user result from mongo and return the feature set
     await wrapper(getFeatureUniqueCount)(customerCode, hostname, customer.features)
     await sortFeatureByCount(customer.features)
     user = await wrapper(insertNewUser)(uid, cookie, customerCode, hostname, customer.features)
     user = user.ops[0]
+  } else {
+    logger.info('handle customer: user found')
   }
   return user
 }

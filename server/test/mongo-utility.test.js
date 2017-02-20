@@ -105,8 +105,8 @@ describe('Mongo utility', () => {
       mongodb.connectDB.restore()
     })
     it('should return a feature count equal to four when called with valid argument', async () => {
-      var featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
-      var result = true
+      let featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
+      let result = true
       await wrapper(utility.getFeatureUniqueCount)('customer', 'host', featureList)
       for (let feature of featureList) {
         for (let version of feature.versions) {
@@ -149,23 +149,23 @@ describe('Mongo utility', () => {
         }
       })
       it('should return a user when called with a valid argument (both uid and cookie)', async () => {
-        var featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
+        let featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
         const result = await wrapper(utility.insertNewUser)('this is uid', 'this is cookie', 'code', 'host', featureList)
         expect(result).to.be.true
       })
       it('should return a user when called with a valid argument (only uid)', async () => {
-        var featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
+        let featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
         const result = await wrapper(utility.insertNewUser)('this is uid', undefined, 'code', 'host', featureList)
         expect(result).to.be.true
       })
       it('should return a user when called with a valid argument (only cookie)', async () => {
-        var featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
+        let featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
         const result = await wrapper(utility.insertNewUser)(undefined, 'this is cookie', 'code', 'host', featureList)
         expect(result).to.be.true
       })
       it('should throw error when called with invalid argument', async () => {
         try {
-          var featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
+          let featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
           await wrapper(utility.insertNewUser)('this is uid', 'this is cookie', undefined, 'host', featureList)
         } catch (e) {
           expect(e).to.be.instanceOf(InvalidArgumentError)
@@ -180,7 +180,7 @@ describe('Mongo utility', () => {
       it('should return a user when called with a valid record', async () => {
         const mockObject = { 'test': 'test' }
         sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ insert: () => mockObject }), close: () => {} })
-        var featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
+        let featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
         const result = await wrapper(utility.insertNewUser)('this is uid', 'this is cookie', 'code', 'host', featureList)
         expect(result).to.be.an('object')
       })

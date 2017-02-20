@@ -43,7 +43,7 @@ async function identifyCustomer (ctx, next) {
     logger.error(`identify client(${customerCode}) fail`, { message: e.message })
     ctx.throw(e.message, e.status)
   }
-  next()
+  await next()
 }
 
 async function checkCookie (ctx, next) {
@@ -55,7 +55,7 @@ async function checkCookie (ctx, next) {
   } catch (e) {
     ctx.throw(e.message, e.status)
   }
-  next()
+  await next()
 }
 
 module.exports = { authorized, identify, identifyCustomer, checkCookie }

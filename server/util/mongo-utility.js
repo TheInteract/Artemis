@@ -51,7 +51,7 @@ async function insertNewUser (uid, cookie, customerCode, hostname, featureList) 
     throw new InvalidArgumentError()
   }
 
-  var calculatedFeature = []
+  let calculatedFeature = []
   try {
     for (let feature of featureList) {
       calculatedFeature.push({name: feature.name, version: feature.versions[0].version})
