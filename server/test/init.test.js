@@ -30,10 +30,13 @@ describe('Init unit testing', () => {
 
   describe('handleCustomerOnload()', () => {
     it('Should return error if input with invalid argument', async () => {
+      sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ findOne: () => null }), close: () => {} })
       try {
         await handleCustomerOnload(undefined, undefined, 'test', 'test')
       } catch (e) {
         expect(e).to.be.instanceOf(InvalidArgumentError)
+      } finally {
+        mongodb.connectDB.restore()
       }
     })
     it('Should return user if user record is found', async () => {

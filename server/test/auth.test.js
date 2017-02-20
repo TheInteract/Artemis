@@ -42,8 +42,9 @@ describe('authorized()', () => {
 
 describe('identify()', () => {
   before(() => {
-    sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ findOne: () => null }), close: () => {} })
-    sinon.stub(mongodb, 'connectDB').onCall(3).returns({ collection: () => ({ findOne: () => true }), close: () => {} })
+    const tempStub = sinon.stub(mongodb, 'connectDB')
+    tempStub.onCall(2).returns({ collection: () => ({ findOne: () => true }), close: () => {} })
+    tempStub.returns({ collection: () => ({ findOne: () => null }), close: () => {} })
   })
   after(() => {
     mongodb.connectDB.restore()
@@ -64,7 +65,6 @@ describe('identify()', () => {
   })
   it('called with valid uuid and hostname', async () => {
     const result = await wrapper(auth.identify)('test', 'test')
-    mongodb.connectDB.restore()
     expect(result).to.be.true
   })
 })
