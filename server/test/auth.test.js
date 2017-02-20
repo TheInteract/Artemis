@@ -41,11 +41,17 @@ describe('authorized()', () => {
 })
 
 describe('identify()', () => {
+  before(() => {
+    sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ findOne: () => null }), close: () => {} })
+    sinon.stub(mongodb, 'connectDB').onCall(3).returns({ collection: () => ({ findOne: () => true }), close: () => {} })
+  })
+  after(() => {
+    mongodb.connectDB.restore()
+  })
   it('called without argument', async () => {
     try {
       await wrapper(auth.identify)()
     } catch (e) {
-      console.log(e)
       expect(e).to.be.instanceOf(InvalidArgumentError)
     }
   })
@@ -53,12 +59,10 @@ describe('identify()', () => {
     try {
       await wrapper(auth.identify)('test', 'test')
     } catch (e) {
-      console.log(e)
       expect(e).to.be.instanceOf(UnauthorizedError)
     }
   })
   it('called with valid uuid and hostname', async () => {
-    sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ findOne: () => true }), close: () => {} })
     const result = await wrapper(auth.identify)('test', 'test')
     mongodb.connectDB.restore()
     expect(result).to.be.true
