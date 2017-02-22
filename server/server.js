@@ -9,6 +9,7 @@ const bodyParser = require('koa-bodyparser')
 
 const app = module.exports = new Koa()
 
+app.proxy = true
 app.use(cros({
   credentials: true,
 }))
