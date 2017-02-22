@@ -1,12 +1,11 @@
 const chai = require('chai')
 const sinon = require('sinon')
 const auth = require('../util/auth')
-const { initEvent } = require('../events/init')
 const mongodb = require('../util/mongodb')
-const InvalidArgumentError = require('../errors/invalid-argument')
+const initUtil = require('../util/init/init-utility')
 const UnauthorizedError = require('../errors/unauthorized')
-const initUtil = require('../util/init-utility')
-
+const InvalidArgumentError = require('../errors/invalid-argument')
+const addFunction = require('../util/init/add-existing-feature')
 const expect = chai.expect
 
 describe('Init unit testing', () => {
@@ -39,13 +38,6 @@ describe('Init unit testing', () => {
         mongodb.connectDB.restore()
       }
     })
-    it('Should return user if user record is found', async () => {
-      const mockObject = { 'test': 'test' }
-      sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ findOne: () => mockObject }), close: () => {} })
-      const result = await initUtil.handleCustomerOnload('test', 'test', 'test', 'test')
-      mongodb.connectDB.restore()
-      expect(result).to.be.equal(mockObject)
-    })
     it('Should return error if user and customer record are not found', async () => {
       sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ findOne: () => null }), close: () => {} })
       try {
@@ -56,6 +48,24 @@ describe('Init unit testing', () => {
         mongodb.connectDB.restore()
       }
     })
+    it('Should return user if user record is found', async () => {
+      const mockObject = { ops: [ true ] }
+      let mockCustomer = {'customerCode': 'IC9-55938-5', 'hostname': 'localhost', 'features': [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]}
+      const tempStub = sinon.stub(mongodb, 'connectDB')
+      tempStub.onCall(0).returns({ collection: () => ({ findOne: () => mockObject }), close: () => {} })
+      tempStub.onCall(1).returns({ collection: () => ({ findOne: () => mockCustomer }), close: () => {} })
+      tempStub.returns({ collection: () => ({ count: () => 1 }), close: () => {} })
+      sinon.stub(addFunction, 'addFeatureToExistingUser').returns(mockObject)
+      try {
+        const result = await initUtil.handleCustomerOnload('test', 'test', 'test', 'test')
+        expect(result).to.be.equal(mockObject)
+      } catch (e) {
+        throw e
+      } finally {
+        mongodb.connectDB.restore()
+        addFunction.addFeatureToExistingUser.restore()
+      }
+    })
     it('Should return user if input new user and valid customer', async () => {
       const tempStub = sinon.stub(mongodb, 'connectDB')
       let mockCustomer = {'customerCode': 'IC9-55938-5', 'hostname': 'localhost', 'features': [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]}
@@ -63,9 +73,14 @@ describe('Init unit testing', () => {
       tempStub.onCall(0).returns({ collection: () => ({ findOne: () => null }), close: () => {} })
       tempStub.onCall(1).returns({ collection: () => ({ findOne: () => mockCustomer }), close: () => {} })
       tempStub.returns({ collection: () => ({ insert: () => mockNewUser, count: () => 1 }), close: () => {} })
-      const result = await initUtil.handleCustomerOnload('test', 'test', 'test', 'test')
-      mongodb.connectDB.restore()
-      expect(result).to.be.equal('test')
+      try {
+        const result = await initUtil.handleCustomerOnload('test', 'test', 'test', 'test')
+        expect(result).to.be.equal('test')
+      } catch (e) {
+        throw e
+      } finally {
+        mongodb.connectDB.restore()
+      }
     })
   })
 
@@ -87,16 +102,19 @@ describe('Init unit testing', () => {
     })
   })
 
-  describe('init()', () => {
-    const mockContext = {}
-    before(() => {
-      let mockUser = {'uid': '1487135983512:e0b8f93c88dafdc7a7933542fe7d2e33be54788bfb8ba9df739ecf9e2097643a7ff6c13ac0cea8c9961f4afa3be4efcf4750464a32ebcaadc8242971776f43d6a', 'customerCode': 'IC9-55938-5', 'hostname': 'localhost', 'features': [ {'name': 'card-1', 'version': 'A'}, {'name': 'card-2', 'version': 'A'} ]}
-      sinon.stub(initUtil, 'handleCustomerOnload').returns(mockUser)
-    })
-    after(() => {
-      initUtil.handleCustomerOnload.restore()
-    })
-    it('Should return error if feature is in wrong format', async () => {
-    })
-  })
+  // Move to be integration test
+  // describe('init()', () => {
+  //   before(() => {
+  //     let mockUser = {'uid': '1487135983512:e0b8f93c88dafdc7a7933542fe7d2e33be54788bfb8ba9df739ecf9e2097643a7ff6c13ac0cea8c9961f4afa3be4efcf4750464a32ebcaadc8242971776f43d6a', 'customerCode': 'IC9-55938-5', 'hostname': 'localhost', 'features': [ {'name': 'card-1', 'version': 'A'}, {'name': 'card-2', 'version': 'A'} ]}
+  //     sinon.stub(initUtil, 'handleCustomerOnload').returns(Promise.resolve(mockUser))
+  //   })
+  //   after(() => {
+  //     initUtil.handleCustomerOnload.restore()
+  //   })
+  //   it('Should return cookie if put in nothing', async () => {
+  //     let mockContext = {}
+  //     initEvent(mockContext)
+  //     expect(mockContext.body).to.be.not.undefined
+  //   })
+  // })
 })

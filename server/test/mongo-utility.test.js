@@ -136,7 +136,8 @@ describe('Mongo utility', () => {
   describe('insertNewUser()', () => {
     describe('Input validation', () => {
       before(() => {
-        sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ insert: () => true }), close: () => {} })
+        const mockInsert = {ops: [ true ]}
+        sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ insert: () => mockInsert }), close: () => {} })
       })
       after(() => {
         mongodb.connectDB.restore()
@@ -178,11 +179,11 @@ describe('Mongo utility', () => {
         mongodb.connectDB.restore()
       })
       it('should return a user when called with a valid record', async () => {
-        const mockObject = { 'test': 'test' }
+        const mockObject = { ops: [ true ] }
         sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ insert: () => mockObject }), close: () => {} })
         let featureList = [ {'name': 'card-1', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]}, {'name': 'card-2', 'versions': [ {'version': 'A', 'percent': 0}, {'version': 'B', 'percent': 0} ]} ]
         const result = await wrapper(utility.insertNewUser)('this is uid', 'this is cookie', 'code', 'host', featureList)
-        expect(result).to.be.an('object')
+        expect(result).to.be.true
       })
       it('should return undefined when called with a invalid record', async () => {
         sinon.stub(mongodb, 'connectDB').returns({ collection: () => ({ insert: () => null }), close: () => {} })

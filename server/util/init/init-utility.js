@@ -1,10 +1,11 @@
 const logger = require('winston')
-const { authorized } = require('./auth')
-const { wrapper } = require('./wrapper')
-const { generateToken } = require('./token')
-const UnauthorizedError = require('../errors/unauthorized')
-const InvalidArgumentError = require('../errors/invalid-argument')
-const { getUID, getCustomer, getFeatureUniqueCount, insertNewUser } = require('./mongo-utility')
+const { authorized } = require('../auth')
+const { wrapper } = require('../wrapper')
+const { generateToken } = require('../token')
+const UnauthorizedError = require('../../errors/unauthorized')
+const InvalidArgumentError = require('../../errors/invalid-argument')
+const { getUID, getCustomer, getFeatureUniqueCount, insertNewUser, updateUser } = require('../mongo-utility')
+const addFunction = require('./add-existing-feature')
 
 const setupCookie = async (cookie) => {
   if (!cookie) {
@@ -45,14 +46,14 @@ const handleCustomerOnload = async (uid, cookie, customerCode, hostname) => {
   if (!customer) {
     throw new UnauthorizedError()
   }
+  await wrapper(getFeatureUniqueCount)(customerCode, hostname, customer.features)
+  await sortFeatureByCount(customer.features)
   if (!user) {
     logger.info('handle customer: user not found')
     //  Get the user result from mongo and return the feature set
-    await wrapper(getFeatureUniqueCount)(customerCode, hostname, customer.features)
-    await sortFeatureByCount(customer.features)
     user = await wrapper(insertNewUser)(uid, cookie, customerCode, hostname, customer.features)
-    user = user.ops[0]
   } else {
+    user = await addFunction.addFeatureToExistingUser(user, customer)
     logger.info('handle customer: user found')
   }
   return user

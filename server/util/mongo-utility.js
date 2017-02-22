@@ -65,7 +65,21 @@ async function insertNewUser (uid, cookie, customerCode, hostname, featureList) 
   if (!user) {
     return undefined
   }
-  return user
+  return user.ops[0]
 }
 
-module.exports = { getUID, getCustomer, getFeatureUniqueCount, insertNewUser }
+async function updateUser (uid, cookie, customerCode, hostname, featureList) {
+  if ((!uid && !cookie) || !customerCode || !hostname || !featureList) {
+    throw new InvalidArgumentError()
+  }
+
+  const userCollectionName = config.mongo.collectionName.user
+  const user = await this.collection(userCollectionName).findOneAndUpdate({uid: uid, cookie: cookie, customerCode: customerCode, hostname: hostname}, {$set: {features: featureList}}, {returnNewDocument: true})
+  if (!user) {
+    return undefined
+  }
+  console.log(user)
+  return user.value
+}
+
+module.exports = { getUID, getCustomer, getFeatureUniqueCount, insertNewUser, updateUser }

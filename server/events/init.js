@@ -1,6 +1,6 @@
 const url = require('url')
 const logger = require('winston')
-const { setupCookie, handleCustomerOnload } = require('../util/init-utility')
+const { setupCookie, handleCustomerOnload, addFeatureToExistingUser } = require('../util/init/init-utility')
 
 const initEvent = async (ctx) => {
   const isMock = false
@@ -14,7 +14,7 @@ const initEvent = async (ctx) => {
   const responseObjMock = {'featureList': [ {'name': 'Card-1', 'version': 'A'}, {'name': 'Card-2', 'version': 'B'} ], 'deviceCode': 'test', 'initCode': responseString}
   let user
   try {
-    user = await handleCustomerOnload(hashedUserId, cookie, customerCode, hostname)
+    user = await handleCustomerOnload(hashedUserId, cookie, customerCode, hostname, addFeatureToExistingUser)
     logger.info('request to handle user\'s feature list success:', { cookie, ip: ctx.request.ip })
   } catch (e) {
     ctx.throw(e.message, e.status)
