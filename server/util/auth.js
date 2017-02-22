@@ -38,7 +38,7 @@ async function identifyCustomer (ctx, next) {
   const hostname = ctx.request.headers['x-forwarded-for'] || url.parse(ctx.request.origin).hostname
   const { customerCode } = ctx.request.body
   logger.info('Identify header: ', ctx.request.headers['x-forwarded-for'])
-  logger.info('Identify header[0]: ', ctx.request.headers['x-forwarded-for'][0])
+  logger.info('Identify header[0]: ', (ctx.request.headers['x-forwarded-for'] || [])[0])
   logger.info('Identify origin: ', url.parse(ctx.request.origin).hostname)
   logger.info('Identify context ip: ', ctx.request.ip)
   try {
