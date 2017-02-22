@@ -3,8 +3,8 @@ const pickProperties = require('../../util/pickProperties')
 
 function handleScrollEvent (e) {
   const data = pickProperties(e, PROPERTIES)
-  data.uid = this.uid
-  this.fetch.post('/event/scroll', data)
+  data.customerCode = this.customerCode
+  this.fetch.post('/event/onscroll', data)
 }
 
 module.exports = handleScrollEvent

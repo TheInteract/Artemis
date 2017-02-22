@@ -3,8 +3,8 @@ const pickProperties = require('../../util/pickProperties')
 
 function handleResizeEvent (e) {
   const data = pickProperties(e, PROPERTIES)
-  data.uid = this.uid
-  this.fetch.post('/event/resize', data)
+  data.customerCode = this.customerCode
+  this.fetch.post('/event/onresize', data)
 }
 
 module.exports = handleResizeEvent

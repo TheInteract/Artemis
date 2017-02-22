@@ -10,7 +10,7 @@ describe('Browser Fetch', () => {
   describe('getOptions()', () => {
     const baseUrl = 'localhost'
     const headers = { authorization: 'hmac test:token' }
-    const path = '/events/click'
+    const path = '/events/onclick'
     let fetch
     before(() => {
       fetch = new BrowserFetch(baseUrl, headers)

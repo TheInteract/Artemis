@@ -1,9 +1,9 @@
 module.exports = {
-  load: require('./load'),
-  click: require('./click'),
-  keydown: require('./keydown'),
-  scroll: require('./scroll'),
-  resize: require('./resize'),
-  mousemove: require('./mousemove'),
-  init: require('./init')
+  onload: require('./load'),
+  onclick: require('./click'),
+  onkeydown: require('./keydown'),
+  onscroll: require('./scroll'),
+  onresize: require('./resize'),
+  onmousemove: require('./mousemove'),
+  oninit: require('./init')
 }

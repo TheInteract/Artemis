@@ -1,54 +1,17 @@
-const { generateToken } = require('../util/token')
-const { authorized } = require('../util/auth')
-const logger = require('winston')
 const config = require('config')
 const omit = require('lodash/omit')
 const store = require('../util/store')
 
-const setupClient = async (ctx, next) => {
+const loadEvent = async (ctx) => {
   const cookieName = config.get('cookie.name')
-  const cookie = ctx.cookies.get(cookieName)
+  const uid = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
+  const { body } = ctx.request
+  const { customerCode } = body
 
-  if (!cookie) {
-    const timeStamp = new Date().getTime()
-    const token = generateToken(timeStamp)
-    ctx.cookies.set(cookieName, token)
-    ctx.state.tmpCookie = token
-    logger.info('request to load event without cookie:', { cookie: token, ip: ctx.request.ip })
-  } else {
-    try {
-      await authorized(cookie)
-      logger.info('request to load event with cookie success:', { cookie, ip: ctx.request.ip })
-    } catch (e) {
-      ctx.throw(e.message, e.status)
-      logger.warn('request to load evnet with cookie fail:', { cookie, ip: ctx.request.ip })
-    }
-  }
-  await next()
+  const rest = omit(body, [ 'customerCode' ])
+
+  await store.save(customerCode, uid, rest, 'load')
   ctx.status = 200
 }
 
-const handleEvent = async (ctx) => {
-  const cookieName = config.get('cookie.name')
-  const cookie = ctx.cookies.get(cookieName) || ctx.state.tmpCookie
-  const { body } = ctx.request
-  const { uid } = body
-  const rest = omit(body, [ 'uid' ])
-  //await store.save(uid, cookie, rest, 'load')
-  const responseObj = {
-    "uid": 'testUID',
-    "enabledFeatures": [
-      {
-        "name": "card-1",
-        "type": "A"
-      },
-      {
-        "name": "card-2",
-        "type": "B"
-      }
-    ]
-  }
-  ctx.body = responseObj
-}
-
-module.exports = { handleEvent, setupClient }
+module.exports = { loadEvent }

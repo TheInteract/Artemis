@@ -3,8 +3,8 @@ const pickProperties = require('../../util/pickProperties')
 
 function handleClickEvent (e) {
   const data = pickProperties(e, PROPERTIES)
-  data.uid = this.uid
-  this.fetch.post('/event/click', data)
+  data.customerCode = this.customerCode
+  this.fetch.post('/event/onclick', data)
 }
 
 module.exports = handleClickEvent
