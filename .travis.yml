@@ -24,7 +24,7 @@ deploy:
   skip_cleanup: true
   script: kubectl --namespace "$ENV" patch deployment collector-server -p'{"spec":{"template":{"spec":{"containers":[{"name":"collector-server","image":"chinclubi/collector:'$TRAVIS_BUILD_NUMBER'"}]}}}}'
   on:
-    branch: master
+    all_branches: true
 before_install:
 - openssl aes-256-cbc -K $encrypted_31c96b1e8904_key -iv $encrypted_31c96b1e8904_iv
   -in deploy-secret.json.enc -out deploy-secret.json -d

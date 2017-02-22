@@ -35,7 +35,7 @@ async function identify (customerCode, hostname) {
 }
 
 async function identifyCustomer (ctx, next) {
-  const hostname = url.parse(ctx.request.origin).hostname
+  const hostname = ctx.request.headers['x-forwarded-for'] || url.parse(ctx.request.origin).hostname
   const { customerCode } = ctx.request.body
   logger.info('Identify: ', hostname, ctx.request.body)
   try {
