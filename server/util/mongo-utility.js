@@ -78,7 +78,6 @@ async function updateUser (uid, cookie, customerCode, hostname, featureList) {
   if (!user) {
     return undefined
   }
-  console.log(user)
   return user.value
 }
 

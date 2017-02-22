@@ -4,7 +4,7 @@ const { wrapper } = require('../wrapper')
 const { generateToken } = require('../token')
 const UnauthorizedError = require('../../errors/unauthorized')
 const InvalidArgumentError = require('../../errors/invalid-argument')
-const { getUID, getCustomer, getFeatureUniqueCount, insertNewUser, updateUser } = require('../mongo-utility')
+const { getUID, getCustomer, getFeatureUniqueCount, insertNewUser } = require('../mongo-utility')
 const addFunction = require('./add-existing-feature')
 
 const setupCookie = async (cookie) => {
