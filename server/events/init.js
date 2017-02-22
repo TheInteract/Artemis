@@ -7,7 +7,7 @@ const initEvent = async (ctx) => {
   const { body } = ctx.request
   const customerCode = body.customerCode
   const { hashedUserId } = body.userIdentity || {}
-  const hostname = ctx.request.headers['x-forwarded-for'] || url.parse(ctx.request.origin).hostname
+  const hostname = ctx.request.ip
   const cookie = await setupCookie((body.userIdentity || {}).deviceCode)
   logger.info('init: ', ctx.request.body)
   // const responseString = 'function(a,b,c,d,e){a.customerCode=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://localhost:3000/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),customerCode("' + customerCode + '", "' + hashedUserId + '");'
