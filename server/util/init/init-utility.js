@@ -5,7 +5,7 @@ const { generateToken } = require('../token')
 const UnauthorizedError = require('../../errors/unauthorized')
 const InvalidArgumentError = require('../../errors/invalid-argument')
 const { getUID, getCustomer, getFeatureUniqueCount, insertNewUser } = require('../mongo-utility')
-const addFunction = require('./add-existing-feature')
+const addFunction = require('./featureManipulator')
 
 const setupCookie = async (cookie) => {
   if (!cookie) {
@@ -53,8 +53,8 @@ const handleCustomerOnload = async (uid, cookie, customerCode, hostname) => {
     //  Get the user result from mongo and return the feature set
     user = await wrapper(insertNewUser)(uid, cookie, customerCode, hostname, customer.features)
   } else {
-    user = await addFunction.addFeatureToExistingUser(user, customer)
     logger.info('handle customer: user found')
+    user = await addFunction.syncFeatureList(user, customer)
   }
   return user
 }

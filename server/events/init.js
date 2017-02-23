@@ -9,7 +9,6 @@ const initEvent = async (ctx) => {
   const { hashedUserId } = body.userIdentity || {}
   const hostname = ctx.request.ip
   const cookie = await setupCookie((body.userIdentity || {}).deviceCode)
-  logger.info('init: ', ctx.request.body)
   // const responseString = 'function(a,b,c,d,e){a.customerCode=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://localhost:3000/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),customerCode("' + customerCode + '", "' + hashedUserId + '");'
   const responseString = 'console.log(\'Hello I\\\'m interact\')'
   const responseObjMock = {'featureList': [ {'name': 'Card-1', 'version': 'A'}, {'name': 'Card-2', 'version': 'B'} ], 'deviceCode': 'test', 'initCode': responseString}
