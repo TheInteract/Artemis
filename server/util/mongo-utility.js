@@ -74,7 +74,7 @@ async function updateUser (uid, cookie, customerCode, hostname, featureList) {
   }
 
   const userCollectionName = config.mongo.collectionName.user
-  const user = await this.collection(userCollectionName).findOneAndUpdate({uid: uid, cookie: cookie, customerCode: customerCode, hostname: hostname}, {$set: {features: featureList}}, {returnNewDocument: true})
+  const user = await this.collection(userCollectionName).findOneAndUpdate({uid: uid, cookie: cookie, customerCode: customerCode, hostname: hostname}, {$set: {features: featureList}}, {returnOriginal: false})
   if (!user) {
     return undefined
   }

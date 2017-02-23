@@ -5,7 +5,7 @@ const mongodb = require('../util/mongodb')
 const initUtil = require('../util/init/init-utility')
 const UnauthorizedError = require('../errors/unauthorized')
 const InvalidArgumentError = require('../errors/invalid-argument')
-const addFunction = require('../util/init/add-existing-feature')
+const addFunction = require('../util/init/featureManipulator')
 const expect = chai.expect
 
 describe('Init unit testing', () => {
@@ -55,7 +55,7 @@ describe('Init unit testing', () => {
       tempStub.onCall(0).returns({ collection: () => ({ findOne: () => mockObject }), close: () => {} })
       tempStub.onCall(1).returns({ collection: () => ({ findOne: () => mockCustomer }), close: () => {} })
       tempStub.returns({ collection: () => ({ count: () => 1 }), close: () => {} })
-      sinon.stub(addFunction, 'addFeatureToExistingUser').returns(mockObject)
+      sinon.stub(addFunction, 'syncFeatureList').returns(mockObject)
       try {
         const result = await initUtil.handleCustomerOnload('test', 'test', 'test', 'test')
         expect(result).to.be.equal(mockObject)
@@ -63,7 +63,7 @@ describe('Init unit testing', () => {
         throw e
       } finally {
         mongodb.connectDB.restore()
-        addFunction.addFeatureToExistingUser.restore()
+        addFunction.syncFeatureList.restore()
       }
     })
     it('Should return user if input new user and valid customer', async () => {

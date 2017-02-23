@@ -4,7 +4,6 @@ const { split } = require('lodash')
 const token = require('./token')
 const { wrapper } = require('./wrapper')
 const config = require('config')
-const url = require('url')
 const logger = require('winston')
 
 async function authorized (cookie) {
@@ -27,7 +26,6 @@ async function identify (customerCode, hostname) {
 
   const clientCollectionName = config.mongo.collectionName.customer
   const client = await this.collection(clientCollectionName).findOne({ customerCode, hostname })
-  logger.info('DB identify = ', client)
   if (!client) {
     throw new UnauthorizedError()
   }
@@ -35,9 +33,9 @@ async function identify (customerCode, hostname) {
 }
 
 async function identifyCustomer (ctx, next) {
-  const hostname = url.parse(ctx.request.origin).hostname
+  const hostname = ctx.request.ip
   const { customerCode } = ctx.request.body
-  logger.info('Identify: ', hostname, ctx.request.body)
+  logger.info('Identify context ip: ', ctx.request.ip)
   try {
     await wrapper(identify)(customerCode, hostname)
     logger.info('identify client success', { customerCode, hostname })
