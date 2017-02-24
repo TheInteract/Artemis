@@ -19,6 +19,19 @@ async function authorized (cookie) {
   return true
 }
 
+async function hashAuthorized (cookie) {
+  if (cookie === undefined) {
+    throw new InvalidArgumentError()
+  }
+
+  const hash = split(cookie, ':', 2)[0]
+  // TODO: check token from database
+  if (token.generateHashToken(hash) !== cookie) {
+    throw new UnauthorizedError()
+  }
+  return true
+}
+
 async function identify (customerCode, hostname) {
   if (!customerCode || !hostname) {
     throw new InvalidArgumentError()
@@ -58,4 +71,4 @@ async function checkCookie (ctx, next) {
   await next()
 }
 
-module.exports = { authorized, identify, identifyCustomer, checkCookie }
+module.exports = { authorized, hashAuthorized, identify, identifyCustomer, checkCookie }

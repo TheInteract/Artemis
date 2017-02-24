@@ -8,4 +8,10 @@ function generateToken (timeStamp) {
   return `${timeStamp}:${token}`
 }
 
-module.exports = { generateToken }
+function generateHashToken (userHash) {
+  const hash = crypto.createHmac('sha512', config.get('secret.userKey')).update(String(userHash))
+  const token = hash.digest('hex')
+  return `${userHash}:${token}`
+}
+
+module.exports = { generateToken, generateHashToken }
