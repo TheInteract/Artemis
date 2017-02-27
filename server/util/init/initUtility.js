@@ -1,11 +1,11 @@
 const logger = require('winston')
-const { authorized, hashAuthorized } = require('../auth')
-const { wrapper } = require('../wrapper')
-const { generateToken, generateHashToken } = require('../token')
-const UnauthorizedError = require('../../errors/unauthorized')
-const InvalidArgumentError = require('../../errors/invalid-argument')
-const { getUID, getCustomer, getFeatureUniqueCount, insertNewUser } = require('../mongo-utility')
 const addFunction = require('./featureManipulator')
+const { authorized, hashAuthorized } = require('../auth')
+const UnauthorizedError = require('../../errors/unauthorized')
+const { generateToken, generateHashToken } = require('../token')
+const InvalidArgumentError = require('../../errors/invalid-argument')
+const { getUser, getCustomer, getFeatureUniqueCount, insertNewUser } = require('../mongoUtility')
+
 
 const setupCookie = async (cookie) => {
   if (!cookie) {
@@ -57,18 +57,18 @@ const sortFeatureByCount = async (features) => {
   }
 }
 
-const handleCustomerOnload = async (uid, cookie, customerCode, hostname) => {
-  let user = await wrapper(getUID)(uid, cookie, customerCode, hostname)
-  let customer = await wrapper(getCustomer)(customerCode, hostname)
+const handleUserOnInit = async (uid, cookie, customerCode, hostname) => {
+  let user = await getUser(uid, cookie, customerCode, hostname)
+  let customer = await getCustomer(customerCode, hostname)
   if (!customer) {
     throw new UnauthorizedError()
   }
-  await wrapper(getFeatureUniqueCount)(customerCode, hostname, customer.features)
+  await getFeatureUniqueCount(customerCode, hostname, customer.features)
   await sortFeatureByCount(customer.features)
   if (!user) {
     logger.info('handle customer: user not found')
     //  Get the user result from mongo and return the feature set
-    user = await wrapper(insertNewUser)(uid, cookie, customerCode, hostname, customer.features)
+    user = await insertNewUser(uid, cookie, customerCode, hostname, customer.features)
   } else {
     logger.info('handle customer: user found')
     user = await addFunction.syncFeatureList(user, customer)
@@ -76,4 +76,4 @@ const handleCustomerOnload = async (uid, cookie, customerCode, hostname) => {
   return user
 }
 
-module.exports = { setupCookie, setupUserCookie, sortFeatureByCount, handleCustomerOnload }
+module.exports = { setupCookie, setupUserCookie, sortFeatureByCount, handleUserOnInit }
