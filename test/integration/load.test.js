@@ -4,7 +4,7 @@ const server = require('../../server/server')
 const sinon = require('sinon')
 const store = require('../../server/util/store')
 const mongodb = require('../../server/util/mongodb')
-const { generateToken } = require('../../server/util/token')
+const { generate } = require('../../server/util/CookieUtil')
 
 const expect = chai.expect
 chai.use(chaiHttp)
@@ -18,7 +18,7 @@ describe('Event load', () => {
     })
     it('POST /api/event/onload with authorization', (done) => {
       const req = request.post('/api/event/onload')
-      req.cookies = 'collector_uuid=' + generateToken()
+      req.cookies = 'collector_uuid=' + generate()
       req.send({ customerCode: 'TEST-1CA' })
         .end((err, res) => {
           expect(err).to.be.null

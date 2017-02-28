@@ -1,8 +1,8 @@
 const chai = require('chai')
 const sinon = require('sinon')
-const auth = require('../util/auth')
+const auth = require('../util/AuthUtility')
 const mongodb = require('../util/mongodb')
-const { generateToken } = require('../util/token')
+const { generate } = require('../util/CookieUtil')
 const initUtil = require('../util/init/initUtility')
 const UnauthorizedError = require('../errors/unauthorized')
 const addFunction = require('../util/init/featureManipulator')
@@ -23,7 +23,7 @@ describe('Init unit testing', () => {
       expect(result).to.be.true
     })
     it('Should return the same cookie if input with valid cookie', async () => {
-      const validCookie = generateToken()
+      const validCookie = generate()
       const result = await initUtil.setupCookie(validCookie)
       expect(result).to.be.equal(validCookie)
     })

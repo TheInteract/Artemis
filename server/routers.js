@@ -1,7 +1,7 @@
 const events = require('./events')
 const Router = require('koa-router')
 const endpoints = require('./util/endpoints')
-const { identifyCustomer, checkCookie } = require('./util/auth')
+const { identifyCustomer, checkCookie } = require('./util/AuthUtility')
 const { saveEvent } = require('./util/save')
 
 const router = new Router({ prefix: '/api' })
