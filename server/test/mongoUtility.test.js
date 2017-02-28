@@ -1,8 +1,8 @@
-const chai = require('chai')
-const sinon = require('sinon')
-const mongodb = require('../util/mongodb')
-const utility = require('../util/mongoUtility')
-const InvalidArgumentError = require('../errors/invalid-argument')
+import chai from 'chai'
+import sinon from 'sinon'
+import mongodb from '../util/mongodb'
+import utility from '../util/mongoUtility'
+import InvalidArgumentError from '../errors/invalid-argument'
 
 const expect = chai.expect
 

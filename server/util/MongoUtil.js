@@ -1,6 +1,6 @@
-const config = require('config')
-const { wrapper } = require('./wrapper')
-const InvalidArgumentError = require('../errors/invalid-argument')
+import config from 'config'
+import { wrapper } from './wrapper'
+import InvalidArgumentError from '../errors/invalid-argument'
 
 async function getCollectionItem (collectionName, query) {
   return await this.collection(collectionName).findOne(query)

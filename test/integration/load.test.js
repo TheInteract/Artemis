@@ -6,8 +6,9 @@ const store = require('../../server/util/store')
 const mongodb = require('../../server/util/mongodb')
 const { generate } = require('../../server/util/CookieUtil')
 
-const expect = chai.expect
 chai.use(chaiHttp)
+
+const expect = chai.expect
 const request = chai.request.agent(server.listen())
 
 describe('Event load', () => {
