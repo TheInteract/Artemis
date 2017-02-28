@@ -1,8 +1,9 @@
-import chai from 'chai'
-import sinon from 'sinon'
-import crypto from 'crypto'
-import config from 'config'
 import * as CookieUtil from '../util/CookieUtil'
+
+import chai from 'chai'
+import config from 'config'
+import crypto from 'crypto'
+import sinon from 'sinon'
 
 const expect = chai.expect
 

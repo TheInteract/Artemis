@@ -1,29 +1,11 @@
-import logger from 'winston'
-import addFunction from './featureManipulator'
-import AuthUtility from '../AuthUtility'
-import UnauthorizedError from '../../errors/unauthorized'
-import CookieUtil from '../CookieUtil'
+import * as AuthUtil from '../AuthUtil'
+import * as CookieUtil from '../CookieUtil'
+
 import InvalidArgumentError from '../../errors/invalid-argument'
 import MongoUtility from '../mongoUtility'
-
-export const generateDeviceCode = async (currentDeviceCode) => {
-  try {
-    await AuthUtility.authorized(currentDeviceCode)
-    logger.info('successfully authorized currentDeviceCode:', { currentDeviceCode })
-    return currentDeviceCode
-  } catch (e) {
-    logger.warn('failed to authorize currentDeviceCode:', { currentDeviceCode })
-    const deviceCode = CookieUtil.generate()
-    logger.info('generated new deviceCode:', { deviceCode })
-    return deviceCode
-  }
-}
-
-export const generateUserCode = async (hashedUserId) => {
-  const userCode = CookieUtil.generate(hashedUserId)
-  logger.info('generated user code:', { hashedUserId, userCode })
-  return userCode
-}
+import UnauthorizedError from '../../errors/unauthorized'
+import addFunction from './featureManipulator'
+import logger from 'winston'
 
 export const sortFeatureByCount = async (features) => {
   const sorter = function (a, b) {

@@ -1,9 +1,11 @@
-const logger = require('winston')
-const InitUtility = require('../util/init/initUtility')
+import * as CookieUtil from '../util/CookieUtil'
+import * as AuthUtil from '../util/AuthUtil'
 
-const initEvent = async ctx => {
+import logger from 'winston'
+
+export default async function init (ctx) {
   const body = ctx.request.body
-  const customerCode = body.customerCode
+  const API_KEY = body.API_KEY
   const { deviceCode, hashedUserId } = body.userIdentity || {}
   const hostname = ctx.request.ip
 
@@ -33,13 +35,23 @@ const initEvent = async ctx => {
   //   initCode: responseString
   // }
 
+  const a = { a: 'b' }
+  const b = { ...a }
+  console.log(b)
+
+  const validatedDeviceCode = AuthUtil.validateCode(deviceCode)
+    ? deviceCode : CookieUtil.generate()
+  const userCode = hashedUserId ? {
+    userCode: CookieUtil.generate(hashedUserId)
+  } : {}
+
   ctx.body = {
-    deviceCode: await InitUtility.generateDeviceCode(deviceCode),
-    userCode: await InitUtility.generateUserCode(hashedUserId)
+    deviceCode: validatedDeviceCode,
+    ...userCode,
+    featureList: [],
+    initCode: 'yeah'
   }
   ctx.status = 200
 
   logger.info('----------------------------------------------------------------')
 }
-
-module.exports = { initEvent }
