@@ -1,33 +1,7 @@
-import * as CookieUtil from './CookieUtil'
 import * as MongoUtil from './MongoUtil'
 
-import InvalidArgumentError from '../errors/invalid-argument'
-import UnauthorizedError from '../errors/unauthorized'
 import config from 'config'
 import logger from 'winston'
-import { split } from 'lodash'
-
-export const authorized = code => {
-  if (!code) throw new InvalidArgumentError()
-
-  const key = split(code, ':', 2)[0]
-  // TODO: check CookieUtil from database
-  if (!CookieUtil.validate(key, code)) throw new UnauthorizedError()
-  return true
-}
-
-export const validateCode = code => {
-  const key = split(code, ':', 2)[0]
-  const result = CookieUtil.validate(key, code)
-
-  if (result) {
-    logger.info('device code is valid:', { code })
-  } else {
-    logger.warn('device code is invalid', { code })
-  }
-
-  return result
-}
 
 export async function identifyCustomer (ctx, next) {
   const hostname = ctx.request.ip

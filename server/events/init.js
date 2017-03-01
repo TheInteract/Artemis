@@ -1,5 +1,5 @@
-import * as CookieUtil from '../util/CookieUtil'
-import * as AuthUtil from '../util/AuthUtil'
+import * as Cookie from '../src/cookie/Cookie'
+import * as Authentication from '../src/user/Authentication'
 
 import logger from 'winston'
 
@@ -39,10 +39,10 @@ export default async function init (ctx) {
   const b = { ...a }
   console.log(b)
 
-  const validatedDeviceCode = AuthUtil.validateCode(deviceCode)
-    ? deviceCode : CookieUtil.generate()
+  const validatedDeviceCode = Authentication.validateCode(deviceCode)
+    ? deviceCode : Cookie.generate()
   const userCode = hashedUserId ? {
-    userCode: CookieUtil.generate(hashedUserId)
+    userCode: Cookie.generate(hashedUserId)
   } : {}
 
   ctx.body = {
