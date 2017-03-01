@@ -1,6 +1,3 @@
-import * as AuthUtil from '../AuthUtil'
-import * as CookieUtil from '../CookieUtil'
-
 import InvalidArgumentError from '../../errors/invalid-argument'
 import MongoUtility from '../mongoUtility'
 import UnauthorizedError from '../../errors/unauthorized'

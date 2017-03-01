@@ -1,4 +1,5 @@
 import * as Cookie from '../cookies/Cookie'
+import * as Products from '../products/Products'
 import * as User from '../users/User'
 
 import logger from 'winston'
@@ -14,7 +15,9 @@ const SetUp = async (ctx) => {
     userCode: Cookie.generate(hashedUserId)
   } : {}
 
-  const featureList = []
+  const product = Products.getProduct(API_KEY, hostname)
+  const user = Users.getUser()
+  const featureList =
 
   ctx.body = {
     deviceCode: validatedDeviceCode,

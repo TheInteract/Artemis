@@ -1,0 +1,25 @@
+type: object
+required:
+  - deviceCode
+  - featureLists
+properties:
+  hashedUserId:
+    type: string
+    faker: ramdom.uuid
+  deviceCode:
+    type: string
+    faker: ramdom.uuid
+  featureLists:
+    type: array
+    items:
+      type: object
+      required:
+        - featureList
+        - product
+      properties:
+        featureList:
+          type: object
+          description: featureList foreign key
+        product:
+          type: object
+          description: product foreign key

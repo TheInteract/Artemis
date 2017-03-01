@@ -26,3 +26,7 @@ export const validateCode = code => {
 
   return result
 }
+
+export const getFeatureList = user => {
+  return []
+}
