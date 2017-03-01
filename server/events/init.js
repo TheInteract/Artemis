@@ -35,10 +35,6 @@ export default async function init (ctx) {
   //   initCode: responseString
   // }
 
-  const a = { a: 'b' }
-  const b = { ...a }
-  console.log(b)
-
   const validatedDeviceCode = Authentication.validateCode(deviceCode)
     ? deviceCode : Cookie.generate()
   const userCode = hashedUserId ? {

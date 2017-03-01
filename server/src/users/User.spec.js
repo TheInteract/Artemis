@@ -1,5 +1,5 @@
-import * as Authentication from './Authentication'
-import * as Cookie from '../cookie/Cookie'
+import * as User from './User'
+import * as Cookie from '../cookies/Cookie'
 
 import InvalidArgumentError from '../errors/InvalidArgumentError'
 import UnauthorizedError from '../errors/UnauthorizedError'
@@ -8,7 +8,7 @@ import sinon from 'sinon'
 
 const assert = chai.assert
 
-describe('Authentication', () => {
+describe('User', () => {
   describe('authorized', () => {
     const fakeCode = '12345:fakeCode'
 
@@ -24,16 +24,16 @@ describe('Authentication', () => {
 
     it('should return true when called with valid cookie', () => {
       const code = `${fakeCode}`
-      assert.isTrue(Authentication.validateCode(code))
+      assert.isTrue(User.validateCode(code))
     })
 
     it('should throw unauthorized when called with invalid cookie', () => {
       const code = `${fakeCode}-invalid`
-      assert.throws(() => { Authentication.authorized(code) }, UnauthorizedError)
+      assert.throws(() => { User.authorized(code) }, UnauthorizedError)
     })
 
     it('should throw invalid argument when argument is undefined', () => {
-      assert.throws(() => { Authentication.authorized() }, InvalidArgumentError)
+      assert.throws(() => { User.authorized() }, InvalidArgumentError)
     })
   })
 
@@ -53,7 +53,7 @@ describe('Authentication', () => {
       Cookie.validate.returns(true)
 
       const code = `${fakeCode}`
-      assert.isTrue(Authentication.validateCode(code))
+      assert.isTrue(User.validateCode(code))
       assert.isTrue(Cookie.validate.calledWithExactly(fakeKey, fakeCode))
     })
 
@@ -61,14 +61,14 @@ describe('Authentication', () => {
       Cookie.validate.returns(false)
 
       const code = `${fakeCode}-invalid`
-      assert.isFalse(Authentication.validateCode(code))
+      assert.isFalse(User.validateCode(code))
       assert.isTrue(Cookie.validate.calledWithExactly(fakeKey, code))
     })
 
     it('should return false when argument is undefined', () => {
       Cookie.validate.returns(false)
 
-      assert.isFalse(Authentication.validateCode())
+      assert.isFalse(User.validateCode())
       assert.isTrue(Cookie.validate.calledWithExactly('', undefined))
     })
   })

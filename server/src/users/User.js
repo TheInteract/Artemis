@@ -1,4 +1,4 @@
-import * as Cookie from '../cookie/Cookie'
+import * as Cookie from '../cookies/Cookie'
 
 import InvalidArgumentError from '../errors/InvalidArgumentError'
 import UnauthorizedError from '../errors/UnauthorizedError'
