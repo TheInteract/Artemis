@@ -5,13 +5,13 @@ import logger from 'winston'
 
 export async function identifyCustomer (ctx, next) {
   const hostname = ctx.request.ip
-  const { customerCode } = ctx.request.body
+  const { API_KEY } = ctx.request.body
   logger.info('Identify context ip: ', ctx.request.ip)
   try {
-    await MongoUtil.getCustomer(customerCode, hostname)
-    logger.info('identify client success', { customerCode, hostname })
+    await MongoUtil.getCustomer(API_KEY, hostname)
+    logger.info('identify client success', { API_KEY, hostname })
   } catch (e) {
-    logger.error(`identify client(${customerCode}) fail`, { message: e.message })
+    logger.error(`identify client(${API_KEY}) fail`, { message: e.message })
     ctx.throw(e.message, e.status)
   }
   await next()

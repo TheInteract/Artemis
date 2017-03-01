@@ -65,7 +65,7 @@ describe('Init unit testing', () => {
         ops: [ true ]
       }
       let mockCustomer = {
-        'customerCode': 'IC9-55938-5',
+        'API_KEY': 'IC9-55938-5',
         'hostname': 'localhost',
         'features': [
           {
@@ -129,7 +129,7 @@ describe('Init unit testing', () => {
     it('Should return user if input new user and valid customer', async () => {
       const tempStub = sinon.stub(mongodb, 'connectDB')
       let mockCustomer = {
-        'customerCode': 'IC9-55938-5',
+        'API_KEY': 'IC9-55938-5',
         'hostname': 'localhost',
         'features': [
           {
@@ -244,7 +244,7 @@ describe('Init unit testing', () => {
   // Move to be the integration test
   // describe('init()', () => {
   //   before(() => {
-  //     let mockUser = {'uid': '1487135983512:e0b8f93c88dafdc7a7933542fe7d2e33be54788bfb8ba9df739ecf9e2097643a7ff6c13ac0cea8c9961f4afa3be4efcf4750464a32ebcaadc8242971776f43d6a', 'customerCode': 'IC9-55938-5', 'hostname': 'localhost', 'features': [ {'name': 'card-1', 'version': 'A'}, {'name': 'card-2', 'version': 'A'} ]}
+  //     let mockUser = {'uid': '1487135983512:e0b8f93c88dafdc7a7933542fe7d2e33be54788bfb8ba9df739ecf9e2097643a7ff6c13ac0cea8c9961f4afa3be4efcf4750464a32ebcaadc8242971776f43d6a', 'API_KEY': 'IC9-55938-5', 'hostname': 'localhost', 'features': [ {'name': 'card-1', 'version': 'A'}, {'name': 'card-2', 'version': 'A'} ]}
   //     sinon.stub(initUtil, 'handleUserOnInit').returns(Promise.resolve(mockUser))
   //   })
   //   after(() => {

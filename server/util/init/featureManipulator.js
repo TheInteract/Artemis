@@ -28,7 +28,7 @@ async function syncFeatureList (user, customer) {
     logger.info('No new feature found, no sync')
   }
   user.features = tempCurrentFeatureList
-  return await updateUser(user.uid, user.cookie, user.customerCode, user.hostname, user.features)
+  return await updateUser(user.uid, user.cookie, user.API_KEY, user.hostname, user.features)
 }
 
 module.exports = { syncFeatureList }

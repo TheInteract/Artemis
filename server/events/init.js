@@ -18,7 +18,7 @@ export default async function init (ctx) {
   // let user
   //
   // try {
-  //   user = await handleUserOnInit(hashedUserId, cookie, customerCode, hostname)
+  //   user = await handleUserOnInit(hashedUserId, cookie, API_KEY, hostname)
   //   logger.info('request to handle user\'s feature list success:', {
   //     cookie, ip: ctx.request.ip
   //   })
