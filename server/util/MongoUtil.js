@@ -6,23 +6,23 @@ async function getCollectionItem (collectionName, query) {
   return await this.collection(collectionName).findOne(query)
 }
 
-async function getUser (uid, cookie, customerCode, hostname) {
-  if ((!uid && !cookie) || !customerCode || !hostname) {
+async function getUser (uid, cookie, API_KEY, hostname) {
+  if ((!uid && !cookie) || !API_KEY || !hostname) {
     throw new InvalidArgumentError()
   }
-  return await wrapper(getCollectionItem)(config.get('mongo.collectionName.user'), { uid, cookie, customerCode, hostname })
+  return await wrapper(getCollectionItem)(config.get('mongo.collectionName.user'), { uid, cookie, API_KEY, hostname })
 }
 
-async function getCustomer (customerCode, hostname) {
-  if (!customerCode || !hostname) {
+async function getCustomer (API_KEY, hostname) {
+  if (!API_KEY || !hostname) {
     throw new InvalidArgumentError()
   }
 
-  return await wrapper(getCollectionItem)(config.get('mongo.collectionName.customer'), { customerCode, hostname })
+  return await wrapper(getCollectionItem)(config.get('mongo.collectionName.customer'), { API_KEY, hostname })
 }
 
-async function getFeatureUniqueCount (customerCode, hostname, features) {
-  if (!customerCode || !hostname || !features) {
+async function getFeatureUniqueCount (API_KEY, hostname, features) {
+  if (!API_KEY || !hostname || !features) {
     throw new InvalidArgumentError()
   }
 
@@ -30,7 +30,7 @@ async function getFeatureUniqueCount (customerCode, hostname, features) {
   try {
     for (let feature of features) {
       for (let version of feature.versions) {
-        version.count = await this.collection(userCollectionName).count({customerCode: customerCode, hostname: hostname, features: {$elemMatch: {name: feature.name, version: version.version}}})
+        version.count = await this.collection(userCollectionName).count({API_KEY: API_KEY, hostname: hostname, features: {$elemMatch: {name: feature.name, version: version.version}}})
       }
     }
   } catch (e) {
@@ -38,8 +38,8 @@ async function getFeatureUniqueCount (customerCode, hostname, features) {
   }
 }
 
-async function insertNewUser (uid, cookie, customerCode, hostname, featureList) {
-  if ((!uid && !cookie) || !customerCode || !hostname || !featureList) {
+async function insertNewUser (uid, cookie, API_KEY, hostname, featureList) {
+  if ((!uid && !cookie) || !API_KEY || !hostname || !featureList) {
     throw new InvalidArgumentError()
   }
 
@@ -52,18 +52,18 @@ async function insertNewUser (uid, cookie, customerCode, hostname, featureList) 
     throw new InvalidArgumentError()
   }
   const userCollectionName = config.get('mongo.collectionName.user')
-  const user = await this.collection(userCollectionName).insert({uid: uid, cookie: cookie, customerCode: customerCode, hostname: hostname, features: calculatedFeature})
+  const user = await this.collection(userCollectionName).insert({uid: uid, cookie: cookie, API_KEY: API_KEY, hostname: hostname, features: calculatedFeature})
 
   return ((user || {}).ops || [])[0]
 }
 
-async function updateUser (uid, cookie, customerCode, hostname, featureList) {
-  if ((!uid && !cookie) || !customerCode || !hostname || !featureList) {
+async function updateUser (uid, cookie, API_KEY, hostname, featureList) {
+  if ((!uid && !cookie) || !API_KEY || !hostname || !featureList) {
     throw new InvalidArgumentError()
   }
 
   const userCollectionName = config.get('mongo.collectionName.user')
-  const user = await this.collection(userCollectionName).findOneAndUpdate({uid: uid, cookie: cookie, customerCode: customerCode, hostname: hostname}, {$set: {features: featureList}}, {returnOriginal: false})
+  const user = await this.collection(userCollectionName).findOneAndUpdate({uid: uid, cookie: cookie, API_KEY: API_KEY, hostname: hostname}, {$set: {features: featureList}}, {returnOriginal: false})
 
   return (user || {}).value
 }

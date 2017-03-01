@@ -22,18 +22,18 @@ export const sortFeatureByCount = async (features) => {
   }
 }
 
-export const handleUserOnInit = async (uid, cookie, customerCode, hostname) => {
-  let user = await MongoUtility.getUser(uid, cookie, customerCode, hostname)
-  let customer = await MongoUtility.getCustomer(customerCode, hostname)
+export const handleUserOnInit = async (uid, cookie, API_KEY, hostname) => {
+  let user = await MongoUtility.getUser(uid, cookie, API_KEY, hostname)
+  let customer = await MongoUtility.getCustomer(API_KEY, hostname)
   if (!customer) {
     throw new UnauthorizedError()
   }
-  await MongoUtility.getFeatureUniqueCount(customerCode, hostname, customer.features)
+  await MongoUtility.getFeatureUniqueCount(API_KEY, hostname, customer.features)
   await sortFeatureByCount(customer.features)
   if (!user) {
     logger.info('handle customer: user not found')
     //  Get the user result from mongo and return the feature set
-    user = await MongoUtility.insertNewUser(uid, cookie, customerCode, hostname, customer.features)
+    user = await MongoUtility.insertNewUser(uid, cookie, API_KEY, hostname, customer.features)
   } else {
     logger.info('handle customer: user found')
     user = await addFunction.syncFeatureList(user, customer)

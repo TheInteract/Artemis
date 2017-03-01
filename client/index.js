@@ -8,10 +8,10 @@ const handleMousemoveEvent = require('./events/mousemove')
 
 const baseUrl = process.env.COLLECTOR_BASE || 'http://localhost:3000/'
 
-function customerCode (...rest) {
+function API_KEY (...rest) {
   const fetchObj = {
     fetch: new BrowserFetch(baseUrl),
-    customerCode: rest[0],
+    API_KEY: rest[0],
   }
 
   // TODO: map ic with web url.
@@ -23,4 +23,4 @@ function customerCode (...rest) {
   window.addEventListener('mousemove', handleMousemoveEvent.bind(fetchObj))
 }
 
-customerCode(window.i)
+API_KEY(window.i)
