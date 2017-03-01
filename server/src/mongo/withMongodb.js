@@ -18,7 +18,7 @@ export const connectDB = () => {
 
 export default fn => async (...rest) => {
   const db = await connectDB()
-  const result = await fn.call(db, ...rest)
+  const result = await fn(db)(...rest)
   db.close.bind(db)()
   return result
 }

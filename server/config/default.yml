@@ -13,8 +13,9 @@ mongo:
     host: localhost
     port: 27017
     db: interact
-    collectionName:
-        customer: customer
+    collections:
+      names:
+        product: product
         user: user
 cookie:
     name: collector_uuid

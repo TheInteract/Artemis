@@ -1,5 +1,4 @@
-// import withMongodb from './withMongodb'
-//
-// export const findItem = withMongodb(async (collectionName, query) => {
-//   return await this.collection(collectionName).findOne(query)
-// })
+import withMongodb from './withMongodb'
+import FindItemCommand from './commands/FindItem'
+
+export const findItem = withMongodb(FindItemCommand)
