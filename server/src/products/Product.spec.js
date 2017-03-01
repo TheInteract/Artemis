@@ -13,25 +13,21 @@ describe('Product', () => {
     let stubNext
 
     before(() => {
-      sinon.stub(Products, 'getProduct')
-      Products.getProduct.onCall(0).returns(null)
-      Products.getProduct.onCall(1).returns({})
+      sinon.stub(Products, 'getProductByPrivateKey')
+      Products.getProductByPrivateKey.onCall(0).returns(null)
+      Products.getProductByPrivateKey.onCall(1).returns({})
     })
 
     beforeEach(() => {
       stubCtx = sinon.stub({
-        request: {
-          ip: 'fakeIp',
-          body: { API_KEY: 'fakeApiKey' }
-        },
+        request: { ip: 'fakeIp', body: {} },
         throw: () => {}
       })
-
       stubNext = sinon.stub()
     })
 
     after(() => {
-      Products.getProduct.restore()
+      Products.getProductByPrivateKey.restore()
     })
 
     it('should throw error in ctx if API_KEY and hostname does not match', async () => {

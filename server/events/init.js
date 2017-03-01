@@ -4,10 +4,9 @@ import * as Authentication from '../src/user/Authentication'
 import logger from 'winston'
 
 export default async function init (ctx) {
-  const body = ctx.request.body
-  const API_KEY = body.API_KEY
+  const { API_KEY_PRIVATE, ...body } = ctx.request.body
   const { deviceCode, hashedUserId } = body.userIdentity || {}
-  const hostname = ctx.request.ip
+  const ip = ctx.request.ip
 
   // const cookie = hashedUserId
   //   ? await setupUserCookie(hashedUserId, deviceCode)

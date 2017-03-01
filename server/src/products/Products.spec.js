@@ -8,7 +8,7 @@ import sinon from 'sinon'
 const assert = chai.assert
 
 describe('Products', () => {
-  describe('getProduct', async () => {
+  describe('getProductByPrivateKey', async () => {
     before(() => {
       sinon.stub(Collections, 'findItem')
       Collections.findItem.returns('items')
@@ -18,19 +18,19 @@ describe('Products', () => {
       Collections.findItem.restore()
     })
 
-    const fakeApiKey = 'API_KEY'
-    const fakeHostname = 'fakeHostname'
+    const fakeApiKey = 'fakeApiKey'
+    const fakeIp = 'fakeIp'
 
     it('should return items from Collections.findItem', async () => {
-      const product = await Products.getProduct(fakeApiKey, fakeHostname)
+      const product = await Products.getProductByPrivateKey(fakeApiKey, fakeIp)
       assert.equal(product, 'items')
     })
 
     it('should called findItem with correct arguments', () => {
       assert(Collections.findItem.calledWith(
         config.mongo.collections.names.product, {
-          API_KEY: fakeApiKey,
-          hostname: fakeHostname
+          API_KEY_PRIVATE: fakeApiKey,
+          ip: fakeIp
         }
       ), 'invalid arguments')
     })

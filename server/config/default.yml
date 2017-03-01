@@ -17,6 +17,7 @@ mongo:
       names:
         product: product
         user: user
+        featureList: featureList
 cookie:
     name: collector_uuid
 base: 'src/'

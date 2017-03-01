@@ -7,7 +7,7 @@ properties:
   API_KEY_PUBLIC:
     type: string
     faker: random.uuid
-  hostname:
+  ip:
     type: string
     faker: internet.ip
   domainName:

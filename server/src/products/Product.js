@@ -5,19 +5,19 @@ import logger from 'winston'
 
 export const authorized = async (ctx, next) => {
   const hostname = ctx.request.ip
-  const { API_KEY } = ctx.request.body
+  const { API_KEY_PRIVATE } = ctx.request.body
   logger.info('Identify context ip: ', ctx.request.ip)
 
   // TODO: separate API_KEY into 2 sets
   // 1 for module (secret) and 1 for client side
-  const product = Products.getProduct(API_KEY, hostname)
+  const product = Products.getProductByPrivateKey(API_KEY_PRIVATE, hostname)
 
   if (!product) {
     const e = new UnauthorizedError()
-    logger.error(`failed to identify product(${API_KEY})`, { message: e.message })
+    logger.error(`failed to identify product(${API_KEY_PRIVATE})`, { message: e.message })
     ctx.throw(e.message, e.status)
   } else {
-    logger.info('successfully identified product', { API_KEY, hostname })
+    logger.info('successfully identified product', { API_KEY_PRIVATE, hostname })
     await next()
   }
 }
