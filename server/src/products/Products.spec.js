@@ -30,7 +30,7 @@ describe('Products', () => {
     })
 
     it('should called findItem with correct arguments', () => {
-      assert(Collections.findItem.calledWith(
+      assert(Collections.findItem.calledWithExactly(
         config.mongo.collections.names.product, {
           API_KEY_PRIVATE: fakePrivateApiKey,
           ip: fakeIp
@@ -52,7 +52,7 @@ describe('Products', () => {
     })
 
     it('should called findItem with correct arguments', () => {
-      assert(Collections.findItem.calledWith(
+      assert(Collections.findItem.calledWithExactly(
         config.mongo.collections.names.product, {
           API_KEY_PUBLIC: fakePublicApiKey,
           domainName: fakeDomainName

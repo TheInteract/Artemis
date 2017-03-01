@@ -17,9 +17,9 @@ properties:
         - featureList
         - product
       properties:
-        featureList:
+        featureListId:
           type: object
           description: featureList foreign key
-        product:
+        productId:
           type: object
           description: product foreign key
