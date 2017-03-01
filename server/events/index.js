@@ -1,9 +1,7 @@
-module.exports = {
-  onload: require('./load'),
-  onclick: require('./click'),
-  onkeydown: require('./keydown'),
-  onscroll: require('./scroll'),
-  onresize: require('./resize'),
-  onmousemove: require('./mousemove'),
-  oninit: require('./init')
-}
+export OnLoad from './load'
+export OnClick from './click'
+export OnKeyDown from './keydown'
+export OnScroll from './scroll'
+export OnResize from './resize'
+export OnMouseMove from './mousemove'
+export OnInit from './init'

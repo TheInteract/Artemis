@@ -1,37 +1,57 @@
-const url = require('url')
-const logger = require('winston')
-const { setupCookie, handleCustomerOnload, addFeatureToExistingUser } = require('../util/init/init-utility')
+import * as CookieUtil from '../util/CookieUtil'
+import * as AuthUtil from '../util/AuthUtil'
 
-const initEvent = async (ctx) => {
-  const isMock = false
-  const { body } = ctx.request
-  const customerCode = body.customerCode
-  const { hashedUserId } = body.userIdentity || {}
+import logger from 'winston'
+
+export default async function init (ctx) {
+  const body = ctx.request.body
+  const API_KEY = body.API_KEY
+  const { deviceCode, hashedUserId } = body.userIdentity || {}
   const hostname = ctx.request.ip
-  const cookie = await setupCookie((body.userIdentity || {}).deviceCode)
-  // const responseString = 'function(a,b,c,d,e){a.customerCode=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://localhost:3000/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),customerCode("' + customerCode + '", "' + hashedUserId + '");'
-  const responseString = 'console.log(\'Hello I\\\'m interact\')'
-  const responseObjMock = {'featureList': [ {'name': 'Card-1', 'version': 'A'}, {'name': 'Card-2', 'version': 'B'} ], 'deviceCode': 'test', 'initCode': responseString}
-  let user
-  try {
-    user = await handleCustomerOnload(hashedUserId, cookie, customerCode, hostname, addFeatureToExistingUser)
-    logger.info('request to handle user\'s feature list success:', { cookie, ip: ctx.request.ip })
-  } catch (e) {
-    ctx.throw(e.message, e.status)
-    logger.warn('request to handle user\'s feature list fail:', { cookie, ip: ctx.request.ip })
-  }
-  const responseObj = {
-    featureList: user.features,
-    deviceCode: cookie,
-    initCode: responseString
-  }
-  if (isMock) {
-    ctx.body = responseObjMock
-  } else {
-    ctx.body = responseObj
-  }
-  logger.info('----------------------------------------------------------------')
-  ctx.status = 200
-}
 
-module.exports = { initEvent }
+  // const cookie = hashedUserId
+  //   ? await setupUserCookie(hashedUserId, deviceCode)
+  //     : await setupCookie(deviceCode)
+
+  // const responseString = 'console.log(\'Hello I\\\'m interact\')'
+  //
+  // let user
+  //
+  // try {
+  //   user = await handleUserOnInit(hashedUserId, cookie, customerCode, hostname)
+  //   logger.info('request to handle user\'s feature list success:', {
+  //     cookie, ip: ctx.request.ip
+  //   })
+  // } catch (e) {
+  //   ctx.throw(e.message, e.status)
+  //   logger.warn('request to handle user\'s feature list fail:', {
+  //     cookie, ip: ctx.request.ip
+  //   })
+  // }
+  //
+  // const responseObj = {
+  //   featureList: user.features,
+  //   deviceCode: cookie,
+  //   initCode: responseString
+  // }
+
+  const a = { a: 'b' }
+  const b = { ...a }
+  console.log(b)
+
+  const validatedDeviceCode = AuthUtil.validateCode(deviceCode)
+    ? deviceCode : CookieUtil.generate()
+  const userCode = hashedUserId ? {
+    userCode: CookieUtil.generate(hashedUserId)
+  } : {}
+
+  ctx.body = {
+    deviceCode: validatedDeviceCode,
+    ...userCode,
+    featureList: [],
+    initCode: 'yeah'
+  }
+  ctx.status = 200
+
+  logger.info('----------------------------------------------------------------')
+}

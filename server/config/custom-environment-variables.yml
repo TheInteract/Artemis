@@ -1,5 +1,6 @@
 secret:
     key: SECRET_KEY
+    userKey: USER_SECRET_KEY
 server:
     protocol: COLLECTOR_PROTOCOL
     host: COLLECTOR_HOST

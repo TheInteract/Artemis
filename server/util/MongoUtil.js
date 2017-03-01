@@ -1,18 +1,16 @@
-const InvalidArgumentError = require('../errors/invalid-argument')
-const config = require('config')
+import config from 'config'
+import { wrapper } from './wrapper'
+import InvalidArgumentError from '../errors/invalid-argument'
 
-async function getUID (uid, cookie, customerCode, hostname) {
+async function getCollectionItem (collectionName, query) {
+  return await this.collection(collectionName).findOne(query)
+}
+
+async function getUser (uid, cookie, customerCode, hostname) {
   if ((!uid && !cookie) || !customerCode || !hostname) {
     throw new InvalidArgumentError()
   }
-
-  const userCollectionName = config.mongo.collectionName.user
-  const user = await this.collection(userCollectionName).findOne({ uid, cookie, customerCode, hostname })
-
-  if (!user) {
-    return undefined
-  }
-  return user
+  return await wrapper(getCollectionItem)(config.get('mongo.collectionName.user'), { uid, cookie, customerCode, hostname })
 }
 
 async function getCustomer (customerCode, hostname) {
@@ -20,13 +18,7 @@ async function getCustomer (customerCode, hostname) {
     throw new InvalidArgumentError()
   }
 
-  const customerCollectionName = config.mongo.collectionName.customer
-  const customer = await this.collection(customerCollectionName).findOne({ customerCode, hostname })
-
-  if (!customer) {
-    return undefined
-  }
-  return customer
+  return await wrapper(getCollectionItem)(config.get('mongo.collectionName.customer'), { customerCode, hostname })
 }
 
 async function getFeatureUniqueCount (customerCode, hostname, features) {
@@ -34,7 +26,7 @@ async function getFeatureUniqueCount (customerCode, hostname, features) {
     throw new InvalidArgumentError()
   }
 
-  const userCollectionName = config.mongo.collectionName.user
+  const userCollectionName = config.get('mongo.collectionName.user')
   try {
     for (let feature of features) {
       for (let version of feature.versions) {
@@ -59,13 +51,10 @@ async function insertNewUser (uid, cookie, customerCode, hostname, featureList) 
   } catch (e) {
     throw new InvalidArgumentError()
   }
-  const userCollectionName = config.mongo.collectionName.user
+  const userCollectionName = config.get('mongo.collectionName.user')
   const user = await this.collection(userCollectionName).insert({uid: uid, cookie: cookie, customerCode: customerCode, hostname: hostname, features: calculatedFeature})
 
-  if (!user) {
-    return undefined
-  }
-  return user.ops[0]
+  return ((user || {}).ops || [])[0]
 }
 
 async function updateUser (uid, cookie, customerCode, hostname, featureList) {
@@ -73,12 +62,10 @@ async function updateUser (uid, cookie, customerCode, hostname, featureList) {
     throw new InvalidArgumentError()
   }
 
-  const userCollectionName = config.mongo.collectionName.user
+  const userCollectionName = config.get('mongo.collectionName.user')
   const user = await this.collection(userCollectionName).findOneAndUpdate({uid: uid, cookie: cookie, customerCode: customerCode, hostname: hostname}, {$set: {features: featureList}}, {returnOriginal: false})
-  if (!user) {
-    return undefined
-  }
-  return user.value
+
+  return (user || {}).value
 }
 
-module.exports = { getUID, getCustomer, getFeatureUniqueCount, insertNewUser, updateUser }
+module.exports = { getUser, getCustomer, getFeatureUniqueCount: wrapper(getFeatureUniqueCount), insertNewUser: wrapper(insertNewUser), updateUser: wrapper(updateUser) }

@@ -1,6 +1,5 @@
 const logger = require('winston')
-const { wrapper } = require('../wrapper')
-const { updateUser } = require('../mongo-utility')
+const { updateUser } = require('../mongoUtility')
 
 async function syncFeatureList (user, customer) {
   let isUseOld = false
@@ -29,7 +28,7 @@ async function syncFeatureList (user, customer) {
     logger.info('No new feature found, no sync')
   }
   user.features = tempCurrentFeatureList
-  return await wrapper(updateUser)(user.uid, user.cookie, user.customerCode, user.hostname, user.features)
+  return await updateUser(user.uid, user.cookie, user.customerCode, user.hostname, user.features)
 }
 
 module.exports = { syncFeatureList }

@@ -1,3 +1,9 @@
 {
-  "plugins": ["transform-async-to-generator"]
+  "plugins": [
+    "transform-es2015-spread",
+    "transform-es2015-modules-commonjs",
+  ],
+  "presets": [
+    "stage-0"
+  ]
 }

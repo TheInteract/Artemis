@@ -5,3 +5,4 @@ coverage/
 .coveralls.yml
 .DS_Store
 npm-debug.log
+static/
