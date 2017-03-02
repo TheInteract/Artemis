@@ -74,6 +74,26 @@ describe('User', () => {
   })
 
   describe('getFeatureListId', () => {
-    it('should test')
+    const fakeProductId = 'fakeProductId-1'
+    const fakeFeatureListId = 'fakeFeatureListId-1'
+
+    it('should return undefined if no productId found in featureListFks', () => {
+      const mockUser = { featureListFks: [] }
+      const mockProduct = { _id: fakeProductId }
+      assert.isUndefined(User.getFeatureListId(mockUser, mockProduct))
+    })
+
+    it('should return featureListId if productId found in featureListFks', () => {
+      const mockUser = {
+        featureListFks: [
+          { featureListId: fakeFeatureListId, productId: fakeProductId }
+        ]
+      }
+      const mockProduct = { _id: fakeProductId }
+      assert.equal(
+        User.getFeatureListId(mockUser, mockProduct),
+        fakeFeatureListId
+      )
+    })
   })
 })
