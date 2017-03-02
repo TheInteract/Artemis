@@ -8,9 +8,10 @@ import sinon from 'sinon'
 const assert = chai.assert
 
 describe('Products', () => {
+  const mockItem = 'mockItem'
   before(() => {
     sinon.stub(Collections, 'findItem')
-    Collections.findItem.returns('items')
+    Collections.findItem.returns(mockItem)
   })
 
   after(() => {
@@ -26,7 +27,7 @@ describe('Products', () => {
         fakePrivateApiKey,
         fakeIp
       )
-      assert.equal(product, 'items')
+      assert.equal(product, mockItem)
     })
 
     it('should called findItem with correct arguments', () => {
@@ -48,7 +49,7 @@ describe('Products', () => {
         fakePublicApiKey,
         fakeDomainName
       )
-      assert.equal(product, 'items')
+      assert.equal(product, mockItem)
     })
 
     it('should called findItem with correct arguments', () => {

@@ -14,9 +14,8 @@ const getLogConfig = () => {
   return options
 }
 
-winston.remove(winston.transports.Console)
-
 if (config.util.getEnv('NODE_ENV') !== 'testing') {
+  winston.remove(winston.transports.Console)
   winston.add(winston.transports.Console, getLogConfig())
 }
 

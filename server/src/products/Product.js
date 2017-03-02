@@ -8,8 +8,6 @@ export const authorized = async (ctx, next) => {
   const { API_KEY_PRIVATE } = ctx.request.body
   logger.info('Identify context ip: ', ctx.request.ip)
 
-  // TODO: separate API_KEY into 2 sets
-  // 1 for module (secret) and 1 for client side
   const product = Products.getProductByPrivateKey(API_KEY_PRIVATE, hostname)
 
   if (!product) {

@@ -4,32 +4,44 @@ import * as Products from '../products/Products'
 import * as User from '../users/User'
 import * as Users from '../users/Users'
 
-import logger from 'winston'
-
-const SetUp = async (ctx) => {
-  const { API_KEY_PRIVATE, ...body } = ctx.request.body
+const SetUp = async ctx => {
+  const { body, ip } = ctx.request
+  const { API_KEY_PRIVATE } = body
   const { hashedUserId, deviceCode } = body.userIdentity || {}
-  const ip = ctx.request.ip
-
-  const userCode = hashedUserId ? {
-    userCode: Cookie.generate(hashedUserId)
-  } : {}
-  const validatedDeviceCode = User.validateCode(deviceCode)
-    ? deviceCode : Cookie.generate()
 
   const product = Products.getProduct(API_KEY_PRIVATE, ip)
-  const user = Users.getUser(hashedUserId, deviceCode)
-  const featureList = FeatureLists.getFeatureList(user, product)
+  const user = getUser(hashedUserId, deviceCode)
 
   ctx.body = {
-    ...userCode,
-    deviceCode: validatedDeviceCode,
-    featureList,
-    initCode: 'yeah'
+    ...getUserCode(),
+    deviceCode: getValidatedDeviceCode(deviceCode),
+    featureList: getFeatureList(user, product),
+    initCode: getInitCode(),
   }
   ctx.status = 200
-
-  logger.info('----------------------------------------------------------------')
 }
+
+const getUserCode = hashedUserId => hashedUserId ? {
+  userCode: Cookie.generate(hashedUserId)
+} : {}
+
+const getValidatedDeviceCode = deviceCode => User.validateCode(deviceCode)
+  ? deviceCode : Cookie.generate()
+
+const getUser = async (hashedUserId, deviceCode) => (
+  await Users.getUser(hashedUserId, deviceCode) ||
+    await Users.createUser(hashedUserId, deviceCode)
+)
+
+const getFeatureList = async (user, product) => {
+  const featureListId = User.getFeatureListId(user, product)
+  const featureList = await FeatureLists.getFeatureList(featureListId)
+  return featureList ? await FeatureLists.syncFeafeatureList(featureList)
+    : await FeatureLists.createFeatureList()
+}
+
+const getInitCode = () => (
+  `console.log('hello')`
+)
 
 export default SetUp

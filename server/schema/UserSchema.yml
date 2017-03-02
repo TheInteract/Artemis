@@ -1,21 +1,19 @@
 type: object
 required:
   - deviceCode
-  - featureLists
+  - featureListFks
 properties:
-  hashedUserId:
+  userIdentity:
     type: string
+    description: hashedUserId if has else deviceCode
     faker: ramdom.uuid
-  deviceCode:
-    type: string
-    faker: ramdom.uuid
-  featureLists:
+  featureListFks:
     type: array
     items:
       type: object
       required:
-        - featureList
-        - product
+        - featureListId
+        - productId
       properties:
         featureListId:
           type: object
