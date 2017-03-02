@@ -20,7 +20,7 @@ describe('Event load', () => {
     it('POST /api/event/onload with authorization', (done) => {
       const req = request.post('/api/event/onload')
       req.cookies = 'collector_uuid=' + generate()
-      req.send({ customerCode: 'TEST-1CA' })
+      req.send({ API_KEY: 'TEST-1CA' })
         .end((err, res) => {
           expect(err).to.be.null
           expect(res).to.have.status(200)

@@ -1,6 +1,6 @@
-const config = require('config')
-const logger = require('winston')
-const events = require('../events')
+import config from 'config'
+import logger from 'winston'
+import events from '../events'
 
 const saveEvent = async (ctx) => {
   const cookieName = config.get('cookie.name')

@@ -3,7 +3,7 @@ const pickProperties = require('../../util/pickProperties')
 
 function handleKeydownEvent (e) {
   const data = pickProperties(e, PROPERTIES)
-  data.customerCode = this.customerCode
+  data.API_KEY = this.API_KEY
   this.fetch.post('/event/onkeydown', data)
 }
 

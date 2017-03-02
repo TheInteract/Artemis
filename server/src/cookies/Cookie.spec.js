@@ -1,4 +1,4 @@
-import * as CookieUtil from '../util/CookieUtil'
+import * as Cookie from './Cookie'
 
 import chai from 'chai'
 import config from 'config'
@@ -7,7 +7,7 @@ import sinon from 'sinon'
 
 const expect = chai.expect
 
-describe('CookieUtil', () => {
+describe('Cookie', () => {
   const fakeUpdate = { digest: sinon.stub() }
   const fakeCrypto = { update: sinon.stub() }
   const secret = config.get('secret.key')
@@ -28,7 +28,7 @@ describe('CookieUtil', () => {
   describe('generate', () => {
     it('called with one argument', async () => {
       const timeStamp = new Date(2015, 2, 3).getTime()
-      const result = await CookieUtil.generate(timeStamp)
+      const result = await Cookie.generate(timeStamp)
 
       sinon.assert.calledWith(crypto.createHmac, 'sha512', secret)
       sinon.assert.calledOnce(fakeCrypto.update)
@@ -41,7 +41,7 @@ describe('CookieUtil', () => {
     it('called with empty argument', async () => {
       const timeStamp = new Date().getTime()
       const clock = sinon.useFakeTimers(timeStamp)
-      const result = await CookieUtil.generate()
+      const result = await Cookie.generate()
 
       sinon.assert.calledWith(crypto.createHmac, 'sha512', secret)
       sinon.assert.calledOnce(fakeCrypto.update)
@@ -52,7 +52,7 @@ describe('CookieUtil', () => {
 
     it('called with hashedUserId as key', async () => {
       const fakeHashedUserId = '1234hashednaja'
-      const result = await CookieUtil.generate(fakeHashedUserId)
+      const result = await Cookie.generate(fakeHashedUserId)
 
       sinon.assert.calledWith(crypto.createHmac, 'sha512', secret)
       sinon.assert.calledOnce(fakeCrypto.update)
@@ -65,11 +65,11 @@ describe('CookieUtil', () => {
 
   describe('validate', () => {
     it('should return true if generated cookie from key match the value', () => {
-      expect(CookieUtil.validate('hello', 'hello:fakeToken')).to.be.true
+      expect(Cookie.validate('hello', 'hello:fakeToken')).to.be.true
     })
 
     it('should return false if generated cookie from key does not match the value', () => {
-      expect(CookieUtil.validate('hello', 'hello:5678')).to.be.false
+      expect(Cookie.validate('hello', 'hello:5678')).to.be.false
     })
   })
 })

@@ -1,13 +1,12 @@
-import * as CookieUtil from '../util/CookieUtil'
-import * as AuthUtil from '../util/AuthUtil'
+import * as Cookie from '../src/cookie/Cookie'
+import * as Authentication from '../src/user/Authentication'
 
 import logger from 'winston'
 
 export default async function init (ctx) {
-  const body = ctx.request.body
-  const API_KEY = body.API_KEY
+  const { API_KEY_PRIVATE, ...body } = ctx.request.body
   const { deviceCode, hashedUserId } = body.userIdentity || {}
-  const hostname = ctx.request.ip
+  const ip = ctx.request.ip
 
   // const cookie = hashedUserId
   //   ? await setupUserCookie(hashedUserId, deviceCode)
@@ -18,7 +17,7 @@ export default async function init (ctx) {
   // let user
   //
   // try {
-  //   user = await handleUserOnInit(hashedUserId, cookie, customerCode, hostname)
+  //   user = await handleUserOnInit(hashedUserId, cookie, API_KEY, hostname)
   //   logger.info('request to handle user\'s feature list success:', {
   //     cookie, ip: ctx.request.ip
   //   })
@@ -35,14 +34,10 @@ export default async function init (ctx) {
   //   initCode: responseString
   // }
 
-  const a = { a: 'b' }
-  const b = { ...a }
-  console.log(b)
-
-  const validatedDeviceCode = AuthUtil.validateCode(deviceCode)
-    ? deviceCode : CookieUtil.generate()
+  const validatedDeviceCode = Authentication.validateCode(deviceCode)
+    ? deviceCode : Cookie.generate()
   const userCode = hashedUserId ? {
-    userCode: CookieUtil.generate(hashedUserId)
+    userCode: Cookie.generate(hashedUserId)
   } : {}
 
   ctx.body = {
