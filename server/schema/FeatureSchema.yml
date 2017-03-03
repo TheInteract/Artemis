@@ -1,0 +1,28 @@
+type: object
+required:
+  - productId
+  - featureName
+  - proportion
+properties:
+  productId:
+    type: string
+    faker: random.uuid
+  featureName:
+    type: string
+    faker: random.word
+  proportion:
+    type: object
+    required:
+      - A
+      - B
+    properties:
+      A:
+        type: number
+        description: % of users that will be distributed to version A
+        minimum: 0
+        maximum: 100
+      B:
+        type: number
+        description: % of users that will be distributed to version B
+        minimum: 0
+        maximum: 100

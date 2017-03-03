@@ -13,25 +13,3 @@ properties:
   domainName:
     type: string
     faker: internet.url
-  featureSettings:
-    type: array
-    items:
-      type: object
-      properties:
-        name:
-          type: string
-          description: name of feature
-          faker: random.word
-        versions:
-          type: object
-          properties:
-            A:
-              type: number
-              description: % of users that will be distributed to version A
-              minimum: 0
-              maximum: 100
-            B:
-              type: number
-              description: % of users that will be distributed to version B
-              minimum: 0
-              maximum: 100

@@ -1,0 +1,19 @@
+type: object
+required:
+  - productId
+  - userId
+  - featureId
+  - versionName
+properties:
+  productId:
+    type: string
+    faker: ramdom.uuid
+  userId:
+    type: string
+    faker: ramdom.uuid
+  featureId:
+    type: string
+    faker: ramdom.uuid
+  versionName:
+    type: string
+    faker: random.word
