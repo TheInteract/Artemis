@@ -72,4 +72,8 @@ describe('User', () => {
       assert.isTrue(Cookie.validate.calledWithExactly('', undefined))
     })
   })
+
+  describe('getFeatureListId', () => {
+    it('should test')
+  })
 })
