@@ -1,5 +1,5 @@
 export OnLoad from './load'
-export OnClick from './click'
+export onclick from './click'
 export OnKeyDown from './keydown'
 export OnScroll from './scroll'
 export OnResize from './resize'

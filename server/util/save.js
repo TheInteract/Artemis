@@ -9,12 +9,13 @@ const saveEvent = async (ctx) => {
   const action = ctx.params.type
   // An error should not throw to client side.
   try {
-    await events[action].handleEvent(cookie, body)
+    await events[action](cookie, body)
     logger.info(`request to ${action} event success:`, { cookie, ip: ctx.request.ip })
-    ctx.status = 200
+    ctx.body = {'test': 'eiei'}
     if (!ctx.body) {
       ctx.body = {}
     }
+    ctx.status = 200
   } catch (e) {
     logger.info(`request to ${action} event error:`, { cookie, ip: ctx.request.ip, error: e.message })
     ctx.throw(e.message, e.status)

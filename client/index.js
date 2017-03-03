@@ -5,6 +5,9 @@ const handleKeydownEvent = require('./events/keydown')
 const handleScrollEvent = require('./events/scroll')
 const handleResizeEvent = require('./events/resize')
 const handleMousemoveEvent = require('./events/mousemove')
+const handleAPICallEvent = require('./events/APICall')
+const overrideFetch = require('./util/Listener/FetchListener')
+const overrideXMLHttpRequest = require('./util/Listener/XMLHttpRequestListener')
 
 const baseUrl = process.env.COLLECTOR_BASE || 'http://localhost:3000/'
 
@@ -15,12 +18,15 @@ function API_KEY (...rest) {
   }
 
   // TODO: map ic with web url.
-  window.addEventListener('load', handleLoadEvent.bind(fetchObj))
+  // window.addEventListener('load', handleLoadEvent.bind(fetchObj))
   window.addEventListener('click', handleClickEvent.bind(fetchObj))
-  window.addEventListener('keydown', handleKeydownEvent.bind(fetchObj))
-  window.addEventListener('scroll', handleScrollEvent.bind(fetchObj))
-  window.addEventListener('resize', handleResizeEvent.bind(fetchObj))
-  window.addEventListener('mousemove', handleMousemoveEvent.bind(fetchObj))
+  // window.addEventListener('keydown', handleKeydownEvent.bind(fetchObj))
+  // window.addEventListener('scroll', handleScrollEvent.bind(fetchObj))
+  // window.addEventListener('resize', handleResizeEvent.bind(fetchObj))
+  // window.addEventListener('mousemove', handleMousemoveEvent.bind(fetchObj))
+
+  overrideFetch(handleAPICallEvent.bind(fetchObj))
+  overrideXMLHttpRequest(handleAPICallEvent.bind(fetchObj))
 }
 
 API_KEY(window.i)

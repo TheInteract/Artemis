@@ -1,5 +1,5 @@
-import * as Cookie from '../src/cookie/Cookie'
-import * as Authentication from '../src/user/Authentication'
+import * as Cookie from '../src/cookies/Cookie'
+import * as Authentication from '../src/users/User'
 
 import logger from 'winston'
 
