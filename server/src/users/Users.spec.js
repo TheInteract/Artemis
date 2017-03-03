@@ -1,4 +1,5 @@
 import * as Collections from '../mongo/Collections'
+import * as User from './User'
 import * as Users from './Users'
 
 import chai from 'chai'
@@ -8,91 +9,93 @@ import sinon from 'sinon'
 const assert = chai.assert
 
 describe('Users', () => {
-  const mockUser = { name: 'hello it\'s me' }
-  before(() => {
-    sinon.stub(Collections, 'insertItem')
-    Collections.insertItem.returns(mockUser)
-    sinon.stub(Collections, 'findItem')
-    Collections.findItem.returns(mockUser)
-  })
-
-  after(() => {
-    Collections.insertItem.restore()
-    Collections.findItem.restore()
-  })
-
-  describe('createUser', () => {
-    describe('hashedUserId exists', () => {
-      const fakeHashedUserId = 'fakeHashedUserId'
-      const fakeDeviceCode = 'fakeDeviceCode'
-
-      it('should return user from Collections.findItem', async () => {
-        const user = await Users.createUser(fakeHashedUserId, fakeDeviceCode)
-        assert.deepEqual(user, mockUser)
-      })
-
-      it('should called insertItem with hashedUserId', () => {
-        assert(Collections.insertItem.calledWithExactly(
-          config.mongo.collections.names.user, {
-            userIdentity: fakeHashedUserId
-          }
-        ), 'invalid arguments')
-      })
-    })
-
-    describe('hashedUserId does not exist', () => {
-      const fakeHashedUserId = undefined
-      const fakeDeviceCode = 'fakeDeviceCode'
-
-      it('should return user from Collections.findItem', async () => {
-        const user = await Users.createUser(fakeHashedUserId, fakeDeviceCode)
-        assert.deepEqual(user, mockUser)
-      })
-
-      it('should called insertItem with deviceCode', () => {
-        assert(Collections.insertItem.calledWithExactly(
-          config.mongo.collections.names.user, {
-            userIdentity: fakeDeviceCode
-          }
-        ), 'invalid arguments')
-      })
-    })
-  })
-
   describe('getUser', () => {
-    describe('hashedUserId exists', () => {
-      const fakeHashedUserId = 'fakeHashedUserId'
-      const fakeDeviceCode = 'fakeDeviceCode'
+    const mockUser = { _id: 'fakeUserId' }
 
-      it('should return user from Collections.findItem', async () => {
-        const user = await Users.getUser(fakeHashedUserId, fakeDeviceCode)
-        assert.deepEqual(user, mockUser)
+    describe('user already exists', () => {
+      before(() => {
+        sinon.stub(User, 'create')
+        User.create.returns(mockUser)
+        sinon.stub(Collections, 'findItem')
+        Collections.findItem.returns(mockUser)
       })
 
-      it('should called findItem with hashedUserId', () => {
-        assert(Collections.findItem.calledWithExactly(
-          config.mongo.collections.names.user, {
-            userIdentity: fakeHashedUserId
-          }
-        ), 'invalid arguments')
+      after(() => {
+        User.create.restore()
+        Collections.findItem.restore()
+      })
+
+      describe('hashedUserId exists', () => {
+        const fakeHashedUserId = 'fakeHashedUserId'
+        const fakeDeviceCode = 'fakeDeviceCode'
+
+        it('should return user with correct information', async () => {
+          const user = await Users.getUser(fakeHashedUserId, fakeDeviceCode)
+          assert.deepEqual(user, mockUser)
+        })
+
+        it('should called Collections.findItem with hashedUserId', () => {
+          assert(Collections.findItem.calledWithExactly(
+            config.mongo.collections.names.user, {
+              userIdentity: fakeHashedUserId
+            }
+          ), 'invalid arguments')
+        })
+
+        it('shouldn\'t call User.create', () => {
+          assert(User.create.notCalled, 'it should return existed user ' +
+            'without calling create new user')
+        })
+      })
+
+      describe('hashedUserId does not exist', () => {
+        const fakeHashedUserId = undefined
+        const fakeDeviceCode = 'fakeDeviceCode'
+
+        it('should return user with correct information', async () => {
+          const user = await Users.getUser(fakeHashedUserId, fakeDeviceCode)
+          assert.deepEqual(user, mockUser)
+        })
+
+        it('should called Collections.findItem with deviceCode', () => {
+          assert(Collections.findItem.calledWithExactly(
+            config.mongo.collections.names.user, {
+              userIdentity: fakeDeviceCode
+            }
+          ), 'invalid arguments')
+        })
+
+        it('shouldn\'t call User.create', () => {
+          assert(User.create.notCalled, 'it should return existed user ' +
+            'without calling create new user')
+        })
       })
     })
 
-    describe('hashedUserId does not exist', () => {
-      const fakeHashedUserId = undefined
+    describe('new user', () => {
+      before(() => {
+        sinon.stub(User, 'create')
+        User.create.returns(mockUser)
+        sinon.stub(Collections, 'findItem')
+        Collections.findItem.returns()
+      })
+
+      after(() => {
+        User.create.restore()
+        Collections.findItem.restore()
+      })
+
+      const fakeHashedUserId = 'fakeHashedUserId'
       const fakeDeviceCode = 'fakeDeviceCode'
 
-      it('should return user from Collections.findItem', async () => {
+      it('should return user with correct information', async () => {
         const user = await Users.getUser(fakeHashedUserId, fakeDeviceCode)
         assert.deepEqual(user, mockUser)
       })
 
-      it('should called findItem with deviceCode', () => {
-        assert(Collections.findItem.calledWithExactly(
-          config.mongo.collections.names.user, {
-            userIdentity: fakeDeviceCode
-          }
-        ), 'invalid arguments')
+      it('should called User.create', () => {
+        assert(User.create.calledWithExactly(fakeHashedUserId, fakeDeviceCode),
+          'invalid arguments')
       })
     })
   })

@@ -1,99 +1,62 @@
+import * as Collections from '../mongo/Collections'
 import * as User from './User'
-import * as Cookie from '../cookies/Cookie'
 
-import InvalidArgumentError from '../errors/InvalidArgumentError'
-import UnauthorizedError from '../errors/UnauthorizedError'
 import chai from 'chai'
+import config from 'config'
 import sinon from 'sinon'
 
 const assert = chai.assert
 
 describe('User', () => {
-  describe('authorized', () => {
-    const fakeCode = '12345:fakeCode'
-
+  describe('create', () => {
+    const mockUser = { _id: 'fakeUserId' }
     before(() => {
-      sinon.stub(Cookie, 'validate')
-      Cookie.validate.onCall(0).returns(true)
-      Cookie.validate.returns(false)
+      sinon.stub(Collections, 'insertItem')
+      Collections.insertItem.returns(mockUser)
     })
 
     after(() => {
-      Cookie.validate.restore()
+      Collections.insertItem.restore()
     })
 
-    it('should return true when called with valid cookie', () => {
-      const code = `${fakeCode}`
-      assert.isTrue(User.validateCode(code))
+    describe('hashedUserId exists', () => {
+      const fakeHashedUserId = 'fakeHashedUserId'
+      const fakeDeviceCode = 'fakeDeviceCode'
+
+      it('should return inserted user from Collections.insertItem', async () => {
+        const user = await User.create(fakeHashedUserId, fakeDeviceCode)
+        assert.deepEqual(user, mockUser)
+      })
+
+      it('should called insertItem with hashedUserId', () => {
+        assert(Collections.insertItem.calledWithExactly(
+          config.mongo.collections.names.user, {
+            userIdentity: fakeHashedUserId
+          }
+        ), 'invalid arguments')
+      })
     })
 
-    it('should throw unauthorized when called with invalid cookie', () => {
-      const code = `${fakeCode}-invalid`
-      assert.throws(() => { User.authorized(code) }, UnauthorizedError)
+    describe('hashedUserId does not exist', () => {
+      const fakeHashedUserId = undefined
+      const fakeDeviceCode = 'fakeDeviceCode'
+
+      it('should return inserted user from Collections.insertItem', async () => {
+        const user = await User.create(fakeHashedUserId, fakeDeviceCode)
+        assert.deepEqual(user, mockUser)
+      })
+
+      it('should called insertItem with deviceCode', () => {
+        assert(Collections.insertItem.calledWithExactly(
+          config.mongo.collections.names.user, {
+            userIdentity: fakeDeviceCode
+          }
+        ), 'invalid arguments')
+      })
     })
 
-    it('should throw invalid argument when argument is undefined', () => {
-      assert.throws(() => { User.authorized() }, InvalidArgumentError)
-    })
-  })
-
-  describe('validateCode', () => {
-    const fakeKey = '12345'
-    const fakeCode = `${fakeKey}:fakeCode`
-
-    beforeEach(() => {
-      sinon.stub(Cookie, 'validate')
-    })
-
-    afterEach(() => {
-      Cookie.validate.restore()
-    })
-
-    it('should return true when called with valid code', () => {
-      Cookie.validate.returns(true)
-
-      const code = `${fakeCode}`
-      assert.isTrue(User.validateCode(code))
-      assert.isTrue(Cookie.validate.calledWithExactly(fakeKey, fakeCode))
-    })
-
-    it('should return false when called with invalid code', () => {
-      Cookie.validate.returns(false)
-
-      const code = `${fakeCode}-invalid`
-      assert.isFalse(User.validateCode(code))
-      assert.isTrue(Cookie.validate.calledWithExactly(fakeKey, code))
-    })
-
-    it('should return false when argument is undefined', () => {
-      Cookie.validate.returns(false)
-
-      assert.isFalse(User.validateCode())
-      assert.isTrue(Cookie.validate.calledWithExactly('', undefined))
-    })
-  })
-
-  describe('getFeatureListId', () => {
-    const fakeProductId = 'fakeProductId-1'
-    const fakeFeatureListId = 'fakeFeatureListId-1'
-
-    it('should return undefined if no productId found in featureListFks', () => {
-      const mockUser = { featureListFks: [] }
-      const mockProduct = { _id: fakeProductId }
-      assert.isUndefined(User.getFeatureListId(mockUser, mockProduct))
-    })
-
-    it('should return featureListId if productId found in featureListFks', () => {
-      const mockUser = {
-        featureListFks: [
-          { featureListId: fakeFeatureListId, productId: fakeProductId }
-        ]
-      }
-      const mockProduct = { _id: fakeProductId }
-      assert.equal(
-        User.getFeatureListId(mockUser, mockProduct),
-        fakeFeatureListId
-      )
+    describe('Collections.insertItem does not answer', () => {
+      it('shoud test?')
     })
   })
 })

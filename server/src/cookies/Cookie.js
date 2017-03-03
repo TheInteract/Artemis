@@ -12,6 +12,6 @@ export const generate = (key = new Date().getTime()) => {
   return code
 }
 
-export const validate = (key, value) => {
-  return generate(key) === value
-}
+export const validate = (key, value) => (
+  generate(key) === value
+)
