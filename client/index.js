@@ -18,12 +18,12 @@ function API_KEY (...rest) {
   }
 
   // TODO: map ic with web url.
-  // window.addEventListener('load', handleLoadEvent.bind(fetchObj))
+  window.addEventListener('load', handleLoadEvent.bind(fetchObj))
   window.addEventListener('click', handleClickEvent.bind(fetchObj))
-  // window.addEventListener('keydown', handleKeydownEvent.bind(fetchObj))
-  // window.addEventListener('scroll', handleScrollEvent.bind(fetchObj))
-  // window.addEventListener('resize', handleResizeEvent.bind(fetchObj))
-  // window.addEventListener('mousemove', handleMousemoveEvent.bind(fetchObj))
+  window.addEventListener('keydown', handleKeydownEvent.bind(fetchObj))
+  window.addEventListener('scroll', handleScrollEvent.bind(fetchObj))
+  window.addEventListener('resize', handleResizeEvent.bind(fetchObj))
+  window.addEventListener('mousemove', handleMousemoveEvent.bind(fetchObj))
 
   overrideFetch(handleAPICallEvent.bind(fetchObj))
   overrideXMLHttpRequest(handleAPICallEvent.bind(fetchObj))

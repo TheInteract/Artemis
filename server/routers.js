@@ -8,8 +8,8 @@ import { saveEvent } from './util/save'
 const router = new Router({ prefix: '/api' })
 
 router.get('/healthz', (ctx) => { ctx.status = 200 })
-router.post(endpoints.INIT_EVENT, Product.authorized, Events.OnInit)
-router.post(endpoints.LOAD_EVENT, Product.authorized, checkCookie, Events.OnLoad)
+router.post(endpoints.INIT_EVENT, Product.authorized, Events.oninit)
+router.post(endpoints.LOAD_EVENT, Product.authorized, Events.onload)
 router.post(endpoints.SAVE_EVENT, Product.authorized, saveEvent)
 
 module.exports = router

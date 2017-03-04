@@ -1,6 +1,6 @@
 import config from 'config'
 import logger from 'winston'
-import events from '../events'
+import * as events from '../events'
 
 const saveEvent = async (ctx) => {
   const cookieName = config.get('cookie.name')
