@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 
 module.exports = {
-  entry: './index.js',
+  entry: [ 'whatwg-fetch', './index.js' ],
   devtool: 'cheap-module-source-map',
   output: {
     filename: 'analytics.js',

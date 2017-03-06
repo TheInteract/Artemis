@@ -26,8 +26,8 @@
     </div>
     <script>
       (function (window, document, tag, target, element) {
-        window['API_KEY'] = function (i) {
-          window.i = i
+        window['INIT'] = function (API_KEY_PUBLIC) {
+          window.i = API_KEY_PUBLIC
         }
         target = document.createElement(tag)
         element = document.getElementsByTagName(tag)[0]
@@ -36,7 +36,7 @@
         element.parentNode.insertBefore(target, element)
       })(window, document, 'script')
 
-      API_KEY('IC9-55938-5')
+      INIT('IC9-55938-5')
       // !function(a,b,c,d,e){a.API_KEY=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://35.186.212.151/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),API_KEY("IC9-55938-5");
     </script>
   </body>

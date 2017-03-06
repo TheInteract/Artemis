@@ -3,7 +3,7 @@ const pickProperties = require('../../util/pickProperties')
 
 function handleResizeEvent (e) {
   const data = pickProperties(e, PROPERTIES)
-  data.API_KEY = this.API_KEY
+  data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
   this.fetch.post('/event/onresize', data)
 }
 

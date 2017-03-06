@@ -1,6 +1,6 @@
 import config from 'config'
-import { wrapper } from './wrapper'
-import InvalidArgumentError from '../errors/invalid-argument'
+import wrapper from '../src/mongo/withMongodb'
+import InvalidArgumentError from '../src/errors/InvalidArgumentError'
 
 async function getCollectionItem (collectionName, query) {
   return await this.collection(collectionName).findOne(query)

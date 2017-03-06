@@ -2,7 +2,8 @@ const webpack = require(`webpack`)
 
 module.exports = {
   entry: [
-    './index.js',
+    'whatwg-fetch',
+    './index.js'
   ],
   output: {
     filename: 'analytics.js',
@@ -16,9 +17,7 @@ module.exports = {
         exclude: [ /node_modules/ ],
         query: {
           babelrc: false,
-          presets: [
-            [ 'es2015', { modules: false } ],
-          ],
+          presets: [ [ 'es2015', { modules: false } ] ],
         },
       },
     ],

@@ -8,7 +8,7 @@ function handleMousemoveEvent (e) {
   if (now - prevTime > 500) {
     prevTime = new Date()
     const data = pickProperties(e, PROPERTIES)
-    data.API_KEY = this.API_KEY
+    data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
     this.fetch.post('/event/onmousemove', data)
   }
 }
