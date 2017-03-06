@@ -5,7 +5,7 @@ const overrideXMLHttpRequest = require('./util/overrider/XMLHttpRequestOverrider
 
 const baseUrl = process.env.COLLECTOR_BASE || 'http://localhost:3000/'
 
-function INIT (...rest) {
+function initialize (...rest) {
   const fetchObj = {
     fetch: new BrowserFetch(baseUrl),
     API_KEY_PUBLIC: rest[0],
@@ -23,4 +23,4 @@ function INIT (...rest) {
   overrideXMLHttpRequest(handleEvent.bind(fetchObj, 'APICall'))
 }
 
-INIT(window.i)
+initialize(window.i)
