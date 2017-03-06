@@ -15,6 +15,7 @@ async function save (API_KEY, token, data, action) {
         .rpush(API_KEY, token)
         .execAsync(),
     redis().hmsetAsync(token, hash),
+    // redis().publish('new-record', hash)
   ]
   try {
     const result = await Promise.all(task)
