@@ -14,7 +14,7 @@ const SetUp = async ctx => {
   ctx.body = {
     ...Codes.getUserCode(),
     deviceCode: Codes.getDeviceCode(deviceCode),
-    featureList: FeatureLists.getFeatureList(product, user),
+    featureList: await FeatureLists.getFeatureList(product, user),
     initCode: getInitCode(),
   }
   ctx.status = 200

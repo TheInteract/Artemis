@@ -44,12 +44,4 @@ describe('Features', () => {
       ), 'invalid arguments')
     })
   })
-
-  describe('createFeatureList', () => {
-    it('should test')
-  })
-
-  describe('syncFeafeatureList', () => {
-    it('should test')
-  })
 })

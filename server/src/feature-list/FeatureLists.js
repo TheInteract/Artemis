@@ -4,16 +4,19 @@ import * as Versions from '../versions/Versions'
 
 import _ from 'lodash'
 
-export const getFeatureList = (product, user) => {
-  const totalFeatures = Features.getFeaturesByProduct(product._id)
-  const currentList = Versions.getFeatureList(product._id, user._id)
+// FeatureList means a set of versions
+// example: [
+//   { productId: 'pid-1', userId: 'uid-1', featureId: 'fid-1', name: 'A' },
+//   { productId: 'pid-2', userId: 'uid-2', featureId: 'fid-2', name: 'B' },
+// ]
+export const getFeatureList = async (productId, userId) => {
+  const totalFeatures = await Features.getFeaturesByProduct(productId)
+  const currentFeatureList = await Versions.getVersions(productId, userId)
 
-  return _.map(totalFeatures, feature => {
-    const version = find(currentList, feature.name)
-    return version || Version.create(product._id, user._id, feature._id)
-  })
-}
-
-const find = (list, featureName) => {
-  return _.find(list, feature => feature.name === featureName)
+  return await Promise.all(_.map(totalFeatures, async feature => {
+    const version = _.find(currentFeatureList, version => (
+      version.featureId === feature._id
+    ))
+    return version || await Version.create(productId, userId, feature)
+  }))
 }

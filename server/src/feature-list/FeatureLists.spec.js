@@ -9,41 +9,49 @@ import sinon from 'sinon'
 const assert = chai.assert
 
 describe('FeatureList', () => {
-  const mockProduct = { _id: 'fakeProductId' }
-  const mockTotalList = [
-    { _id: 'fakeFeatureId-2', name: 'fakeFeature-2' },
-    { _id: 'fakeFeatureId-3', name: 'fakeFeature-3' },
-    { _id: 'fakeFeatureId-4', name: 'fakeFeature-4' },
-  ]
-  const mockCurrentList = [
-    { name: 'fakeFeature-1', version: 'A' },
-    { name: 'fakeFeature-2', version: 'A' },
-    { name: 'fakeFeature-3', version: 'B' },
-  ]
+  describe('getFeatureList', () => {
+    const mockTotalFeatures = [
+      { _id: 'fakeFeatureId-2', name: 'fakeFeature-2' },
+      { _id: 'fakeFeatureId-3', name: 'fakeFeature-3' },
+      { _id: 'fakeFeatureId-4', name: 'fakeFeature-4' },
+    ]
+    const mockCurrentFeatureList = [
+      { featureId: 'fakeFeatureId-1', version: 'A' },
+      { featureId: 'fakeFeatureId-2', version: 'A' },
+      { featureId: 'fakeFeatureId-3', version: 'B' },
+    ]
 
-  const mockNewVersion = { name: 'fakeFeature-4', version: 'B' }
+    const mockNewVersion = { featureId: 'fakeFeatureId-4', version: 'B' }
 
-  before(() => {
-    sinon.stub(Features, 'getFeaturesByProduct')
-    Features.getFeaturesByProduct.returns(mockTotalList)
-    sinon.stub(Versions, 'getFeatureList')
-    Versions.getFeatureList.returns(mockCurrentList)
-    sinon.stub(Version, 'create')
-    Version.create.onCall(0).returns(mockNewVersion)
-  })
+    before(() => {
+      sinon.stub(Features, 'getFeaturesByProduct')
+      Features.getFeaturesByProduct.returns(mockTotalFeatures)
+      sinon.stub(Versions, 'getVersions')
+      Versions.getVersions.returns(mockCurrentFeatureList)
+      sinon.stub(Version, 'create')
+      Version.create.onCall(0).returns(mockNewVersion)
+    })
 
-  after(() => {
-    Features.getFeaturesByProduct.restore()
-    Versions.getFeatureList.restore()
-    Version.create.restore()
-  })
+    after(() => {
+      Features.getFeaturesByProduct.restore()
+      Versions.getVersions.restore()
+      Version.create.restore()
+    })
 
-  it('should test', () => {
-    const result = FeatureLists.getFeatureList(mockProduct, mockCurrentList)
-    assert.deepEqual(result, [
-      { name: 'fakeFeature-2', version: 'A' },
-      { name: 'fakeFeature-3', version: 'B' },
-      { name: 'fakeFeature-4', version: 'B' },
-    ])
+    const fakeProductId = 'fakeProductId'
+    const fakeUserId = 'fakeUserId'
+
+    it('should return correct result', async () => {
+      const result = await FeatureLists.getFeatureList(fakeProductId, fakeUserId)
+      assert.deepEqual(result, [
+        { featureId: 'fakeFeatureId-2', version: 'A' },
+        { featureId: 'fakeFeatureId-3', version: 'B' },
+        { featureId: 'fakeFeatureId-4', version: 'B' },
+      ])
+    })
+
+    it('should call Features.getFeaturesByProduct ...')
+    it('should call Versions.getVersions ...')
+    it('should call Version.create if ...')
   })
 })

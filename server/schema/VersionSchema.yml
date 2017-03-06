@@ -3,7 +3,7 @@ required:
   - productId
   - userId
   - featureId
-  - versionName
+  - name
 properties:
   productId:
     type: string

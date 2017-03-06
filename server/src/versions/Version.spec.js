@@ -1,5 +1,6 @@
 import * as Collections from '../mongo/Collections'
 import * as Version from './Version'
+import * as Versions from './Versions'
 
 import chai from 'chai'
 import config from 'config'
@@ -12,6 +13,9 @@ describe('Version', () => {
     const fakeProductId = 'fakeProductId'
     const fakeUserId = 'fakeUserId'
     const fakeFeatureId = 'fakeFeatureId'
+    const mockFeature = {
+      _id: fakeFeatureId
+    }
 
     const mockVersion = {
       productId: fakeProductId,
@@ -19,18 +23,29 @@ describe('Version', () => {
       featureId: fakeFeatureId,
     }
 
+    const mockVersionsSortedByCount = [ 'A', 'B' ]
+
     before(() => {
       sinon.stub(Collections, 'insertItem')
       Collections.insertItem.returns(mockVersion)
+      sinon.stub(Versions, 'getVersionsSortedByCount')
+      Versions.getVersionsSortedByCount.returns(mockVersionsSortedByCount)
     })
 
     after(() => {
       Collections.insertItem.restore()
+      Versions.getVersionsSortedByCount.restore()
     })
 
     it('should return inserted version from Collections.insertItem', async () => {
-      const version = await Version.create(fakeProductId, fakeUserId, fakeFeatureId)
+      const version = await Version.create(fakeProductId, fakeUserId, mockFeature)
       assert.deepEqual(version, mockVersion)
+    })
+
+    it('should called Versions.getVersionsSortedByCount with correct arguments', () => {
+      assert(Versions.getVersionsSortedByCount.calledWithExactly(
+        mockFeature
+      ), 'invalid arguments')
     })
 
     it('should called insertItem with correct arguments', () => {
@@ -39,7 +54,7 @@ describe('Version', () => {
           productId: fakeProductId,
           userId: fakeUserId,
           featureId: fakeFeatureId,
-          name: 1
+          name: mockVersionsSortedByCount[0]
         }
       ), 'invalid arguments')
     })

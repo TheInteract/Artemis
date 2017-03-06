@@ -1,24 +1,21 @@
 import * as Collections from '../mongo/Collections'
 
-import Mongodb from 'mongodb'
+import _ from 'lodash'
 import config from 'config'
 
-export const createVersion = async (productId, userId, featureId) => {
-  return await Collections.insertItem(config.mongo.collections.names.version, {
-    productId: Mongodb.ObjectId(productId),
-    userId: Mongodb.ObjectId(userId),
-    featureId: Mongodb.ObjectId(featureId),
-    name: 0
-  })
+export const getVersionsSortedByCount = async feature => {
+  const versionNames = Object.keys(feature.proportion)
+  const versionsSortedByCount = _.sortBy(versionNames, async versionName => (
+    await Collections.countItems(config.mongo.collections.name.version, {
+      featureId: feature._id,
+      name: versionName
+    })
+  ))
+
+  console.log('hello version', versionsSortedByCount)
+  return versionsSortedByCount
 }
 
-export const countVersions = async (featureId, name) => {
-  return await Collections.countItems(config.mongo.collections.names.version, {
-    featureId: Mongodb.ObjectId(featureId),
-    name: name
-  })
-}
-
-export const getFeatureList = (productId, userId) => {
+export const getVersions = (productId, userId) => {
 
 }

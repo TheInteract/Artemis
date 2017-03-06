@@ -10,7 +10,7 @@ export const authorized = async (ctx, next) => {
   const { API_KEY_PRIVATE } = ctx.request.body
   logger.info('Identify context ip: ', ctx.request.ip)
 
-  const product = Products.getProductByPrivateKey(API_KEY_PRIVATE, hostname)
+  const product = await Products.getProductByPrivateKey(API_KEY_PRIVATE, hostname)
 
   if (!product) {
     const e = new UnauthorizedError()
