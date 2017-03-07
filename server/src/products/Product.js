@@ -3,12 +3,14 @@ import UnauthorizedError from '../errors/UnauthorizedError'
 
 import logger from 'winston'
 
+// TODO: make authorized receive necessary params
+// some other function should handle ctx and next instead of this function
 export const authorized = async (ctx, next) => {
   const hostname = ctx.request.ip
   const { API_KEY_PRIVATE } = ctx.request.body
   logger.info('Identify context ip: ', ctx.request.ip)
 
-  const product = Products.getProductByPrivateKey(API_KEY_PRIVATE, hostname)
+  const product = await Products.getProductByPrivateKey(API_KEY_PRIVATE, hostname)
 
   if (!product) {
     const e = new UnauthorizedError()

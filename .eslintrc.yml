@@ -19,3 +19,4 @@ rules:
   comma-dangle: off
   quotes: [ error, single, { allowTemplateLiterals: true } ]
   space-before-function-paren: [ error, always ]
+  no-console: [ warn, { allow: [ warn, error ] } ]

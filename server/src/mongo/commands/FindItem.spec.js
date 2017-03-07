@@ -5,15 +5,19 @@ import sinon from 'sinon'
 const assert = chai.assert
 
 describe('FindItem', () => {
-  it('should return object of items', async () => {
-    const stubFindOne = sinon.stub()
-    const db = {
-      collection: () => ({
-        findOne: stubFindOne.returns('hello')
-      })
-    }
+  const mockItem = 'hello'
+  const stubFindOne = sinon.stub()
+  const db = {
+    collection: () => ({
+      findOne: stubFindOne.returns(mockItem)
+    })
+  }
 
-    assert.equal(await FindItem(db)('collectionName', 'query'), 'hello')
+  it('should return item', async () => {
+    assert.equal(await FindItem(db)('collectionName', 'query'), mockItem)
+  })
+
+  it('should call findOne once', () => {
     assert(stubFindOne.calledOnce, 'findOne should be called once')
   })
 })
