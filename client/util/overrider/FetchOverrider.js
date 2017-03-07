@@ -1,8 +1,10 @@
+const url = require('url')
+
 function onFetchStart (handleEvent, input) {
   const data = {
     protocol: 'Fetch',
     method: input[1].method,
-    url: input[1].url
+    url: url.parse(input[1].url)
   }
   handleEvent(data)
 }
