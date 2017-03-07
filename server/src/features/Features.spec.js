@@ -9,22 +9,26 @@ import sinon from 'sinon'
 const assert = chai.assert
 
 describe('Features', () => {
-  const mockFeatures = [ 'hello', 'it\'s me' ]
-  const fakeProductId = 'fakeProductId'
-
-  before(() => {
-    sinon.stub(Mongodb, 'ObjectId')
-    Mongodb.ObjectId.returnsArg(0)
-    sinon.stub(Collections, 'findItems')
-    Collections.findItems.returns(mockFeatures)
-  })
-
-  after(() => {
-    Mongodb.ObjectId.restore()
-    Collections.findItems.restore()
+  describe('getFeature', () => {
+    it('should test')
   })
 
   describe('getFeaturesByProduct', () => {
+    const mockFeatures = [ 'hello', 'it\'s me' ]
+    const fakeProductId = 'fakeProductId'
+
+    before(() => {
+      sinon.stub(Mongodb, 'ObjectId')
+      Mongodb.ObjectId.returnsArg(0)
+      sinon.stub(Collections, 'findItems')
+      Collections.findItems.returns(mockFeatures)
+    })
+
+    after(() => {
+      Mongodb.ObjectId.restore()
+      Collections.findItems.restore()
+    })
+
     it('should return item from Collections.findItems', async () => {
       const features = await Features.getFeaturesByProduct(fakeProductId)
       assert.deepEqual(features, mockFeatures)

@@ -1,3 +1,4 @@
+import * as FeatureListItem from './FeatureListItem'
 import * as Features from '../features/Features'
 import * as Version from '../versions/Version'
 import * as Versions from '../versions/Versions'
@@ -14,7 +15,8 @@ export const getFeatureList = async (productId, userId) => {
   return await Promise.all(_.map(totalFeatures, async feature => {
     const version = _.find(currentFeatureList, version => (
       _.isEqual(version.featureId, feature._id)
-    ))
-    return version || await Version.create(productId, userId, feature)
+    )) || await Version.create(productId, userId, feature)
+
+    return FeatureListItem.create(version)
   }))
 }
