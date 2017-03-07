@@ -2,6 +2,7 @@ import * as Collections from '../mongo/Collections'
 import * as Version from './Version'
 import * as Versions from './Versions'
 
+import Mongodb from 'mongodb'
 import chai from 'chai'
 import config from 'config'
 import sinon from 'sinon'
@@ -26,6 +27,8 @@ describe('Version', () => {
     const mockVersionsSortedByCount = [ 'A', 'B' ]
 
     before(() => {
+      sinon.stub(Mongodb, 'ObjectId')
+      Mongodb.ObjectId.returnsArg(0)
       sinon.stub(Collections, 'insertItem')
       Collections.insertItem.returns(mockVersion)
       sinon.stub(Versions, 'getVersionsSortedByCount')
@@ -33,6 +36,7 @@ describe('Version', () => {
     })
 
     after(() => {
+      Mongodb.ObjectId.restore()
       Collections.insertItem.restore()
       Versions.getVersionsSortedByCount.restore()
     })
