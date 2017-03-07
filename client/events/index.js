@@ -24,7 +24,8 @@ let prevTime = {
 }
 
 function callFetch (fetch, type, data) {
-  fetch.post('/event/on' + type, data)
+  console.log('Save data to', '/event/on' + type, data)
+  //fetch.post('/event/on' + type, data)
 }
 
 function requestIsNotInDelay (type) {
