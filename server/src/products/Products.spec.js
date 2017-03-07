@@ -30,7 +30,7 @@ describe('Products', () => {
       assert.equal(product, mockItem)
     })
 
-    it('should called findItem with correct arguments', () => {
+    it('should called Collections.findItem with correct arguments', () => {
       assert(Collections.findItem.calledWithExactly(
         config.mongo.collections.names.product, {
           API_KEY_PRIVATE: fakePrivateApiKey,
@@ -52,7 +52,7 @@ describe('Products', () => {
       assert.equal(product, mockItem)
     })
 
-    it('should called findItem with correct arguments', () => {
+    it('should called Collections.findItem with correct arguments', () => {
       assert(Collections.findItem.calledWithExactly(
         config.mongo.collections.names.product, {
           API_KEY_PUBLIC: fakePublicApiKey,

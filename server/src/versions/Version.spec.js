@@ -48,7 +48,7 @@ describe('Version', () => {
       ), 'invalid arguments')
     })
 
-    it('should called insertItem with correct arguments', () => {
+    it('should called Collections.insertItem with correct arguments', () => {
       assert(Collections.insertItem.calledWithExactly(
         config.mongo.collections.names.version, {
           productId: fakeProductId,

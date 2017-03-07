@@ -36,7 +36,7 @@ describe('Features', () => {
       ), 'invalid arguments')
     })
 
-    it('should called findItems with correct arguments', () => {
+    it('should called Collections.findItems with correct arguments', () => {
       assert(Collections.findItems.calledWithExactly(
         config.mongo.collections.names.feature, {
           productId: fakeProductId

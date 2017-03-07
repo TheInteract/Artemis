@@ -5,17 +5,24 @@ import config from 'config'
 
 export const getVersionsSortedByCount = async feature => {
   const versionNames = Object.keys(feature.proportion)
-  const versionsSortedByCount = _.sortBy(versionNames, async versionName => (
-    await Collections.countItems(config.mongo.collections.name.version, {
+
+  const versions = await Promise.all(_.map(versionNames, async versionName => ({
+    name: versionName,
+    count: await Collections.countItems(config.mongo.collections.names.version, {
       featureId: feature._id,
       name: versionName
     })
-  ))
+  })))
 
-  console.log('hello version', versionsSortedByCount)
-  return versionsSortedByCount
+  return _.flow(
+    versions => _.sortBy(versions, 'count'),
+    versions => _.map(versions, 'name')
+  )(versions)
 }
 
-export const getVersions = (productId, userId) => {
-
+export const getVersions = async (productId, userId) => {
+  return await Collections.findItems(config.mongo.collections.names.version, {
+    productId: productId,
+    userId: userId,
+  })
 }

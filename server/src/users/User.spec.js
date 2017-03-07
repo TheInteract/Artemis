@@ -28,7 +28,7 @@ describe('User', () => {
         assert.deepEqual(user, mockUser)
       })
 
-      it('should called insertItem with hashedUserId', () => {
+      it('should called Collections.insertItem with hashedUserId', () => {
         assert(Collections.insertItem.calledWithExactly(
           config.mongo.collections.names.user, {
             userIdentity: fakeHashedUserId
@@ -46,7 +46,7 @@ describe('User', () => {
         assert.deepEqual(user, mockUser)
       })
 
-      it('should called insertItem with deviceCode', () => {
+      it('should called Collections.insertItem with deviceCode', () => {
         assert(Collections.insertItem.calledWithExactly(
           config.mongo.collections.names.user, {
             userIdentity: fakeDeviceCode

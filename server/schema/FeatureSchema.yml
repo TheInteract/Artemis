@@ -1,13 +1,13 @@
 type: object
 required:
   - productId
-  - featureName
+  - name
   - proportion
 properties:
   productId:
     type: string
     faker: random.uuid
-  featureName:
+  name:
     type: string
     faker: random.word
   proportion:

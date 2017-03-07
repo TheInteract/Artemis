@@ -54,7 +54,10 @@ describe('Code', () => {
 
       const code = `${fakeCode}`
       assert.isTrue(Code.validate(code))
-      assert.isTrue(Cookie.validate.calledWithExactly(fakeKey, fakeCode))
+      assert(
+        Cookie.validate.calledWithExactly(fakeKey, fakeCode),
+        'invalid arguments'
+      )
     })
 
     it('should return false when called with invalid code', () => {
@@ -62,14 +65,20 @@ describe('Code', () => {
 
       const code = `${fakeCode}-invalid`
       assert.isFalse(Code.validate(code))
-      assert.isTrue(Cookie.validate.calledWithExactly(fakeKey, code))
+      assert(
+        Cookie.validate.calledWithExactly(fakeKey, code),
+        'invalid arguments'
+      )
     })
 
     it('should return false when argument is undefined', () => {
       Cookie.validate.returns(false)
 
       assert.isFalse(Code.validate())
-      assert.isTrue(Cookie.validate.calledWithExactly('', undefined))
+      assert(
+        Cookie.validate.calledWithExactly('', undefined),
+        'invalid arguments'
+      )
     })
   })
 })
