@@ -1,4 +1,4 @@
-FROM node:6.9.2-slim
+FROM node:7-slim
 MAINTAINER ChinCluBi <chinnaporn.s@ku.th>
 COPY /server /app/server
 COPY /node_modules /app/node_modules
