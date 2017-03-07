@@ -24,8 +24,7 @@ let prevTime = {
 }
 
 function callFetch (fetch, type, data) {
-  console.log('Save data to', '/event/on' + type, data)
-  //fetch.post('/event/on' + type, data)
+  fetch.post('/event/on' + type, data)
 }
 
 function requestIsNotInDelay (type) {
@@ -40,11 +39,7 @@ function requestIsNotInDelay (type) {
 function isCallToProductEndPoint (targetHostname) {
   const productHostname = window.location.hostname
   const artemisHostname = url.parse(process.env.COLLECTOR_BASE || 'http://localhost:3000/').hostname
-
-  if (targetHostname === productHostname && targetHostname !== artemisHostname) {
-    return true
-  }
-  return false
+  return (targetHostname === productHostname && targetHostname !== artemisHostname)
 }
 
 function handleEvent (type, event) {
