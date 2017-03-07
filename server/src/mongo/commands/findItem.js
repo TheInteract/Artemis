@@ -1,4 +1,4 @@
-const findItem = db => async (collectionName, query) =>
+const FindItem = db => async (collectionName, query) =>
   await db.collection(collectionName).findOne(query)
 
-export default findItem
+export default FindItem
