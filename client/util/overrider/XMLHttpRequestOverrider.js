@@ -1,8 +1,10 @@
+const url = require('url')
+
 function onOpenRequest (handleEvent, input) {
   const data = {
     protocol: 'XMLHttpRequest',
     method: input[0],
-    url: input[1]
+    url: url.parse(input[1])
   }
   handleEvent(data)
 }

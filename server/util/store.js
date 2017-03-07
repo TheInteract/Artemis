@@ -9,13 +9,16 @@ async function save (API_KEY, token, data, action) {
     join([ d, action, key ], ':'), value),
     []
   )
+  console.log(action)
   const task = [
+    // redis().multi()
+    //     .lrem(API_KEY, 0, token)
+    //     .rpush(API_KEY, token)
+    //     .execAsync(),
+    // redis().hmsetAsync(token, hash),
     redis().multi()
-        .lrem(API_KEY, 0, token)
-        .rpush(API_KEY, token)
-        .execAsync(),
-    redis().hmsetAsync(token, hash),
-    // redis().publish('new-record', hash)
+        .publish(action, hash)
+        .execAsync()
   ]
   try {
     const result = await Promise.all(task)
