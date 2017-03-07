@@ -3,9 +3,7 @@ import * as Version from '../versions/Version'
 import * as Versions from '../versions/Versions'
 
 import _ from 'lodash'
-
-// FeatureList means a set of versions
-// example: [
+// NOTE: FeatureList means a set of versions. For example: [
 //   { productId: 'pid-1', userId: 'uid-1', featureId: 'fid-1', name: 'A' },
 //   { productId: 'pid-2', userId: 'uid-2', featureId: 'fid-2', name: 'B' },
 // ]
@@ -15,7 +13,7 @@ export const getFeatureList = async (productId, userId) => {
 
   return await Promise.all(_.map(totalFeatures, async feature => {
     const version = _.find(currentFeatureList, version => (
-      version.featureId === feature._id
+      _.isEqual(version.featureId, feature._id)
     ))
     return version || await Version.create(productId, userId, feature)
   }))

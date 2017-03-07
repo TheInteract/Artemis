@@ -8,16 +8,18 @@ const SetUp = async ctx => {
   const { API_KEY_PRIVATE } = body
   const { hashedUserId, deviceCode } = body.userIdentity || {}
 
-  const product = Products.getProduct(API_KEY_PRIVATE, ip)
-  const user = Users.getUser(hashedUserId, deviceCode)
+  const product = await Products.getProductByPrivateKey(API_KEY_PRIVATE, ip)
+  const validatedDeviceCode = Codes.getDeviceCode(deviceCode)
+  const user = await Users.getUser(hashedUserId, validatedDeviceCode)
 
   ctx.body = {
-    ...Codes.getUserCode(),
-    deviceCode: Codes.getDeviceCode(deviceCode),
-    featureList: await FeatureLists.getFeatureList(product, user),
+    ...Codes.getUserCode(hashedUserId),
+    deviceCode: validatedDeviceCode,
+    featureList: await FeatureLists.getFeatureList(product._id, user._id),
     initCode: getInitCode(),
   }
   ctx.status = 200
+  console.log(ctx.body)
 }
 
 const getInitCode = () => (

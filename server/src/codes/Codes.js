@@ -1,5 +1,5 @@
 import * as Cookie from '../cookies/Cookie'
-import * as Code from '../users/Code'
+import * as Code from './Code'
 
 export const getUserCode = hashedUserId => hashedUserId ? {
   userCode: Cookie.generate(hashedUserId)
