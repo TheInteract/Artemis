@@ -1,6 +1,0 @@
-export onload from './load'
-export onclick from './click'
-export onkeydown from './keydown'
-export onscroll from './scroll'
-export onresize from './resize'
-export onmousemove from './mousemove'

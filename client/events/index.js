@@ -18,13 +18,20 @@ const propertiesObject = {
   scroll: scrollProperties
 }
 
+let hasError = false
 let prevTime = {
   mousemove: new Date(0),
   resize: new Date(0)
 }
 
 function callFetch (fetch, type, data) {
-  fetch.post('/event/on' + type, data)
+  fetch.post('/event/on' + type, data).catch(function () {
+    hasError = true
+  })
+}
+
+function isMouseMoveAndReize (type) {
+  return type === 'mousemove' || type === 'resize'
 }
 
 function requestIsNotInDelay (type) {
@@ -48,10 +55,10 @@ function handleEvent (type, event) {
   data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
 
   if (!(
-    ((type === 'mousemove' || type === 'resize') && !requestIsNotInDelay(type)) ||
+    (isMouseMoveAndReize(type) && !requestIsNotInDelay(type)) ||
     (type === 'APICall' && !isCallToProductEndPoint(data.url.hostname))
-  )) {
-    callFetch(fetch, type, data)
+  ) && !hasError) {
+    callFetch(fetch, type, data, this)
   }
 }
 

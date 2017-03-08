@@ -1,6 +1,9 @@
 type: object
 required:
 properties:
+  productName:
+    type: string
+    faker: random.word
   API_KEY_PRIVATE:
     type: string
     faker: random.uuid
