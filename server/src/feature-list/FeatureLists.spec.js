@@ -1,3 +1,4 @@
+import * as FeatureListItem from './FeatureListItem'
 import * as FeatureLists from './FeatureLists'
 import * as Features from '../features/Features'
 import * as Version from '../versions/Version'
@@ -35,12 +36,15 @@ describe('FeatureList', () => {
       sinon.stub(Version, 'create')
       Version.create.onCall(0).returns(mockNewVersions[0])
       Version.create.onCall(1).returns(mockNewVersions[1])
+      sinon.stub(FeatureListItem, 'create')
+      FeatureListItem.create.returnsArg(0)
     })
 
     after(() => {
       Features.getFeaturesByProduct.restore()
       Versions.getVersions.restore()
       Version.create.restore()
+      FeatureListItem.create.restore()
     })
 
     const fakeProductId = 'fakeProductId'

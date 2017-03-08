@@ -1,4 +1,4 @@
-const countItems = db => async (collectionName, query) =>
+const CountItems = db => async (collectionName, query) =>
   await db.collection(collectionName).count(query)
 
-export default countItems
+export default CountItems

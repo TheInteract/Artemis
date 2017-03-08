@@ -9,7 +9,7 @@ describe('InsertItem', () => {
   const stubInsertOne = sinon.stub()
   const db = {
     collection: () => ({
-      insertOne: stubInsertOne.returns({ ops: mockItem })
+      insertOne: stubInsertOne.returns({ ops: [ mockItem ] })
     })
   }
 
