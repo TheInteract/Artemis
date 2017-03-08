@@ -2,11 +2,15 @@ import redis from './redisAsync'
 import logger from 'winston'
 
 export default async (deviceCode, userCode, data, action) => {
-  const d = new Date().getTime()
-  data.issueTime = d
+  let objectToBePublished = {}
+  data.issueTime = new Date().getTime()
+  objectToBePublished.data = data
+  objectToBePublished.deviceCode = deviceCode
+  objectToBePublished.userCode = userCode || null
+  objectToBePublished.action = action
   const task = [
     redis().multi()
-        .publish(action, JSON.stringify(data))
+        .publish(action, JSON.stringify(objectToBePublished))
         .execAsync()
   ]
   try {
