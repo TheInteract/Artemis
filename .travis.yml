@@ -25,7 +25,7 @@ deploy:
   skip_cleanup: true
   script: kubectl --namespace default patch deployment collector-server -p'{"spec":{"template":{"spec":{"containers":[{"name":"collector-server","image":"chinclubi/collector:'$TRAVIS_BUILD_NUMBER'"}]}}}}'
   on:
-    all_branches: true
+    branch: master
 before_install:
 - openssl aes-256-cbc -K $encrypted_01f1b75178a6_key -iv $encrypted_01f1b75178a6_iv
   -in interact-4a4118c938d7.json.enc -out interact-4a4118c938d7.json -d
