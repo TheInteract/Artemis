@@ -58,14 +58,6 @@ class BrowserFetch {
     return headers
   }
 
-  static getHasError () {
-    return hasError
-  }
-
-  static setHasError (newStatus) {
-    hasError = newStatus
-  }
-
   static checkStatus (response) {
     if (response.status < 200 || response.status >= 300) {
       BrowserFetch.setHasError(true)
@@ -85,8 +77,6 @@ class BrowserFetch {
     return window.fetch(_url, options)
   }
 }
-
-let hasError = false
 
 function getJson (response) {
   return response.json()
