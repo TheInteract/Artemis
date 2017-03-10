@@ -1,6 +1,5 @@
 secret:
     key: VSUn0an0eOPd1WFBcaRCvyRmnGjmHE3NxagW3qlVSbFFcltFDTdDjVvWH+N0FPi4X7GdphLx8ACxhVvi9n8H8w==
-    userKey: EBsxUzAAAsnaN5c2RTqYqsvTW6ZW4FRwzPKpLkqjD9E5MRFs9rRnFEP27WNkWJKU6grrEAXhvmzDdzstJAPrzLFd
 server:
     protocol: http
     host: localhost
@@ -20,5 +19,6 @@ mongo:
         feature: feature
         version: version
 cookie:
-    name: collector_uuid
+    device_code: interact-device-code
+    user_code: interact-user-code
 base: 'src/'

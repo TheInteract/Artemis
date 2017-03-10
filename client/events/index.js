@@ -18,13 +18,18 @@ const propertiesObject = {
   scroll: scrollProperties
 }
 
+let hasError = false
 let prevTime = {
   mousemove: new Date(0),
   resize: new Date(0)
 }
 
-function callFetch (fetch, type, data) {
-  fetch.post('/event/on' + type, data)
+function isNotMouseMoveAndResize (type) {
+  return type !== 'mousemove' && type !== 'resize'
+}
+
+function isNotAPICall (type) {
+  return type !== 'APICall'
 }
 
 function requestIsNotInDelay (type) {
@@ -42,16 +47,27 @@ function isCallToProductEndPoint (targetHostname) {
   return (targetHostname === productHostname && targetHostname !== artemisHostname)
 }
 
+function callFetch (type, data) {
+  this.fetch.post('/event/on' + type, data).catch(function () {
+    hasError = true
+  })
+}
+
 function handleEvent (type, event) {
   const data = pickProperties(event, propertiesObject[type])
-  const fetch = this.fetch
   data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
 
-  if (!(
-    ((type === 'mousemove' || type === 'resize') && !requestIsNotInDelay(type)) ||
-    (type === 'APICall' && !isCallToProductEndPoint(data.url.hostname))
-  )) {
-    callFetch(fetch, type, data)
+  // if (!(
+  //   (isMouseMoveAndResize(type) && !requestIsNotInDelay(type)) ||
+  //   (isAPICall(type) && !isCallToProductEndPoint(data.url.hostname))
+  // ) && !hasError) {
+  //   callFetch.apply(this, [ type, data ])
+  // }
+
+  if ((isNotMouseMoveAndResize(type) || requestIsNotInDelay(type)) &&
+    (isNotAPICall(type) || isCallToProductEndPoint(type)) &&
+    !hasError) {
+    callFetch.apply(this, [ type, data ])
   }
 }
 
