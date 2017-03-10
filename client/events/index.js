@@ -64,8 +64,8 @@ function handleEvent (type, event) {
   //   callFetch.apply(this, [ type, data ])
   // }
 
-  if ((isNotMouseMoveAndResize || requestIsNotInDelay) &&
-    (isNotAPICall(type) || isCallToProductEndPoint) &&
+  if ((isNotMouseMoveAndResize(type) || requestIsNotInDelay(type)) &&
+    (isNotAPICall(type) || isCallToProductEndPoint(type)) &&
     !hasError) {
     callFetch.apply(this, [ type, data ])
   }
