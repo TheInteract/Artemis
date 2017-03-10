@@ -60,7 +60,6 @@ class BrowserFetch {
 
   static checkStatus (response) {
     if (response.status < 200 || response.status >= 300) {
-      BrowserFetch.setHasError(true)
       throw new ResponseError(response.message, response.status, response)
     }
     return response
