@@ -1,5 +1,9 @@
 type: object
 required:
+- API_KEY_PRIVATE
+- API_KEY_PUBLIC
+- ip
+- domainName
 properties:
   productName:
     type: string
