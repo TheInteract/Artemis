@@ -16,4 +16,4 @@ properties:
     faker: ramdom.uuid
   name:
     type: string
-    faker: random.word
+    pattern: ^[a-z]{5}$
