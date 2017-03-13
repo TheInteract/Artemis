@@ -2,13 +2,13 @@ import config from 'config'
 import * as Code from '../codes/Code'
 import UnauthorizedError from '../errors/UnauthorizedError'
 import store from '../redis/store'
+import omit from 'lodash/omit'
 
 export const checkClientCode = async (ctx, next) => {
   const deviceCodeName = config.get('cookie.device_code')
   const userCodeName = config.get('cookie.user_code')
   const deviceCode = ctx.cookies.get(deviceCodeName)
   const userCode = ctx.cookies.get(userCodeName)
-
   try {
     Code.authorized(deviceCode)
     if (userCode && (userCode === '' || !Code.validate(userCode))) {
@@ -21,15 +21,17 @@ export const checkClientCode = async (ctx, next) => {
 }
 
 export const sendToRedis = async ctx => {
-  const action = ctx.params.type
-  const { body } = ctx.request
+  let { body } = ctx.request
+  const { API_KEY_PUBLIC } = body
+  body = omit(body, 'API_KEY_PUBLIC')
   const deviceCodeName = config.get('cookie.device_code')
   const userCodeName = config.get('cookie.user_code')
   const deviceCode = ctx.cookies.get(deviceCodeName)
   const userCode = ctx.cookies.get(userCodeName)
-  // An error should not throw to client side.
+  const action = ctx.params.type
+
   try {
-    await store(deviceCode, userCode, body, action)
+    await store(API_KEY_PUBLIC, deviceCode, userCode, body, action)
     if (!ctx.body) {
       ctx.body = {}
     }

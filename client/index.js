@@ -3,7 +3,7 @@ const handleEvent = require('./events')
 const overrideFetch = require('./util/overrider/FetchOverrider')
 const overrideXMLHttpRequest = require('./util/overrider/XMLHttpRequestOverrider')
 
-const baseUrl = process.env.COLLECTOR_BASE || 'http://localhost:3000/'
+const baseUrl = process.env.COLLECTOR_BASE || process.env.COLLECTOR_BASE_DEV
 
 function initialize (...rest) {
   const fetchObj = {

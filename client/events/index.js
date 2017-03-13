@@ -43,7 +43,7 @@ function requestIsNotInDelay (type) {
 
 function isCallToProductEndPoint (targetHostname) {
   const productHostname = window.location.hostname
-  const artemisHostname = url.parse(process.env.COLLECTOR_BASE || 'http://localhost:3000/').hostname
+  const artemisHostname = url.parse(process.env.COLLECTOR_BASE || process.env.COLLECTOR_BASE_DEV).hostname
   return (targetHostname === productHostname && targetHostname !== artemisHostname)
 }
 
@@ -54,6 +54,7 @@ function callFetch (type, data) {
 }
 
 function handleEvent (type, event) {
+  console.log('Event: ', type)
   const data = pickProperties(event, propertiesObject[type])
   data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
 

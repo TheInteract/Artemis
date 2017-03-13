@@ -1,22 +1,23 @@
 import redis from './redisAsync'
 import logger from 'winston'
 
-export default async (deviceCode, userCode, data, action) => {
+export default async (API_KEY_PUBLIC, deviceCode, userCode, data, type) => {
   let objectToBePublished = {}
-  data.issueTime = new Date().getTime()
-  objectToBePublished.data = data
+  objectToBePublished.issueTime = new Date().getTime()
+  objectToBePublished.type = type
+  objectToBePublished.API_KEY_PUBLIC = API_KEY_PUBLIC
   objectToBePublished.deviceCode = deviceCode
   objectToBePublished.userCode = userCode || null
-  objectToBePublished.action = action
+  objectToBePublished.action = data
   const task = [
     redis().multi()
-        .publish(action, JSON.stringify(objectToBePublished))
+        .publish(type, JSON.stringify(objectToBePublished))
         .execAsync()
   ]
   try {
     const result = await Promise.all(task)
-    logger.info('save event completed:', { deviceCode, action, result })
+    logger.info('save event completed:', { deviceCode, type, result })
   } catch (error) {
-    logger.error('save event error:', { deviceCode, action, error })
+    logger.error('save event error:', { deviceCode, type, error })
   }
 }

@@ -25,6 +25,11 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        COLLECTOR_BASE_DEV: JSON.stringify('http://localhost:3000/'),
+      },
+    }),
     new webpack.LoaderOptionsPlugin({
       debug: true,
     }),
