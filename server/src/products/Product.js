@@ -21,3 +21,20 @@ export const authorized = async (ctx, next) => {
     await next()
   }
 }
+
+export const clientAuthorization = async (ctx, next) => {
+  const domainName = ctx.request.origin
+  const { API_KEY_PUBLIC } = ctx.request.body
+  logger.info('client: Identify context ip: ', ctx.request.ip)
+
+  const product = await Products.getProductByPublicKey(API_KEY_PUBLIC, domainName)
+
+  if (!product) {
+    const e = new UnauthorizedError()
+    logger.error(`client: failed to identify product(${API_KEY_PUBLIC})`, { message: e.message })
+    ctx.throw(e.message, e.status)
+  } else {
+    logger.info('client: successfully identified product', { API_KEY_PUBLIC, domainName })
+    await next()
+  }
+}

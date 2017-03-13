@@ -1,4 +1,4 @@
 module.exports = Object.freeze({
-  SAVE_EVENT: '/event/:type',
+  EVENTS: '/event/:type',
   INIT_EVENT: '/event/oninit'
 })

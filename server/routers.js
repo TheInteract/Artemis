@@ -9,7 +9,6 @@ const router = new Router({ prefix: '/api' })
 
 router.get('/healthz', (ctx) => { ctx.status = 200 })
 router.post(endpoints.INIT_EVENT, Product.authorized, SetUp)
-// router.post(endpoints.LOAD_EVENT, HandleEvent.checkClientCode, HandleEvent.sendToRedis)
-router.post(endpoints.SAVE_EVENT, HandleEvent.checkClientCode, HandleEvent.sendToRedis)
+router.post(endpoints.EVENTS, HandleEvent.checkClientCode, Product.clientAuthorization, HandleEvent.sendToRedis)
 
 module.exports = router
