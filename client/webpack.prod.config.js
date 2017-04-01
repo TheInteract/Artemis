@@ -1,4 +1,5 @@
 const webpack = require(`webpack`)
+const path = require('path')
 
 module.exports = {
   entry: [
@@ -7,7 +8,7 @@ module.exports = {
   ],
   output: {
     filename: 'analytics.js',
-    path: '../Server/static',
+    path: path.resolve(__dirname, '../Server/static'),
   },
   module: {
     loaders: [
