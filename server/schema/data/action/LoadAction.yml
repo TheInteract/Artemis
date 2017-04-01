@@ -1,0 +1,26 @@
+type: object
+properties:
+  userId:
+    type: string
+  deviceCode:
+    type: string
+  productId:
+    type: string
+  issueTime:
+    type: date
+  href:
+    type: string
+  scrollX:
+    type: number
+  scrollY:
+    type: number
+  innerHeight:
+    type: number
+  innerWidth:
+    type: number
+  appCode:
+    type: string
+  appName:
+    type: string
+  appVersion:
+    type: number

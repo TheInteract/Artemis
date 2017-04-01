@@ -1,0 +1,14 @@
+type: object
+properties:
+  userId:
+    type: string
+  deviceCode:
+    type: string
+  productId:
+    type: string
+  issueTime:
+    type: date
+  endpoint:
+    type: string
+  method:
+    type: string
