@@ -54,7 +54,6 @@ function callFetch (type, data) {
 }
 
 function handleEvent (type, event) {
-  console.log('Event: ', type)
   const data = pickProperties(event, propertiesObject[type])
   data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
 
