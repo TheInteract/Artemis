@@ -8,7 +8,7 @@ module.exports = {
   ],
   output: {
     filename: 'analytics.js',
-    path: path.resolve(__dirname, '../Server/static'),
+    path: path.resolve(__dirname, '../server/static'),
   },
   module: {
     loaders: [

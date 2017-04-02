@@ -1,11 +1,12 @@
 const webpack = require('webpack')
+const path = require('path')
 
 module.exports = {
   entry: [ 'whatwg-fetch', './index.js' ],
   devtool: 'cheap-module-source-map',
   output: {
     filename: 'analytics.js',
-    path: '../server/static',
+    path: path.resolve(__dirname, '../server/static'),
   },
   watch: true,
   watchOptions: {
