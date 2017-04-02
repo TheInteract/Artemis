@@ -5,7 +5,7 @@ required:
 - ip
 - domainName
 properties:
-  productName:
+  name:
     type: string
     faker: random.word
   API_KEY_PRIVATE:
