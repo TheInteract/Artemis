@@ -10,3 +10,5 @@ properties:
     type: date
   target:
     type: string
+  timestamp:
+    type: date
