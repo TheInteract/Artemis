@@ -4,6 +4,7 @@ function handleAPICallEvent (protocol, method, url) {
     url
   }
   data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
+  console.log('API CALLED')
   if (data.url.includes(process.env.COLLECTOR_BASE || 'http://localhost:3000/')) {
     console.log('Ignore Artemis API call')
   } else {
