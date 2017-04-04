@@ -6,15 +6,15 @@ import * as Users from '../users/Users'
 import config from 'config'
 
 const SetUp = async ctx => {
-  const { body, ip } = ctx.request
+  const { body } = ctx.request
   const { API_KEY_PRIVATE } = body
   const { hashedUserId, deviceCode } = body.userIdentity || {}
 
-  const product = await Products.getProductByPrivateKey(API_KEY_PRIVATE, ip)
+  const product = await Products.getProductByPrivateKey(API_KEY_PRIVATE)
   const validatedDeviceCode = Codes.getDeviceCode(deviceCode)
   const user = await Users.getUser(hashedUserId, validatedDeviceCode)
 
-  const API_KEY_PUBLIC = '12345'
+  const API_KEY_PUBLIC = product.API_KEY_PUBLIC
 
   ctx.body = {
     ...Codes.getUserCode(hashedUserId),

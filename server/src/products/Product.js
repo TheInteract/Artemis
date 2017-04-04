@@ -2,6 +2,7 @@ import * as Products from './Products'
 
 import UnauthorizedError from '../errors/UnauthorizedError'
 import logger from 'winston'
+import url from 'url'
 
 // TODO: make authorized receive necessary params
 // some other function should handle ctx and next instead of this function
@@ -21,7 +22,7 @@ export const authorized = async (ctx, next) => {
 }
 
 export const clientAuthorization = async (ctx, next) => {
-  const domainName = ctx.request.headers.origin
+  const domainName = url.parse(ctx.request.headers.origin).hostname
   const { API_KEY_PUBLIC } = ctx.request.body
   logger.info('client: Identify domain name: ', domainName)
 
