@@ -27,7 +27,7 @@ const SetUp = async ctx => {
 
 const getInitCode = (API_KEY_PUBLIC) => {
   let url = config.get('server.host')
-  if (process.env.NODE_ENV === 'development') {
+  if (config.node.env === 'development') {
     url += `:${config.get('server.port')}`
   }
   return `!function(e,t,n,c,a){e.INIT=function(t){e.i=t},c=t.createElement(n),a=t.getElementsByTagName(n)[0],c.async=!0,c.src="http://${url}/analytics.js",a.parentNode.insertBefore(c,a)}(window,document,"script"),INIT("${API_KEY_PUBLIC}");`

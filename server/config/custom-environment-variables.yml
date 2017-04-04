@@ -13,3 +13,5 @@ mongo:
     host: MONGO_HOST
     port: MONGO_PORT
     auth: MONGO_AUTH
+node:
+    env: NODE_ENV
