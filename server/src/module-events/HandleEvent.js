@@ -2,6 +2,7 @@ import * as Code from '../codes/Code'
 
 import UnauthorizedError from '../errors/UnauthorizedError'
 import config from 'config'
+import logger from 'winston'
 import omit from 'lodash/omit'
 import store from '../redis/store'
 
@@ -10,12 +11,16 @@ export const checkClientCode = async (ctx, next) => {
   const userCodeName = config.get('cookie.user_code')
   const deviceCode = decodeURIComponent(ctx.cookies.get(deviceCodeName))
   const userCode = decodeURIComponent(ctx.cookies.get(userCodeName))
+
+  logger.info('client: validation deviceCode and userCode: ', { deviceCode, userCode })
+
   try {
     Code.authorized(deviceCode)
     if (userCode && (userCode === '' || !Code.validate(userCode))) {
-      throw new UnauthorizedError()
+      throw new UnauthorizedError('userCode')
     }
   } catch (e) {
+    logger.error(`client: failed to validate deviceCode or userCode`, { message: e.message, deviceCode, userCode })
     ctx.throw(e.message, e.status)
   }
   await next()

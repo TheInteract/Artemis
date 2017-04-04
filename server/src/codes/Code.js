@@ -22,8 +22,7 @@ export const authorized = code => {
   if (!code) throw new InvalidArgumentError()
 
   const key = _.split(code, ':', 2)[0]
-  
   // TODO: check Cookie from database
-  if (!Cookie.validate(key, code)) throw new UnauthorizedError()
+  if (!Cookie.validate(key, code)) throw new UnauthorizedError('deviceCode')
   return true
 }

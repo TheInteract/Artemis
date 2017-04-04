@@ -1,7 +1,7 @@
 export default class UnauthorizedError extends Error {
-  constructor () {
-    super()
-    this.message = 'Access is denied'
+  constructor (message = '') {
+    super(message)
+    this.message = `Access is denied(${message})`
     this.status = 401
   }
 }
