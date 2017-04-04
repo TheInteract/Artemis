@@ -32,6 +32,14 @@ function isNotAPICall (type) {
   return type !== 'APICall'
 }
 
+function isAPICall (type) {
+  return type === 'APICall'
+}
+
+function isMouseMoveOrResize (type) {
+  return type === 'mousemove' || type === 'resize'
+}
+
 function requestIsNotInDelay (type) {
   const now = new Date()
   if (now - prevTime[type] > 500) {
@@ -42,15 +50,26 @@ function requestIsNotInDelay (type) {
 }
 
 function isCallToProductEndPoint (targetHostname) {
-  const productHostname = window.location.hostname
-  const artemisHostname = url.parse(process.env.COLLECTOR_BASE || process.env.COLLECTOR_BASE_DEV).hostname
-  return (targetHostname === productHostname && targetHostname !== artemisHostname)
+  // const productHostname = window.location.hostname
+  const artemisHostname = url.parse(process.env.COLLECTOR_BASE || process.env.COLLECTOR_BASE_DEV).host
+  // return (targetHostname === productHostname && targetHostname !== artemisHostname)
+  return targetHostname !== artemisHostname
 }
 
 function callFetch (type, data) {
   this.fetch.post('/event/on' + type, data).catch(function () {
     hasError = true
   })
+}
+
+function conditionBeforeStoreEvent (type, optional) {
+  if (isAPICall(type)) {
+    return isCallToProductEndPoint(optional.host)
+  } else if (isMouseMoveOrResize(type)) {
+    return requestIsNotInDelay(type)
+  } else {
+    return true
+  }
 }
 
 function handleEvent (type, event) {
@@ -64,9 +83,14 @@ function handleEvent (type, event) {
   //   callFetch.apply(this, [ type, data ])
   // }
 
-  if ((isNotMouseMoveAndResize(type) || requestIsNotInDelay(type)) &&
-    (isNotAPICall(type) || isCallToProductEndPoint(type)) &&
-    !hasError) {
+  // if ((isNotMouseMoveAndResize(type) || requestIsNotInDelay(type)) &&
+  //   (isNotAPICall(type) || isCallToProductEndPoint(type)) &&
+  //   !hasError) {
+  //   callFetch.apply(this, [ type, data ])
+  // }
+
+  const { host } = (data.url || {})
+  if (conditionBeforeStoreEvent(type, { host }) && !hasError) {
     callFetch.apply(this, [ type, data ])
   }
 }
