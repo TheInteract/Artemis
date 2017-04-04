@@ -4,13 +4,14 @@ import UnauthorizedError from '../errors/UnauthorizedError'
 import config from 'config'
 import logger from 'winston'
 import omit from 'lodash/omit'
+import querystring from 'querystring'
 import store from '../redis/store'
 
 export const checkClientCode = async (ctx, next) => {
   const deviceCodeName = config.get('cookie.device_code')
   const userCodeName = config.get('cookie.user_code')
-  const deviceCode = decodeURIComponent(ctx.cookies.get(deviceCodeName))
-  const userCode = decodeURIComponent(ctx.cookies.get(userCodeName))
+  const deviceCode = querystring.unescape(ctx.cookies.get(deviceCodeName))
+  const userCode = querystring.unescape(ctx.cookies.get(userCodeName))
 
   logger.info('client: validation deviceCode and userCode: ', { deviceCode, userCode })
 
@@ -20,7 +21,7 @@ export const checkClientCode = async (ctx, next) => {
       throw new UnauthorizedError('userCode')
     }
   } catch (e) {
-    logger.error(`client: failed to validate deviceCode or userCode`, { message: e.message, deviceCode, userCode })
+    logger.error(`client: failed to valid deviceCode or userCode`, { message: e.message, deviceCode, userCode })
     ctx.throw(e.message, e.status)
   }
   await next()
