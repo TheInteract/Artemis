@@ -8,10 +8,8 @@ import querystring from 'querystring'
 import store from '../redis/store'
 
 export const checkClientCode = async (ctx, next) => {
-  const deviceCodeName = config.get('cookie.device_code')
-  const userCodeName = config.get('cookie.user_code')
-  const deviceCode = querystring.unescape(ctx.cookies.get(deviceCodeName))
-  const userCode = querystring.unescape(ctx.cookies.get(userCodeName))
+  const deviceCode = querystring.unescape(ctx.headers['device-code'])
+  const userCode = querystring.unescape(ctx.headers['user-code'])
 
   logger.info('client: validation deviceCode and userCode: ', { deviceCode, userCode })
 
