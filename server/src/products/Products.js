@@ -1,10 +1,10 @@
-import config from 'config'
 import * as Collections from '../mongo/Collections'
 
-export const getProductByPrivateKey = async (API_KEY_PRIVATE, ip) => {
+import config from 'config'
+
+export const getProductByPrivateKey = async (API_KEY_PRIVATE) => {
   return await Collections.findItem(config.mongo.collections.names.product, {
-    API_KEY_PRIVATE,
-    ip
+    API_KEY_PRIVATE
   })
 }
 
