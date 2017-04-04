@@ -2,13 +2,19 @@ const BrowserFetch = require('./util/fetch')
 const handleEvent = require('./events')
 const overrideFetch = require('./util/overrider/FetchOverrider')
 const overrideXMLHttpRequest = require('./util/overrider/XMLHttpRequestOverrider')
+const Cookie = require('js-cookie')
 
 const baseUrl = process.env.COLLECTOR_BASE || process.env.COLLECTOR_BASE_DEV
 
 function initialize (...rest) {
   const fetchObj = {
-    fetch: new BrowserFetch(baseUrl),
-    API_KEY_PUBLIC: rest[0],
+    fetch: new BrowserFetch(baseUrl, {
+      headers: {
+        deviceCode: Cookie.get('interact-device-code'),
+        userCode: Cookie.get('interact-user-code')
+      }
+    }),
+    API_KEY_PUBLIC: rest[0]
   }
 
   // TODO: map ic with web url.
