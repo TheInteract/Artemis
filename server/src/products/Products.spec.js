@@ -33,8 +33,7 @@ describe('Products', () => {
     it('should called Collections.findItem with correct arguments', () => {
       assert(Collections.findItem.calledWithExactly(
         config.mongo.collections.names.product, {
-          API_KEY_PRIVATE: fakePrivateApiKey,
-          ip: fakeIp
+          API_KEY_PRIVATE: fakePrivateApiKey
         }
       ), 'invalid arguments')
     })
