@@ -11,7 +11,7 @@ mongo:
     protocol: mongodb
     host: localhost
     port: 27017
-    db: interact
+    db: Interact
     collections:
       names:
         product: product
