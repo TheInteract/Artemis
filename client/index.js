@@ -19,6 +19,8 @@ function initialize (...rest) {
   window.addEventListener('load', handleEvent.bind(fetchObj, 'load'))
   window.addEventListener('click', handleEvent.bind(fetchObj, 'click'))
   window.addEventListener('mousemove', handleEvent.bind(fetchObj, 'mousemove'))
+  window.addEventListener('focus', handleEvent.bind(fetchObj, 'focus'))
+  window.addEventListener('blur', handleEvent.bind(fetchObj, 'blur'))
   // window.addEventListener('keydown', handleEvent.bind(fetchObj, 'keydown'))
   // window.addEventListener('scroll', handleEvent.bind(fetchObj, 'scroll'))
   // window.addEventListener('resize', handleEvent.bind(fetchObj, 'resize'))

@@ -1,21 +1,25 @@
 const APIProperties = require('./APICall/properties')
 const clickProperties = require('./click/properties')
-const keydownProperties = require('./keydown/properties')
+// const keydownProperties = require('./keydown/properties')
 const loadProperties = require('./load/properties')
 const mousemoveProperties = require('./mousemove/properties')
-const resizeProperties = require('./resize/properties')
-const scrollProperties = require('./scroll/properties')
+// const resizeProperties = require('./resize/properties')
+// const scrollProperties = require('./scroll/properties')
+const focusProperties = require('../focus/properties')
+const blurProperties = require('../blur/properties')
 const pickProperties = require('../util/pickProperties')
 const url = require('url')
 
 const propertiesObject = {
-  APICall: APIProperties,
-  click: clickProperties,
-  keydown: keydownProperties,
-  load: loadProperties,
   mousemove: mousemoveProperties,
-  resize: resizeProperties,
-  scroll: scrollProperties
+  APICall: APIProperties,
+  focus: focusProperties,
+  click: clickProperties,
+  load: loadProperties,
+  blur: blurProperties
+  // keydown: keydownProperties,
+  // resize: resizeProperties,
+  // scroll: scrollProperties,
 }
 
 let hasError = false
