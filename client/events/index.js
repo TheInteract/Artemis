@@ -1,13 +1,10 @@
+const mousemoveProperties = require('./mousemove/properties')
+const pickProperties = require('../util/pickProperties')
+const focusProperties = require('./focus/properties')
 const APIProperties = require('./APICall/properties')
 const clickProperties = require('./click/properties')
-// const keydownProperties = require('./keydown/properties')
+const blurProperties = require('./blur/properties')
 const loadProperties = require('./load/properties')
-const mousemoveProperties = require('./mousemove/properties')
-// const resizeProperties = require('./resize/properties')
-// const scrollProperties = require('./scroll/properties')
-const focusProperties = require('../focus/properties')
-const blurProperties = require('../blur/properties')
-const pickProperties = require('../util/pickProperties')
 const url = require('url')
 
 const propertiesObject = {
@@ -17,9 +14,6 @@ const propertiesObject = {
   click: clickProperties,
   load: loadProperties,
   blur: blurProperties
-  // keydown: keydownProperties,
-  // resize: resizeProperties,
-  // scroll: scrollProperties,
 }
 
 let hasError = false
@@ -54,9 +48,7 @@ function requestIsNotInDelay (type) {
 }
 
 function isCallToProductEndPoint (targetHostname) {
-  // const productHostname = window.location.hostname
   const artemisHostname = url.parse(process.env.COLLECTOR_BASE || process.env.COLLECTOR_BASE_DEV).host
-  // return (targetHostname === productHostname && targetHostname !== artemisHostname)
   return targetHostname !== artemisHostname
 }
 
@@ -79,19 +71,7 @@ function conditionBeforeStoreEvent (type, optional) {
 function handleEvent (type, event) {
   const data = pickProperties(event, propertiesObject[type])
   data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
-
-  // if (!(
-  //   (isMouseMoveAndResize(type) && !requestIsNotInDelay(type)) ||
-  //   (isAPICall(type) && !isCallToProductEndPoint(data.url.hostname))
-  // ) && !hasError) {
-  //   callFetch.apply(this, [ type, data ])
-  // }
-
-  // if ((isNotMouseMoveAndResize(type) || requestIsNotInDelay(type)) &&
-  //   (isNotAPICall(type) || isCallToProductEndPoint(type)) &&
-  //   !hasError) {
-  //   callFetch.apply(this, [ type, data ])
-  // }
+  data.versions = this.versions
 
   const { host } = (data.url || {})
   if (conditionBeforeStoreEvent(type, { host }) && !hasError) {
