@@ -1,5 +1,5 @@
-import redis from './redisAsync'
 import logger from 'winston'
+import redis from './redisAsync'
 
 export default async (API_KEY_PUBLIC, deviceCode, userCode, data, type) => {
   let objectToBePublished = {}
@@ -9,6 +9,7 @@ export default async (API_KEY_PUBLIC, deviceCode, userCode, data, type) => {
   objectToBePublished.deviceCode = deviceCode
   objectToBePublished.userCode = userCode || null
   objectToBePublished.action = data
+
   const task = [
     redis().multi()
         .publish(type, JSON.stringify(objectToBePublished))

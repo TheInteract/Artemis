@@ -16,23 +16,23 @@ const SetUp = async ctx => {
   const user = await Users.getUser(hashedUserId, validatedDeviceCode)
 
   const API_KEY_PUBLIC = product.API_KEY_PUBLIC
+  const versions = await Versions.getVerionIds(product._id, user._id)
 
   ctx.body = {
     ...Codes.getUserCode(hashedUserId),
     deviceCode: validatedDeviceCode,
     featureList: await FeatureLists.getFeatureList(product._id, user._id),
-    initCode: getInitCode(API_KEY_PUBLIC),
-    versions: await Versions.getVerionIds(product._id, user._id)
+    initCode: getInitCode(API_KEY_PUBLIC, versions),
   }
   ctx.status = 200
 }
 
-const getInitCode = (API_KEY_PUBLIC) => {
+const getInitCode = (API_KEY_PUBLIC, versions) => {
   let url = config.get('server.host')
   if (config.node.env === 'development') {
     url += `:${config.get('server.port')}`
   }
-  return `!function(e,t,n,c,a){e.INIT=function(t){e.i=t},c=t.createElement(n),a=t.getElementsByTagName(n)[0],c.async=!0,c.src="http://${url}/analytics.js",a.parentNode.insertBefore(c,a)}(window,document,"script"),INIT("${API_KEY_PUBLIC}");`
+  return `!function(e,t,n,c,a){e.INIT=function(t,v){e.i=t,e.v=v},c=t.createElement(n),a=t.getElementsByTagName(n)[0],c.async=!0,c.src="http://${url}/analytics.js",a.parentNode.insertBefore(c,a)}(window,document,"script"),INIT("${API_KEY_PUBLIC}", ${JSON.stringify(versions)});`
 }
 
 export default SetUp

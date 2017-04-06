@@ -12,7 +12,8 @@ function initialize (...rest) {
       'Device-Code': Cookie.get('interact-device-code'),
       'User-Code': Cookie.get('interact-user-code')
     }),
-    API_KEY_PUBLIC: rest[0]
+    API_KEY_PUBLIC: rest[0],
+    versions: rest[1]
   }
 
   // TODO: map ic with web url.
@@ -21,12 +22,9 @@ function initialize (...rest) {
   window.addEventListener('mousemove', handleEvent.bind(fetchObj, 'mousemove'))
   window.addEventListener('focus', handleEvent.bind(fetchObj, 'focus'))
   window.addEventListener('blur', handleEvent.bind(fetchObj, 'blur'))
-  // window.addEventListener('keydown', handleEvent.bind(fetchObj, 'keydown'))
-  // window.addEventListener('scroll', handleEvent.bind(fetchObj, 'scroll'))
-  // window.addEventListener('resize', handleEvent.bind(fetchObj, 'resize'))
 
   overrideFetch(handleEvent.bind(fetchObj, 'APICall'))
   overrideXMLHttpRequest(handleEvent.bind(fetchObj, 'APICall'))
 }
 
-initialize(window.i)
+initialize(window.i, window.v)
