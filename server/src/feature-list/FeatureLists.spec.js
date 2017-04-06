@@ -4,6 +4,7 @@ import * as Features from '../features/Features'
 import * as Version from '../versions/Version'
 import * as Versions from '../versions/Versions'
 
+import _ from 'lodash'
 import chai from 'chai'
 import sinon from 'sinon'
 
@@ -12,20 +13,20 @@ const assert = chai.assert
 describe('FeatureList', () => {
   describe('getFeatureList', () => {
     const mockTotalFeatures = [
-      { _id: 'fakeFeatureId-2', name: 'fakeFeature-2' },
-      { _id: 'fakeFeatureId-3', name: 'fakeFeature-3' },
-      { _id: 'fakeFeatureId-4', name: 'fakeFeature-4' },
-      { _id: 'fakeFeatureId-5', name: 'fakeFeature-5' },
+      { _id: 'fakeFeatureId-2', name: 'fakeFeature-2', active: true },
+      { _id: 'fakeFeatureId-3', name: 'fakeFeature-3', active: true },
+      { _id: 'fakeFeatureId-4', name: 'fakeFeature-4', active: true },
+      { _id: 'fakeFeatureId-5', name: 'fakeFeature-5', active: false },
     ]
     const mockCurrentFeatureList = [
-      { featureId: 'fakeFeatureId-1', version: 'A' },
-      { featureId: 'fakeFeatureId-2', version: 'A' },
-      { featureId: 'fakeFeatureId-3', version: 'B' },
+      { featureId: 'fakeFeatureId-1', name: 'A' },
+      { featureId: 'fakeFeatureId-2', name: 'A' },
+      { featureId: 'fakeFeatureId-3', name: 'B' },
     ]
 
     const mockNewVersions = [
-      { featureId: 'fakeFeatureId-4', version: 'B' },
-      { featureId: 'fakeFeatureId-5', version: 'A' }
+      { featureId: 'fakeFeatureId-4', name: 'B' },
+      { featureId: 'fakeFeatureId-5', name: 'Closed' }
     ]
 
     before(() => {
@@ -37,7 +38,7 @@ describe('FeatureList', () => {
       Version.create.onCall(0).returns(mockNewVersions[0])
       Version.create.onCall(1).returns(mockNewVersions[1])
       sinon.stub(FeatureListItem, 'create')
-      FeatureListItem.create.returnsArg(0)
+      FeatureListItem.create.callsFake((args) => ({ featureName: args.featureId, version: args.name }))
     })
 
     after(() => {
@@ -49,14 +50,22 @@ describe('FeatureList', () => {
 
     const fakeProductId = 'fakeProductId'
     const fakeUserId = 'fakeUserId'
+    const changeKeyName = (obj, oldKey, newKey) => _.transform(obj, (result, value, key) => {
+      const i = _.indexOf(oldKey, key)
+      if (i > -1) {
+        result[newKey[i]] = value
+      } else {
+        result[key] = value
+      }
+    }, {})
 
     it('should return correct result', async () => {
       const result = await FeatureLists.getFeatureList(fakeProductId, fakeUserId)
       assert.deepEqual(result, [
-        mockCurrentFeatureList[1],
-        mockCurrentFeatureList[2],
-        mockNewVersions[0],
-        mockNewVersions[1],
+        changeKeyName(mockCurrentFeatureList[1], [ 'name', 'featureId' ], [ 'version', 'featureName' ]),
+        changeKeyName(mockCurrentFeatureList[2], [ 'name', 'featureId' ], [ 'version', 'featureName' ]),
+        changeKeyName(mockNewVersions[0], [ 'name', 'featureId' ], [ 'version', 'featureName' ]),
+        changeKeyName(mockNewVersions[1], [ 'name', 'featureId' ], [ 'version', 'featureName' ]),
       ])
     })
 
@@ -73,8 +82,8 @@ describe('FeatureList', () => {
       ), 'invalid arguments')
     })
 
-    it('should called Version.create twice', () => {
-      assert.isTrue(Version.create.calledTwice)
+    it('should called Version.create once', () => {
+      assert.isTrue(Version.create.calledOnce)
     })
 
     it('should called Version.create first time with first new feature', () => {
@@ -82,14 +91,6 @@ describe('FeatureList', () => {
         fakeProductId,
         fakeUserId,
         mockTotalFeatures[2]
-      ), 'invalid arguments')
-    })
-
-    it('should called Version.create first time with second new feature', () => {
-      assert(Version.create.secondCall.calledWithExactly(
-        fakeProductId,
-        fakeUserId,
-        mockTotalFeatures[3]
       ), 'invalid arguments')
     })
   })
