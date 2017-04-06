@@ -10,6 +10,8 @@ properties:
   name:
     type: string
     pattern: ^[a-z]{5}$
+  active:
+    type: boolean
   proportion:
     type: object
     required:
