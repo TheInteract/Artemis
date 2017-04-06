@@ -26,3 +26,8 @@ export const getVersions = async (productId, userId) => {
     userId: userId,
   })
 }
+
+export const getVerionIds = async (productId, userId) => {
+  const versions = await getVersions(productId, userId)
+  return _.map(versions, version => version._id)
+}

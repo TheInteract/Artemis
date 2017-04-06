@@ -87,4 +87,38 @@ describe('Versions', () => {
       ), 'invalid arguments')
     })
   })
+  describe('getVersionIds', () => {
+    const fakeProductId = 'fakeProductId'
+    const fakeUserId = 'fakeUserId'
+    const mockVersions = [
+      { _id: 'ver-1', productId: 'pid-1', userId: 'uid-1', featureId: 'fid-1', name: 'A' },
+      { _id: 'ver-2', productId: 'pid-2', userId: 'uid-2', featureId: 'fid-2', name: 'B' },
+    ]
+
+    before(() => {
+      sinon.stub(Collections, 'findItems')
+      Collections.findItems.returns(mockVersions)
+    })
+
+    after(() => {
+      Collections.findItems.restore()
+    })
+
+    it('should return id of items from Collections.findItem', async () => {
+      const product = await Versions.getVerionIds(
+        fakeProductId,
+        fakeUserId
+      )
+      assert.sameDeepMembers(product, [ 'ver-1', 'ver-2' ])
+    })
+
+    it('should called Collections.findItem with correct arguments', () => {
+      assert(Collections.findItems.calledWithExactly(
+        config.mongo.collections.names.version, {
+          productId: fakeProductId,
+          userId: fakeUserId
+        }
+      ), 'invalid arguments')
+    })
+  })
 })

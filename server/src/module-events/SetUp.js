@@ -2,6 +2,7 @@ import * as Codes from '../codes/Codes'
 import * as FeatureLists from '../feature-list/FeatureLists'
 import * as Products from '../products/Products'
 import * as Users from '../users/Users'
+import * as Versions from '../versions/Versions'
 
 import config from 'config'
 
@@ -21,6 +22,7 @@ const SetUp = async ctx => {
     deviceCode: validatedDeviceCode,
     featureList: await FeatureLists.getFeatureList(product._id, user._id),
     initCode: getInitCode(API_KEY_PUBLIC),
+    versions: await Versions.getVerionIds(product._id, user._id)
   }
   ctx.status = 200
 }
