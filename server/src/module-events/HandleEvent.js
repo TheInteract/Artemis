@@ -15,8 +15,10 @@ export const checkClientCode = async (ctx, next) => {
 
   try {
     Code.authorized(deviceCode)
-    if (userCode && (userCode === '' || !Code.validate(userCode))) {
-      throw new UnauthorizedError('userCode')
+    if (userCode) {
+      if (userCode === '' || !Code.validate(userCode)) {
+        throw new UnauthorizedError('userCode')
+      }
     }
   } catch (e) {
     logger.error(`client: failed to valid deviceCode or userCode`, { message: e.message, deviceCode, userCode })
