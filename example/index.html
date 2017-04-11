@@ -33,17 +33,17 @@
         target = document.createElement(tag)
         element = document.getElementsByTagName(tag)[0]
         target.async = true
-        target.src = 'http://localhost:3000/analytics.js'
+        target.src = 'http://35.186.235.13/collector/analytics.js'
         element.parentNode.insertBefore(target, element)
       })(window, document, 'script')
 
       INIT('fake-api-key-public', '[\"test\", \"test2\"]')
-      // !function(a,b,c,d,e){a.API_KEY=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://35.186.212.151/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),API_KEY("IC9-55938-5");
+      // !function(a,b,c,d,e){a.INIT=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://35.186.235.13/collector/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),INIT('fake-api-key-public', '[\"test\", \"test2\"]');
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
         $("#test").click(function(){
-          $.ajax({url: "localhost:3000/collector/api/healthz", success: function(result){
+          $.ajax({url: "testest:3000/collector/api/healthz", success: function(result){
               console.log(result)
           }});
         });
