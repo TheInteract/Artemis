@@ -8,7 +8,7 @@
       <div class="nav">
         <div class="nav-logo">Example</div>
         <div class="nav-center">
-          <div interact-feature="card-1" interact-feature-type="A" class="feature-button">1A</div>
+          <div id="test" interact-feature="card-1" interact-feature-type="A" class="feature-button">1A</div>
           <div interact-feature="card-1" interact-feature-type="B" class="feature-button">1B</div>
           <div interact-feature="card-2" interact-feature-type="A" class="feature-button">2A</div>
           <div interact-feature="card-2" interact-feature-type="B" class="feature-button">2B</div>
@@ -39,6 +39,14 @@
 
       INIT('fake-api-key-public', '[\"test\", \"test2\"]')
       // !function(a,b,c,d,e){a.API_KEY=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://35.186.212.151/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),API_KEY("IC9-55938-5");
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $("#test").click(function(){
+          $.ajax({url: "localhost:3000/collector/api/healthz", success: function(result){
+              console.log(result)
+          }});
+        });
     </script>
   </body>
 </html>

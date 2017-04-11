@@ -22,14 +22,6 @@ let prevTime = {
   resize: new Date(0)
 }
 
-function isNotMouseMoveAndResize (type) {
-  return type !== 'mousemove' && type !== 'resize'
-}
-
-function isNotAPICall (type) {
-  return type !== 'APICall'
-}
-
 function isAPICall (type) {
   return type === 'APICall'
 }
@@ -53,6 +45,9 @@ function isCallToProductEndPoint (targetHostname) {
 }
 
 function callFetch (type, data) {
+  if (isAPICall(type)) {
+    data.url = (data.url || {}).href
+  }
   this.fetch.post('/event/on' + type, data).catch(function () {
     hasError = true
   })

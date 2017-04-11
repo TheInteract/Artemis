@@ -30,7 +30,7 @@ export const clientAuthorization = async (ctx, next) => {
 
   if (!product) {
     const e = new UnauthorizedError()
-    logger.error(`client: failed to identify product(${API_KEY_PUBLIC})`, { message: e.message })
+    logger.error(`client: failed to identify product(${API_KEY_PUBLIC}), domain(${domainName})`, { message: e.message })
     ctx.throw(e.message, e.status)
   } else {
     logger.info('client: successfully identified product', { API_KEY_PUBLIC, domainName })
