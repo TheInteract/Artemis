@@ -1,10 +1,8 @@
 const logger = require('winston')
 const config = require('config')
-const send = require('koa-send')
-const path = require('path')
 const Koa = require('koa')
 const cros = require('kcors')
-const router = require('./routers')
+const { apiRouter, staticRouter } = require('./routers')
 const bodyParser = require('koa-bodyparser')
 
 const app = module.exports = new Koa()
@@ -16,13 +14,10 @@ app.use(cros({
 app.use(bodyParser({
   enableTypes: [ 'json' ],
 }))
-app.use(router.routes())
-app.use(router.allowedMethods())
-
-app.use(config.prefix, async (ctx) => {
-  const options = { root: path.join(__dirname, 'static') }
-  await send(ctx, ctx.path, options)
-})
+app.use(apiRouter.routes())
+app.use(apiRouter.allowedMethods())
+app.use(staticRouter.routes())
+app.use(staticRouter.allowedMethods())
 
 const port = config.get('server.port')
 
