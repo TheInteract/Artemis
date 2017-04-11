@@ -6,7 +6,7 @@ import SetUp from './src/module-events/SetUp'
 import config from 'config'
 import endpoints from './util/endpoints'
 
-const router = new Router({ prefix: config.prefix })
+const router = new Router({ prefix: config.prefix + 'api' })
 
 router.get('/healthz', (ctx) => { ctx.status = 200 })
 router.post(endpoints.INIT_EVENT, Product.authorized, SetUp)

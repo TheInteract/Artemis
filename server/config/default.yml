@@ -21,6 +21,6 @@ mongo:
 cookie:
     device_code: interact-device-code
     user_code: interact-user-code
-prefix: /api
+prefix: /
 node:
     env: development
