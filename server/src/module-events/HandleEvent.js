@@ -31,10 +31,8 @@ export const sendToRedis = async ctx => {
   let { body } = ctx.request
   const { API_KEY_PUBLIC } = body
   body = omit(body, 'API_KEY_PUBLIC')
-  const deviceCodeName = config.get('cookie.device_code')
-  const userCodeName = config.get('cookie.user_code')
-  const deviceCode = ctx.cookies.get(deviceCodeName)
-  const userCode = ctx.cookies.get(userCodeName)
+  const deviceCode = querystring.unescape(ctx.headers['device-code'])
+  const userCode = querystring.unescape(ctx.headers['user-code'])
   const action = ctx.params.type
 
   try {
