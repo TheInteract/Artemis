@@ -1,7 +1,6 @@
 import * as Code from '../codes/Code'
 
 import UnauthorizedError from '../errors/UnauthorizedError'
-import config from 'config'
 import logger from 'winston'
 import omit from 'lodash/omit'
 import querystring from 'querystring'
@@ -9,7 +8,7 @@ import store from '../redis/store'
 
 export const checkClientCode = async (ctx, next) => {
   const deviceCode = querystring.unescape(ctx.headers['device-code'])
-  const userCode = querystring.unescape(ctx.headers['user-code'])
+  var userCode = querystring.unescape(ctx.headers['user-code'])
 
   logger.info('client: validation deviceCode and userCode: ', { deviceCode, userCode })
 
@@ -29,14 +28,17 @@ export const checkClientCode = async (ctx, next) => {
 
 export const sendToRedis = async ctx => {
   let { body } = ctx.request
-  const { API_KEY_PUBLIC } = body
-  body = omit(body, 'API_KEY_PUBLIC')
+  const { API_KEY_PUBLIC, versions } = body
+  body = omit(body, [ 'API_KEY_PUBLIC', 'versions' ])
   const deviceCode = querystring.unescape(ctx.headers['device-code'])
-  const userCode = querystring.unescape(ctx.headers['user-code'])
+  var userCode = querystring.unescape(ctx.headers['user-code'])
   const action = ctx.params.type
 
+  if (userCode === 'undefined') {
+    userCode = undefined
+  }
   try {
-    await store(API_KEY_PUBLIC, deviceCode, userCode, body, action)
+    await store(API_KEY_PUBLIC, versions, deviceCode, userCode, body, action)
     if (!ctx.body) {
       ctx.body = {}
     }

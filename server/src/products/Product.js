@@ -24,7 +24,7 @@ export const authorized = async (ctx, next) => {
 export const clientAuthorization = async (ctx, next) => {
   const domainName = url.parse(ctx.request.headers.origin).hostname
   const { API_KEY_PUBLIC } = ctx.request.body
-  logger.info('client: Identify domain name: ', domainName)
+  logger.info('client: Identify domain name: ' + domainName)
 
   const product = await Products.getProductByPublicKey(API_KEY_PUBLIC, domainName)
 

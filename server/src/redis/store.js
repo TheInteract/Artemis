@@ -1,11 +1,12 @@
 import logger from 'winston'
 import redis from './redisAsync'
 
-export default async (API_KEY_PUBLIC, deviceCode, userCode, data, type) => {
+export default async (API_KEY_PUBLIC, versions, deviceCode, userCode, data, type) => {
   let objectToBePublished = {}
   objectToBePublished.issueTime = new Date().getTime()
   objectToBePublished.type = type
   objectToBePublished.API_KEY_PUBLIC = API_KEY_PUBLIC
+  objectToBePublished.versions = JSON.parse(versions)
   objectToBePublished.deviceCode = deviceCode
   objectToBePublished.userCode = userCode || null
   objectToBePublished.action = data
