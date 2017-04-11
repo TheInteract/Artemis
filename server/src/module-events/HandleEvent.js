@@ -15,7 +15,7 @@ export const checkClientCode = async (ctx, next) => {
 
   try {
     Code.authorized(deviceCode)
-    if (userCode) {
+    if (userCode !== 'undefined') {
       if (userCode === '' || !Code.validate(userCode)) {
         throw new UnauthorizedError('userCode')
       }
