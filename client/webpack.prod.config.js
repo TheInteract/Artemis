@@ -27,7 +27,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        COLLECTOR_BASE: JSON.stringify('http://35.186.235.13/'),
+        COLLECTOR_BASE: JSON.stringify('http://35.186.235.13/collector/'),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
