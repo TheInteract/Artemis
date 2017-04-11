@@ -2,8 +2,11 @@ const logger = require('winston')
 const config = require('config')
 const Koa = require('koa')
 const cros = require('kcors')
-const { apiRouter, staticRouter } = require('./routers')
+const { apiRouter } = require('./routers')
 const bodyParser = require('koa-bodyparser')
+const path = require('path')
+const serve = require('koa-static')
+const mount = require('koa-mount')
 
 const app = module.exports = new Koa()
 
@@ -16,8 +19,8 @@ app.use(bodyParser({
 }))
 app.use(apiRouter.routes())
 app.use(apiRouter.allowedMethods())
-app.use(staticRouter.routes())
-app.use(staticRouter.allowedMethods())
+
+app.use(mount(config.prefix, serve(path.join(__dirname, './static'))))
 
 const port = config.get('server.port')
 
