@@ -6,20 +6,21 @@
   <body>
     <div class="container">
       <div class="nav">
-        <div class="nav-logo">Example</div>
+        <div class="nav-logo" id="eiei" interact-click="hi-5">Example</div>
+        <div class="nav-logo" interact-click="hi-4">Examples</div>
         <div class="nav-center">
-          <div id="test" interact-feature="card-1" interact-feature-type="A" class="feature-button">1A</div>
-          <div interact-feature="card-1" interact-feature-type="B" class="feature-button">1B</div>
-          <div interact-feature="card-2" interact-feature-type="A" class="feature-button">2A</div>
-          <div interact-feature="card-2" interact-feature-type="B" class="feature-button">2B</div>
+          <div id="test" interact-click="card-1" interact-feature-type="A" class="feature-button">1A</div>
+          <div interact-click="card-1" interact-feature-type="B" class="feature-button">1B</div>
+          <div interact-click="card-1" interact-feature-type="A" class="feature-button">2A</div>
+          <div interact-click="card-1" interact-feature-type="B" class="feature-button">2B</div>
         </div>
       </div>
       <div class="content">
         <div class="content-body">
-          <div interact-feature="card-1" interact-feature-type="A" class="feature feature-a">Feature 1A</div>
-          <div interact-feature="card-1" interact-feature-type="B" class="feature feature-b">Feature 1B</div>
-          <div interact-feature="card-2" interact-feature-type="A" class="feature feature-a">Feature 2A</div>
-          <div interact-feature="card-2" interact-feature-type="B" class="feature feature-b">Feature 2B</div>
+          <div interact-click="card-5" interact-feature-type="A" class="feature feature-a">Feature 1A</div>
+          <div interact-click="card-6" interact-feature-type="B" class="feature feature-b">Feature 1B</div>
+          <div interact-click="card-7" interact-feature-type="A" class="feature feature-a">Feature 2A</div>
+          <div interact-click="card-8" interact-feature-type="B" class="feature feature-b">Feature 2B</div>
           <div class="feature">Other Feature</div>
         </div>
       </div>
@@ -33,7 +34,7 @@
         target = document.createElement(tag)
         element = document.getElementsByTagName(tag)[0]
         target.async = true
-        target.src = 'http://35.186.235.13/collector/analytics.js'
+        target.src = 'http://localhost:3000/analytics.js'
         element.parentNode.insertBefore(target, element)
       })(window, document, 'script')
 

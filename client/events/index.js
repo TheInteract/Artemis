@@ -30,6 +30,10 @@ function isMouseMoveOrResize (type) {
   return type === 'mousemove' || type === 'resize'
 }
 
+function isMouseClick (type) {
+  return type === 'click'
+}
+
 function requestIsNotInDelay (type) {
   const now = new Date()
   if (now - prevTime[type] > 500) {
@@ -44,13 +48,32 @@ function isCallToProductEndPoint (targetHostname) {
   return targetHostname !== artemisHostname
 }
 
-function callFetch (type, data) {
+function formatData (type, data) {
   if (isAPICall(type)) {
     data.url = (data.url || {}).href
+  } else if (isMouseClick(type)) {
+    const targetList = data.target.split(' ')
+    data.target = ''
+    for (let target of targetList) {
+      if (target.indexOf('interact-click') > -1 || target.indexOf('#') > -1) {
+        data.target += target + ' '
+      }
+    }
+    data.target = data.target.trim()
+    if (data.target === '') {
+      return
+    }
   }
-  this.fetch.post('/event/on' + type, data).catch(function () {
-    hasError = true
-  })
+  return data
+}
+
+function callFetch (type, data) {
+  data = formatData(type, data)
+  if (data) {
+    this.fetch.post('/event/on' + type, data).catch(function () {
+      hasError = true
+    })
+  }
 }
 
 function conditionBeforeStoreEvent (type, optional) {
