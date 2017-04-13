@@ -31,7 +31,8 @@ describe('User', () => {
       it('should called Collections.insertItem with hashedUserId', () => {
         assert(Collections.insertItem.calledWithExactly(
           config.mongo.collections.names.user, {
-            userIdentity: fakeHashedUserId
+            userIdentity: fakeHashedUserId,
+            type: 'userCode'
           }
         ), 'invalid arguments')
       })
@@ -49,7 +50,8 @@ describe('User', () => {
       it('should called Collections.insertItem with deviceCode', () => {
         assert(Collections.insertItem.calledWithExactly(
           config.mongo.collections.names.user, {
-            userIdentity: fakeDeviceCode
+            userIdentity: fakeDeviceCode,
+            type: 'deviceCode'
           }
         ), 'invalid arguments')
       })
