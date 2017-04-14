@@ -19,9 +19,10 @@ function initialize (...rest) {
   // TODO: map ic with web url.
   window.addEventListener('load', handleEvent.bind(fetchObj, 'load'))
   window.addEventListener('click', handleEvent.bind(fetchObj, 'click'))
-  // window.addEventListener('mousemove', handleEvent.bind(fetchObj, 'mousemove'))
   window.addEventListener('focus', handleEvent.bind(fetchObj, 'focus'))
   window.addEventListener('blur', handleEvent.bind(fetchObj, 'blur'))
+  window.addEventListener('beforeunload', handleEvent.bind(fetchObj, 'unload'))
+    // window.addEventListener('mousemove', handleEvent.bind(fetchObj, 'mousemove'))
 
   overrideFetch(handleEvent.bind(fetchObj, 'APICall'))
   overrideXMLHttpRequest(handleEvent.bind(fetchObj, 'APICall'))

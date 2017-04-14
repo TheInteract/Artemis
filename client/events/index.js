@@ -5,6 +5,7 @@ const APIProperties = require('./APICall/properties')
 const clickProperties = require('./click/properties')
 const blurProperties = require('./blur/properties')
 const loadProperties = require('./load/properties')
+const unloadProperties = require('./unload/properties')
 const url = require('url')
 
 const propertiesObject = {
@@ -13,7 +14,8 @@ const propertiesObject = {
   focus: focusProperties,
   click: clickProperties,
   load: loadProperties,
-  blur: blurProperties
+  blur: blurProperties,
+  unload: unloadProperties
 }
 
 let hasError = false
@@ -69,6 +71,7 @@ function formatData (type, data) {
 
 function callFetch (type, data) {
   data = formatData(type, data)
+  console.log(type, data)
   if (data) {
     this.fetch.post('/event/on' + type, data).catch(function () {
       hasError = true
