@@ -71,7 +71,6 @@ function formatData (type, data) {
 
 function callFetch (type, data) {
   data = formatData(type, data)
-  console.log(type, data)
   if (data) {
     this.fetch.post('/event/on' + type, data).catch(function () {
       hasError = true
