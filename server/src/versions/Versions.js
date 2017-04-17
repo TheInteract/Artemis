@@ -5,17 +5,29 @@ import config from 'config'
 
 export const getVersionsSortedByCount = async feature => {
   const versionNames = Object.keys(feature.proportion)
-
-  const versions = await Promise.all(_.map(versionNames, async versionName => ({
+  let allCount = 0
+  let versions = await Promise.all(_.map(versionNames, async versionName => ({
     name: versionName,
+    proportion: feature.proportion[versionName],
     count: await Collections.countItems(config.mongo.collections.names.version, {
       featureId: feature._id,
       name: versionName
     })
   })))
 
+  _.forEach(versions, function (version) {
+    allCount += version.count
+  })
+
+  versions = await Promise.all(_.map(versions, async version => ({
+    name: version.name,
+    proportion: version.proportion,
+    count: version.count,
+    proportionDifference: ((version.count / allCount) * 100) - version.proportion
+  })))
+
   return _.flow(
-    versions => _.sortBy(versions, 'count'),
+    versions => _.sortBy(versions, 'proportionDifference'),
     versions => _.map(versions, 'name')
   )(versions)
 }
