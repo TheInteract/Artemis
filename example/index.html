@@ -38,8 +38,8 @@
         element.parentNode.insertBefore(target, element)
       })(window, document, 'script')
 
-      INIT('fake-api-key-public', '[\"test\", \"test2\"]')
-      // !function(a,b,c,d,e){a.INIT=function(b){a.i=b},d=b.createElement(c),e=b.getElementsByTagName(c)[0],d.async=!0,d.src="http://35.186.235.13/collector/analytics.js",e.parentNode.insertBefore(d,e)}(window,document,"script"),INIT('fake-api-key-public', '[\"test\", \"test2\"]');
+      INIT('fake-api-key-public', ["test", "test2"] )
+      // !function(e,t,n,c,o){e.INIT=function(t,n){e.i=t,e.v=n},c=t.createElement(n),o=t.getElementsByTagName(n)[0],c.async=!0,c.src="http://35.186.235.13/collector/analytics.js",o.parentNode.insertBefore(c,o)}(window,document,"script"),INIT("fake-api-key-public",["test", "test2"]);
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>

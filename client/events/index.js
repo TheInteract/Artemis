@@ -75,13 +75,11 @@ function formatData (type, data) {
 
 function callFetch (type, data) {
   data = formatData(type, data)
-  console.log(type, data)
   if (data && !isUnload(data)) {
     this.fetch.post('/event/on' + type, data).catch(function () {
       hasError = true
     })
   } else if (data) {
-    alert('test')
     let xhttp = new XMLHttpRequest()
     let url = url.parse(process.env.COLLECTOR_BASE || process.env.COLLECTOR_BASE_DEV).host
     xhttp.open('GET', url(url, 'api/event/on' + type), false)
