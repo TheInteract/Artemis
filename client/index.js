@@ -13,7 +13,8 @@ function initialize (...rest) {
       'User-Code': Cookie.get('interact-user-code')
     }),
     API_KEY_PUBLIC: rest[0],
-    versions: rest[1]
+    versions: rest[1],
+    sessionCode: Math.random().toString(36).substring(2)
   }
 
   // TODO: map ic with web url.
@@ -23,7 +24,6 @@ function initialize (...rest) {
   window.addEventListener('blur', handleEvent.bind(fetchObj, 'blur'))
   window.addEventListener('beforeunload', handleEvent.bind(fetchObj, 'unload'))
     // window.addEventListener('mousemove', handleEvent.bind(fetchObj, 'mousemove'))
-
   overrideFetch(handleEvent.bind(fetchObj, 'APICall'))
   overrideXMLHttpRequest(handleEvent.bind(fetchObj, 'APICall'))
 }

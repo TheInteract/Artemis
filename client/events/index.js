@@ -103,6 +103,7 @@ function handleEvent (type, event) {
   const data = pickProperties(event, propertiesObject[type])
   data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
   data.versions = this.versions
+  data.sessionCode = this.sessionCode
 
   const { host } = (data.url || {})
   if (conditionBeforeStoreEvent(type, { host }) && !hasError) {

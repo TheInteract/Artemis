@@ -28,8 +28,8 @@ export const checkClientCode = async (ctx, next) => {
 
 export const sendToRedis = async ctx => {
   let { body } = ctx.request
-  const { API_KEY_PUBLIC, versions } = body
-  body = omit(body, [ 'API_KEY_PUBLIC', 'versions' ])
+  const { API_KEY_PUBLIC, versions, sessionCode } = body
+  body = omit(body, [ 'API_KEY_PUBLIC', 'versions', 'sessionCode' ])
   const deviceCode = querystring.unescape(ctx.headers['device-code'])
   var userCode = querystring.unescape(ctx.headers['user-code'])
   const action = ctx.params.type
@@ -38,7 +38,7 @@ export const sendToRedis = async ctx => {
     userCode = undefined
   }
   try {
-    await store(API_KEY_PUBLIC, versions, deviceCode, userCode, body, action)
+    await store(API_KEY_PUBLIC, versions, deviceCode, userCode, sessionCode, body, action)
     if (!ctx.body) {
       ctx.body = {}
     }
