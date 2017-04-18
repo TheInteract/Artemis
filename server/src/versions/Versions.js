@@ -19,17 +19,25 @@ export const getVersionsSortedByCount = async feature => {
     allCount += version.count
   })
 
-  versions = await Promise.all(_.map(versions, async version => ({
-    name: version.name,
-    proportion: version.proportion,
-    count: version.count,
-    proportionDifference: ((version.count / allCount) * 100) - version.proportion
-  })))
+  if (allCount > 0) {
+    versions = await Promise.all(_.map(versions, async version => ({
+      name: version.name,
+      proportion: version.proportion,
+      count: version.count,
+      proportionDifference: ((version.count / allCount) * 100) - version.proportion
+    })))
+    versions = _.flow(
+      versions => _.sortBy(versions, 'proportionDifference'),
+      versions => _.map(versions, 'name')
+    )(versions)
+  } else {
+    versions = _.flow(
+      versions => _.sortBy(versions, 'count'),
+      versions => _.map(versions, 'name')
+    )(versions)
+  }
 
-  return _.flow(
-    versions => _.sortBy(versions, 'proportionDifference'),
-    versions => _.map(versions, 'name')
-  )(versions)
+  return versions
 }
 
 export const getVersions = async (productId, userId) => {
