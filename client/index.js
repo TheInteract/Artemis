@@ -22,8 +22,8 @@ function initialize (...rest) {
   window.addEventListener('click', handleEvent.bind(fetchObj, 'click'))
   window.addEventListener('focus', handleEvent.bind(fetchObj, 'focus'))
   window.addEventListener('blur', handleEvent.bind(fetchObj, 'blur'))
-  window.addEventListener('beforeunload', handleEvent.bind(fetchObj, 'unload'))
-    // window.addEventListener('mousemove', handleEvent.bind(fetchObj, 'mousemove'))
+  // window.addEventListener('beforeunload', handleEvent.bind(fetchObj, 'unload'))
+  // window.addEventListener('mousemove', handleEvent.bind(fetchObj, 'mousemove'))
   overrideFetch(handleEvent.bind(fetchObj, 'APICall'))
   overrideXMLHttpRequest(handleEvent.bind(fetchObj, 'APICall'))
 }
