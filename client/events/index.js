@@ -40,6 +40,10 @@ function isUnload (type) {
   return type === 'unload'
 }
 
+function isLoad (type) {
+  return type === 'load'
+}
+
 function requestIsNotInDelay (type) {
   const now = new Date()
   if (now - prevTime[type] > 500) {
@@ -100,9 +104,11 @@ function conditionBeforeStoreEvent (type, optional) {
 function handleEvent (type, event) {
   const data = pickProperties(event, propertiesObject[type])
   data.API_KEY_PUBLIC = this.API_KEY_PUBLIC
-  data.versions = this.versions
   data.sessionCode = this.sessionCode
-
+  if (isLoad(type)) {
+    data.versions = this.versions
+  }
+  
   const { host } = (data.url || {})
   if (conditionBeforeStoreEvent(type, { host }) && !hasError) {
     callFetch.apply(this, [ type, data ])

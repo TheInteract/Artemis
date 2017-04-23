@@ -49,5 +49,5 @@ export const getVersions = async (productId, userId) => {
 
 export const getVerionIds = async (productId, userId) => {
   const versions = await getVersions(productId, userId)
-  return _.map(versions, version => version._id)
+  return _.map(versions, version => ({ versionId: version._id, featureId: version.featureId, name: version.name }))
 }
