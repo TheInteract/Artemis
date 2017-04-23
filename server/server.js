@@ -17,10 +17,6 @@ app.use(cros({
 app.use(bodyParser({
   enableTypes: [ 'json' ],
 }))
-app.use(async (ctx, next) => {
-  console.log('logs', ctx.request)
-  await next()
-})
 app.use(apiRouter.routes())
 app.use(apiRouter.allowedMethods())
 
