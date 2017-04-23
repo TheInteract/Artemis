@@ -8,7 +8,7 @@ import endpoints from './util/endpoints'
 
 const apiRouter = new Router({ prefix: config.prefix })
 
-apiRouter.get('/healthz', (ctx) => { ctx.status = 200 })
+apiRouter.get('healthz', (ctx) => { ctx.status = 200 })
 apiRouter.post(endpoints.INIT_EVENT, Product.authorized, SetUp)
 apiRouter.post(endpoints.EVENTS, HandleEvent.checkClientCode, Product.clientAuthorization, HandleEvent.sendToRedis)
 
