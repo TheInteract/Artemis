@@ -61,18 +61,6 @@ function isCallToProductEndPoint (targetHostname) {
 function formatData (type, data) {
   if (isAPICall(type)) {
     data.url = (data.url || {}).href
-  } else if (isMouseClick(type)) {
-    const targetList = data.target.split(' ')
-    data.target = ''
-    for (let target of targetList) {
-      if (target.indexOf('interact-click') > -1 || target.indexOf('#') > -1) {
-        data.target += target + ' '
-      }
-    }
-    data.target = data.target.trim()
-    if (data.target === '') {
-      return
-    }
   }
   return data
 }
