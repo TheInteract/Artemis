@@ -104,12 +104,12 @@ describe('Versions', () => {
       Collections.findItems.restore()
     })
 
-    it('should return id of items from Collections.findItem', async () => {
+    it('should return versionId, featureId, and name of items from Collections.findItem', async () => {
       const product = await Versions.getVerionIds(
         fakeProductId,
         fakeUserId
       )
-      assert.sameDeepMembers(product, [ 'ver-1', 'ver-2' ])
+      assert.sameDeepMembers(product, [ {versionId: 'ver-1', featureId: 'fid-1', name: 'A'}, {versionId: 'ver-2', featureId: 'fid-2', name: 'B'} ])
     })
 
     it('should called Collections.findItem with correct arguments', () => {
