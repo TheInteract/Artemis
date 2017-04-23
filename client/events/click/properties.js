@@ -6,7 +6,8 @@ function modifiedSelect (element) {
     ignore: {
       attribute (name, value, defaultPredicate) {
         return !(/interact-*/).test(name)
-      }
+      },
+      tag: false
     }
   })
 }

@@ -10,7 +10,7 @@ redis:
 mongo:
     protocol: mongodb
     host: localhost
-    port: 27017
+    ports: 27017
     db: Interact
     collections:
       names:
@@ -21,6 +21,6 @@ mongo:
 cookie:
     device_code: interact-device-code
     user_code: interact-user-code
-prefix: /
+prefix: /api/
 node:
     env: development
