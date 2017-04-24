@@ -33,7 +33,7 @@ const getInitCode = (API_KEY_PUBLIC, versions) => {
   if (config.node.env === 'development') {
     url += `:${config.get('server.port')}`
   }
-  return `!function(e,t,n,c,o){e.INIT=function(t,n){e.i=t,e.v=n},c=t.createElement(n),o=t.getElementsByTagName(n)[0],c.async=!0,c.src="https://${url}/analytics.js",o.parentNode.insertBefore(c,o)}(window,document,"script"),INIT("${API_KEY_PUBLIC}",${JSON.stringify(versions)});`
+  return `!function(e,t,n,c,o){e.INIT=function(t,n){e.i=t,e.v=n},c=t.createElement(n),o=t.getElementsByTagName(n)[0],c.async=!0,c.src="http://${url}/analytics.js",o.parentNode.insertBefore(c,o)}(window,document,"script"),INIT("${API_KEY_PUBLIC}",${JSON.stringify(versions)});`
 }
 
 export default SetUp

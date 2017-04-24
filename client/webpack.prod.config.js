@@ -27,7 +27,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        COLLECTOR_BASE: JSON.stringify('https://api.interact.today/'),
+        COLLECTOR_BASE: JSON.stringify('http://api.interact.today/'),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
