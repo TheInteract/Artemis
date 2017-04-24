@@ -37,7 +37,7 @@ class BrowserFetch {
       throw new Error('getOptions in BrowserFetch shold has at least 1 argument')
     }
     const defaultOption = {
-      url: url(this.baseUrl, 'api', path),
+      url: url(this.baseUrl, path),
       headers: this.getHeader(method),
       credentials: 'include',
       method,

@@ -18,7 +18,7 @@ describe('Browser Fetch', () => {
     it('called with complete arguments', () => {
       const method = 'POST'
       const expected = {
-        url: url(baseUrl, `api`, path),
+        url: url(baseUrl, path),
         headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
         method,
         body: { test: 'result' },
@@ -32,7 +32,7 @@ describe('Browser Fetch', () => {
     it('called with complete arguments except body', () => {
       const method = 'GET'
       const expected = {
-        url: url(baseUrl, `api`, path),
+        url: url(baseUrl, path),
         headers: Object.assign({}, headers),
         method,
         credentials: 'include',
@@ -43,7 +43,7 @@ describe('Browser Fetch', () => {
     it('called with path only', () => {
       const method = 'GET'
       const expected = {
-        url: url(baseUrl, `api`, path),
+        url: url(baseUrl, path),
         headers: Object.assign({}, headers),
         method,
         credentials: 'include',
