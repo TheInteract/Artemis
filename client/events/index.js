@@ -86,7 +86,7 @@ function callFetch (type, data) {
   } else if (data) {
     let xhttp = new XMLHttpRequest()
     let url = url.parse(process.env.COLLECTOR_BASE || process.env.COLLECTOR_BASE_DEV).host
-    xhttp.open('GET', url(url, 'api/event/on' + type), false)
+    xhttp.open('GET', url(url, 'event/on' + type), false)
     xhttp.send()
   }
 }
